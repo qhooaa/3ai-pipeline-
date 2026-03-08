@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3-AI Review Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-hover: #22263a;
+    --border: #2a2e3f;
+    --text: #e4e6ef;
+    --text-dim: #7a7f96;
+    --accent: #6c5ce7;
+    --accent-glow: rgba(108, 92, 231, 0.25);
+    --green: #00b894;
+    --green-glow: rgba(0, 184, 148, 0.2);
+    --orange: #e17055;
+    --red: #d63031;
+    --tag-bg: rgba(108, 92, 231, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  .header p {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  /* Pipeline selector */
+  .pipeline-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .pipeline-btn {
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .pipeline-btn:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+  }
+
+  .pipeline-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--text);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .pipeline-btn .btn-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .pipeline-btn .btn-desc {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  /* Doc type grid */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .doc-btn {
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .doc-btn:hover {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+  }
+
+  .doc-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--text);
+  }
+
+  /* Controls row */
+  .controls-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toggle-label {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .toggle {
+    width: 44px;
+    height: 24px;
+    background: var(--border);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .toggle.on {
+    background: var(--accent);
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+
+  .toggle.on::after {
+    transform: translateX(20px);
+  }
+
+  .rounds-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rounds-label {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  .rounds-select {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  .rounds-select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* Textarea */
+  .textarea-wrapper {
+    position: relative;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    padding: 16px;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  textarea::placeholder {
+    color: var(--text-dim);
+    opacity: 0.5;
+  }
+
+  .char-count {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+
+  .submit-btn:hover {
+    background: #7c6df0;
+    box-shadow: 0 4px 24px var(--accent-glow);
+  }
+
+  .submit-btn:active {
+    transform: scale(0.98);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Status */
+  .status-bar {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    display: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .status-bar.sending {
+    display: block;
+    background: var(--tag-bg);
+    color: var(--accent);
+    border: 1px solid rgba(108, 92, 231, 0.3);
+  }
+
+  .status-bar.success {
+    display: block;
+    background: var(--green-glow);
+    color: var(--green);
+    border: 1px solid rgba(0, 184, 148, 0.3);
+  }
+
+  .status-bar.error {
+    display: block;
+    background: rgba(214, 48, 49, 0.1);
+    color: var(--red);
+    border: 1px solid rgba(214, 48, 49, 0.3);
+  }
+
+  .status-bar.waiting {
+    display: block;
+    background: rgba(225, 112, 85, 0.1);
+    color: var(--orange);
+    border: 1px solid rgba(225, 112, 85, 0.3);
+  }
+
+  /* Result */
+  .result-box {
+    margin-top: 24px;
+    display: none;
+  }
+
+  .result-box.visible {
+    display: block;
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .result-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  .copy-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .result-content {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.8;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  /* Payload preview */
+  .payload-preview {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(26, 29, 39, 0.8);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    display: none;
+  }
+
+  .payload-preview.visible {
+    display: block;
+  }
+
+  .debug-toggle {
+    font-size: 11px;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 12px;
+    display: inline-block;
+    opacity: 0.5;
+  }
+
+  .debug-toggle:hover {
+    opacity: 1;
+  }
+
+  /* Loop-specific UI */
+  .loop-controls {
+    display: none;
+  }
+
+  .loop-controls.visible {
+    display: flex;
+  }
+
+  @media (max-width: 600px) {
+    .doc-grid { grid-template-columns: 1fr; }
+    .controls-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>3-AI <span>Review</span> Pipeline</h1>
+    <p>문서를 입력하면 Claude · GPT · Gemini가 병렬로 검토합니다.</p>
+  </div>
+
+  <!-- Pipeline 선택 -->
+  <div class="section">
+    <div class="section-label">Pipeline</div>
+    <div class="pipeline-toggle">
+      <button class="pipeline-btn" data-pipeline="review" onclick="selectPipeline('review')">
+        <span class="btn-title">Review</span>
+        <span class="btn-desc">병렬 1회 통합 — 빠른 검토</span>
+      </button>
+      <button class="pipeline-btn active" data-pipeline="loop" onclick="selectPipeline('loop')">
+        <span class="btn-title">Loop</span>
+        <span class="btn-desc">루프 구조 — 고강도 검토 + 이메일 승인</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 문서유형 -->
+  <div class="section">
+    <div class="section-label">문서유형</div>
+    <div class="doc-grid">
+      <button class="doc-btn active" data-type="fundraising_or_evaluation" onclick="selectDocType(this)">투자/심사용</button>
+      <button class="doc-btn" data-type="business_and_product_architecture" onclick="selectDocType(this)">사업/서비스 설계</button>
+      <button class="doc-btn" data-type="technical_and_operational_spec" onclick="selectDocType(this)">개발/실무 전달</button>
+      <button class="doc-btn" data-type="presentation_and_design_brief" onclick="selectDocType(this)">발표/외부 전달</button>
+      <button class="doc-btn" data-type="financial_and_market_analysis" onclick="selectDocType(this)">재무/리서치</button>
+      <button class="doc-btn" data-type="ideation_and_structuring" onclick="selectDocType(this)">사고정리</button>
+    </div>
+  </div>
+
+  <!-- 옵션 -->
+  <div class="section">
+    <div class="section-label">옵션</div>
+    <div class="controls-row">
+      <div class="toggle-group">
+        <span class="toggle-label">검토모드</span>
+        <div class="toggle" id="reviewToggle" onclick="toggleReview()"></div>
+      </div>
+      <div class="controls-row loop-controls" id="loopControls">
+        <div class="toggle-group" id="modeToggle" style="display:none;">
+          <!-- Loop pipeline에서 simple/loop 선택 -->
+        </div>
+        <div class="rounds-group">
+          <span class="rounds-label">라운드</span>
+          <select class="rounds-select" id="nRounds">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 입력 -->
+  <div class="section">
+    <div class="section-label">입력 텍스트</div>
+    <div class="textarea-wrapper">
+      <textarea id="inputText" placeholder="검토할 문서 내용을 붙여넣으세요..." oninput="updateCharCount()"></textarea>
+      <span class="char-count" id="charCount">0자</span>
+    </div>
+  </div>
+
+  <!-- 전송 -->
+  <button class="submit-btn" id="submitBtn" onclick="submitReview()">검토 요청</button>
+
+  <!-- 상태 -->
+  <div class="status-bar" id="statusBar"></div>
+
+  <!-- 디버그 -->
+  <span class="debug-toggle" onclick="togglePayload()">payload 미리보기</span>
+  <div class="payload-preview" id="payloadPreview"></div>
+
+  <!-- 결과 -->
+  <div class="result-box" id="resultBox">
+    <div class="result-header">
+      <span class="result-title">검토 결과</span>
+      <button class="copy-btn" onclick="copyResult()">복사</button>
+    </div>
+    <div class="result-content" id="resultContent"></div>
+  </div>
+
+</div>
+
+<script>
+  // State
+  let state = {
+    pipeline: 'loop',           // 'review' or 'loop'
+    docType: 'fundraising_or_evaluation',
+    reviewMode: false,
+    nRounds: 2
+  };
+
+  const URLS = {
+    review: 'https://kimbombo.app.n8n.cloud/webhook/review',
+    loop: 'https://kimbombo.app.n8n.cloud/webhook/review-loop'
+  };
+
+  // Pipeline selection
+  function selectPipeline(type) {
+    state.pipeline = type;
+    document.querySelectorAll('.pipeline-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`[data-pipeline="${type}"]`).classList.add('active');
+    
+    const loopControls = document.getElementById('loopControls');
+    if (type === 'loop') {
+      loopControls.classList.add('visible');
+    } else {
+      loopControls.classList.remove('visible');
+    }
+    updatePayloadPreview();
+  }
+
+  // Doc type selection
+  function selectDocType(el) {
+    document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    state.docType = el.dataset.type;
+    updatePayloadPreview();
+  }
+
+  // Review mode toggle
+  function toggleReview() {
+    state.reviewMode = !state.reviewMode;
+    document.getElementById('reviewToggle').classList.toggle('on');
+    updatePayloadPreview();
+  }
+
+  // Char count
+  function updateCharCount() {
+    const len = document.getElementById('inputText').value.length;
+    document.getElementById('charCount').textContent = len.toLocaleString() + '자';
+    updatePayloadPreview();
+  }
+
+  // Build payload
+  function buildPayload() {
+    const text = document.getElementById('inputText').value.trim();
+    const payload = {
+      input_text: text,
+      doc_type: state.docType,
+      review_mode: state.reviewMode
+    };
+
+    if (state.pipeline === 'loop') {
+      payload.mode = 'loop';
+      payload.n_rounds = parseInt(document.getElementById('nRounds').value);
+    }
+
+    return payload;
+  }
+
+  // Payload preview
+  function updatePayloadPreview() {
+    const preview = document.getElementById('payloadPreview');
+    if (preview.classList.contains('visible')) {
+      const payload = buildPayload();
+      payload.input_text = payload.input_text 
+        ? (payload.input_text.length > 80 ? payload.input_text.substring(0, 80) + '...' : payload.input_text)
+        : '(비어있음)';
+      preview.textContent = 'POST ' + URLS[state.pipeline] + '\n\n' + JSON.stringify(payload, null, 2);
+    }
+  }
+
+  function togglePayload() {
+    const preview = document.getElementById('payloadPreview');
+    preview.classList.toggle('visible');
+    updatePayloadPreview();
+  }
+
+  // Set status
+  function setStatus(type, message) {
+    const bar = document.getElementById('statusBar');
+    bar.className = 'status-bar ' + type;
+    bar.textContent = message;
+  }
+
+  // Submit
+  async function submitReview() {
+    const text = document.getElementById('inputText').value.trim();
+    if (!text) {
+      setStatus('error', '텍스트를 입력하세요.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '전송 중...';
+    document.getElementById('resultBox').classList.remove('visible');
+
+    const payload = buildPayload();
+    const url = URLS[state.pipeline];
+
+    // Loop 모드: 응답을 기다리지 않고 전송만 (이메일 승인 흐름이므로)
+    if (state.pipeline === 'loop') {
+      try {
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        // 응답을 기다리지 않음 — 파이프라인이 이메일 승인을 기다리므로
+        setStatus('success', '✅ 전송 완료 — 이메일에서 승인/거절 버튼을 확인하세요.');
+      } catch (err) {
+        setStatus('error', '전송 실패: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '검토 요청';
+      }
+      return;
+    }
+
+    // Review 모드: 응답 대기 (바로 결과 반환)
+    setStatus('sending', '파이프라인 실행 중...');
+
+    try {
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!resp.ok) {
+        const errText = await resp.text();
+        throw new Error(`HTTP ${resp.status}: ${errText}`);
+      }
+
+      const data = await resp.json();
+
+      // Extract text from response
+      let resultText = '';
+      if (Array.isArray(data)) {
+        const item = data[0];
+        if (item.content && Array.isArray(item.content)) {
+          resultText = item.content.map(c => c.text || '').join('\n');
+        } else {
+          resultText = JSON.stringify(item, null, 2);
+        }
+      } else if (data.content && Array.isArray(data.content)) {
+        resultText = data.content.map(c => c.text || '').join('\n');
+      } else {
+        resultText = JSON.stringify(data, null, 2);
+      }
+
+      setStatus('success', '완료!');
+      document.getElementById('resultContent').textContent = resultText;
+      document.getElementById('resultBox').classList.add('visible');
+
+    } catch (err) {
+      if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+        setStatus('error', 'CORS 에러 — 브라우저에서 직접 호출이 차단되었습니다. n8n Webhook 설정에서 CORS를 허용하거나, 다른 방법을 사용하세요.');
+      } else {
+        setStatus('error', '에러: ' + err.message);
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '검토 요청';
+    }
+  }
+
+  // Copy result
+  function copyResult() {
+    const text = document.getElementById('resultContent').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '복사됨!';
+      setTimeout(() => btn.textContent = '복사', 1500);
+    });
+  }
+
+  // Init
+  selectPipeline('loop');
+</script>
+</body>
+</html>

@@ -461,12 +461,12 @@
   <div class="section">
     <div class="section-label">문서유형</div>
     <div class="doc-grid">
-      <button class="doc-btn active" data-type="fundraising_or_evaluation" onclick="selectDocType(this)">투자/심사용</button>
-      <button class="doc-btn" data-type="business_and_product_architecture" onclick="selectDocType(this)">사업/서비스 설계</button>
-      <button class="doc-btn" data-type="technical_and_operational_spec" onclick="selectDocType(this)">개발/실무 전달</button>
-      <button class="doc-btn" data-type="presentation_and_design_brief" onclick="selectDocType(this)">발표/외부 전달</button>
-      <button class="doc-btn" data-type="financial_and_market_analysis" onclick="selectDocType(this)">재무/리서치</button>
-      <button class="doc-btn" data-type="ideation_and_structuring" onclick="selectDocType(this)">사고정리</button>
+      <button class="doc-btn active" data-type="fundraising" onclick="selectDocType(this)">투자서류</button>
+      <button class="doc-btn" data-type="business" onclick="selectDocType(this)">사업설계</button>
+      <button class="doc-btn" data-type="tech_spec" onclick="selectDocType(this)">기술스펙</button>
+      <button class="doc-btn" data-type="presentation" onclick="selectDocType(this)">발표자료</button>
+      <button class="doc-btn" data-type="market_analysis" onclick="selectDocType(this)">시장분석</button>
+      <button class="doc-btn" data-type="ideation" onclick="selectDocType(this)">아이디어</button>
     </div>
   </div>
 
@@ -528,7 +528,7 @@
   // State
   let state = {
     pipeline: 'loop',           // 'review' or 'loop'
-    docType: 'fundraising_or_evaluation',
+    docType: 'fundraising',
     reviewMode: false,
     nRounds: 2
   };

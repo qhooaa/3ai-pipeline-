@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="말씀정복">
+<title>수빈의 말씀정복</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff8f9;
+    --surface: #ffffff;
+    --surface-alt: #fef2f4;
+    --border: #f5d5da;
+    --border-focus: #e8909e;
+    --text: #5a3040;
+    --text-dim: #b08090;
+    --text-light: #d4aab5;
+    --accent: #e8778a;
+    --accent-deep: #d4607a;
+    --accent-soft: #f2b5c0;
+    --accent-glow: rgba(232, 119, 138, 0.12);
+    --warm: #fce8ec;
+    --lavender: #e8daf5;
+    --lavender-soft: rgba(232, 218, 245, 0.3);
+    --mint: #d4f0e8;
+    --mint-soft: rgba(212, 240, 232, 0.3);
+    --yellow: #fef3d0;
+    --shadow: 0 2px 16px rgba(90, 48, 64, 0.06);
+    --shadow-lg: 0 8px 32px rgba(90, 48, 64, 0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+    background-image:
+      radial-gradient(circle at 15% 15%, rgba(232, 119, 138, 0.07) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(232, 218, 245, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 90%, rgba(212, 240, 232, 0.08) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 28px 20px 100px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 8px;
+  }
+
+  .header-deco {
+    font-size: 14px;
+    color: var(--accent-soft);
+    letter-spacing: 8px;
+    margin-bottom: 6px;
+  }
+
+  .header h1 {
+    font-family: 'Gaegu', cursive;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .header h1 .name { color: var(--accent); }
+
+  .header p {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s;
+  }
+
+  .card:focus-within {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-soft);
+  }
+
+  .card-label {
+    font-family: 'Gaegu', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-label .emoji { font-size: 18px; }
+
+  .testament-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 10px 0;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover {
+    border-color: var(--accent-soft);
+    color: var(--text);
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .book-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-alt);
+    color: var(--text);
+    font-family: 'Gowun Batang', serif;
+    font-size: 15px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b08090' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .book-select:focus {
+    outline: none;
+    border-color: var(--border-focus);
+  }
+
+  .verse-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .verse-separator {
+    color: var(--text-light);
+    font-family: 'Gowun Batang', serif;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .verse-input {
+    width: 100%;
+    padding: 10px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-alt);
+    color: var(--text);
+    font-family: 'Gowun Batang', serif;
+    font-size: 15px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .verse-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+  }
+
+  .verse-input::placeholder {
+    color: var(--text-light);
+    font-size: 12px;
+  }
+
+  .verse-hint {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  .text-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-alt);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+
+  .text-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+  }
+
+  .text-input::placeholder { color: var(--text-light); }
+
+  .level-toggle {
+    display: flex;
+    gap: 0;
+    background: var(--surface-alt);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 4px;
+  }
+
+  .level-btn {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Gaegu', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+  }
+
+  .level-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(232, 119, 138, 0.3);
+  }
+
+  .level-btn .level-emoji {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .prayer-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .prayer-item:last-child { margin-bottom: 0; }
+
+  .prayer-num {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--warm);
+    color: var(--accent);
+    font-family: 'Gaegu', cursive;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .prayer-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-alt);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: none;
+    height: 44px;
+    transition: border-color 0.2s, height 0.2s;
+  }
+
+  .prayer-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    height: 72px;
+  }
+
+  .prayer-input::placeholder { color: var(--text-light); }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+    color: #fff;
+    font-family: 'Gaegu', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(232, 119, 138, 0.3);
+    margin-top: 8px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(232, 119, 138, 0.4);
+  }
+
+  .submit-btn:active { transform: scale(0.98); }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .status-bar {
+    text-align: center;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .status-bar.sending {
+    display: block;
+    background: var(--accent-glow);
+    color: var(--accent);
+    border: 1px solid var(--accent-soft);
+  }
+
+  .status-bar.error {
+    display: block;
+    background: #fef0f0;
+    color: #c44;
+    border: 1px solid #f5d0d0;
+  }
+
+  .loading-animation {
+    display: none;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .loading-animation.visible { display: block; }
+
+  .loading-icon {
+    font-size: 36px;
+    animation: gentleBounce 1.5s ease-in-out infinite;
+  }
+
+  .loading-text {
+    font-family: 'Gaegu', cursive;
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-top: 10px;
+  }
+
+  @keyframes gentleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .result-box {
+    display: none;
+    margin-top: 24px;
+  }
+
+  .result-box.visible {
+    display: block;
+    animation: fadeUp 0.5s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 26px 20px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .result-title {
+    font-family: 'Gaegu', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--accent-deep);
+  }
+
+  .result-content {
+    font-family: 'Gowun Batang', serif;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: keep-all;
+  }
+
+  .result-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: 'Gaegu', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .action-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-deep);
+    background: var(--accent-glow);
+  }
+
+  @media (max-width: 400px) {
+    .container { padding: 20px 16px 80px; }
+    .card { padding: 18px 16px; }
+    .verse-input { padding: 10px 4px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-deco">~ ~ ~</div>
+    <h1><span class="name">수빈</span>의 말씀정복</h1>
+    <p>말씀 구절을 입력하면 묵상 가이드를 준비해드려요</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><span class="emoji">📖</span> 성경 구절</div>
+    <div class="testament-tabs">
+      <button class="tab-btn active" onclick="switchTestament('ot', this)">구약</button>
+      <button class="tab-btn" onclick="switchTestament('nt', this)">신약</button>
+    </div>
+    <select class="book-select" id="bookSelect">
+      <option value="">성경을 선택하세요</option>
+    </select>
+    <div class="verse-row">
+      <input class="verse-input" id="chapter" type="number" min="1" placeholder="장">
+      <span class="verse-separator">:</span>
+      <input class="verse-input" id="verseStart" type="number" min="1" placeholder="시작절">
+      <span class="verse-separator">~</span>
+      <input class="verse-input" id="verseEnd" type="number" min="1" placeholder="끝절">
+    </div>
+    <div class="verse-hint">* 끝절을 비우면 1절만 묵상해요</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><span class="emoji">🕊</span> 오늘의 말씀 제목</div>
+    <input class="text-input" id="sermonTitle" type="text" placeholder="목회자님이 정한 설교 제목을 입력하세요">
+  </div>
+
+  <div class="card">
+    <div class="card-label"><span class="emoji">🎀</span> 설명 수준</div>
+    <div class="level-toggle">
+      <button class="level-btn" onclick="selectLevel('student', this)">
+        <span class="level-emoji">🌱</span>
+        쉽게 설명
+      </button>
+      <button class="level-btn active" onclick="selectLevel('adult', this)">
+        <span class="level-emoji">🌿</span>
+        일반 설명
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><span class="emoji">🙏</span> 나의 기도제목</div>
+    <div class="prayer-item">
+      <span class="prayer-num">1</span>
+      <textarea class="prayer-input" id="prayer1" placeholder="요즘 마음에 담고 있는 기도제목"></textarea>
+    </div>
+    <div class="prayer-item">
+      <span class="prayer-num">2</span>
+      <textarea class="prayer-input" id="prayer2" placeholder="두 번째 기도제목 (선택)"></textarea>
+    </div>
+    <div class="prayer-item">
+      <span class="prayer-num">3</span>
+      <textarea class="prayer-input" id="prayer3" placeholder="세 번째 기도제목 (선택)"></textarea>
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitRequest()">말씀 묵상 시작하기 ✦</button>
+  <div class="status-bar" id="statusBar"></div>
+
+  <div class="loading-animation" id="loadingAnim">
+    <div class="loading-icon">📖</div>
+    <div class="loading-text">말씀을 묵상하고 있어요...</div>
+  </div>
+
+  <div class="result-box" id="resultBox">
+    <div class="result-card">
+      <div class="result-title" id="resultTitle">📖 묵상 가이드</div>
+      <div class="result-content" id="resultContent"></div>
+      <div class="result-actions">
+        <button class="action-btn" onclick="copyResult()">📋 복사하기</button>
+        <button class="action-btn" onclick="shareResult()">💌 공유하기</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const BIBLE_BOOKS = {
+  ot: [
+    '창세기','출애굽기','레위기','민수기','신명기',
+    '여호수아','사사기','룻기','사무엘상','사무엘하',
+    '열왕기상','열왕기하','역대상','역대하','에스라',
+    '느헤미야','에스더','욥기','시편','잠언',
+    '전도서','아가','이사야','예레미야','예레미야애가',
+    '에스겔','다니엘','호세아','요엘','아모스',
+    '오바댜','요나','미가','나훔','하박국',
+    '스바냐','학개','스가랴','말라기'
+  ],
+  nt: [
+    '마태복음','마가복음','누가복음','요한복음','사도행전',
+    '로마서','고린도전서','고린도후서','갈라디아서','에베소서',
+    '빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서',
+    '디모데후서','디도서','빌레몬서','히브리서','야고보서',
+    '베드로전서','베드로후서','요한1서','요한2서','요한3서',
+    '유다서','요한계시록'
+  ]
+};
+
+let currentTestament = 'ot';
+let currentLevel = 'adult';
+
+const WEBHOOK_URL = 'https://kimbombo.app.n8n.cloud/webhook/bible-guide';
+
+function switchTestament(type, el) {
+  currentTestament = type;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  populateBooks();
+}
+
+function populateBooks() {
+  const select = document.getElementById('bookSelect');
+  select.innerHTML = '<option value="">성경을 선택하세요</option>';
+  BIBLE_BOOKS[currentTestament].forEach(book => {
+    const opt = document.createElement('option');
+    opt.value = book;
+    opt.textContent = book;
+    select.appendChild(opt);
+  });
+}
+
+function selectLevel(level, el) {
+  currentLevel = level;
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setStatus(type, msg) {
+  const bar = document.getElementById('statusBar');
+  bar.className = 'status-bar ' + type;
+  bar.textContent = msg;
+}
+
+function buildPromptText() {
+  const book = document.getElementById('bookSelect').value;
+  const chapter = document.getElementById('chapter').value;
+  const vStart = document.getElementById('verseStart').value;
+  const vEnd = document.getElementById('verseEnd').value;
+  const title = document.getElementById('sermonTitle').value.trim();
+  const p1 = document.getElementById('prayer1').value.trim();
+  const p2 = document.getElementById('prayer2').value.trim();
+  const p3 = document.getElementById('prayer3').value.trim();
+
+  let verseStr = `${book} ${chapter}장 ${vStart}절`;
+  if (vEnd && vEnd !== vStart) verseStr += `~${vEnd}절`;
+
+  const prayers = [p1, p2, p3].filter(Boolean);
+  let prayerStr = '';
+  if (prayers.length > 0) {
+    prayerStr = '\n\n나의 기도제목:\n' + prayers.map((p, i) => `${i + 1}. ${p}`).join('\n');
+  }
+
+  return `오늘의 말씀: ${verseStr}\n말씀 제목: ${title || '(없음)'}${prayerStr}`;
+}
+
+async function submitRequest() {
+  const book = document.getElementById('bookSelect').value;
+  const chapter = document.getElementById('chapter').value;
+  const vStart = document.getElementById('verseStart').value;
+  const vEnd = document.getElementById('verseEnd').value;
+
+  if (!book) { setStatus('error', '성경을 선택해주세요'); return; }
+  if (!chapter) { setStatus('error', '장을 입력해주세요'); return; }
+  if (!vStart) { setStatus('error', '시작 절을 입력해주세요'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '묵상 준비 중...';
+  document.getElementById('resultBox').classList.remove('visible');
+  document.getElementById('loadingAnim').classList.add('visible');
+  document.getElementById('statusBar').className = 'status-bar';
+
+  const promptText = buildPromptText();
+
+  const payload = {
+    input_text: promptText,
+    book: book,
+    chapter: parseInt(chapter),
+    verse_start: parseInt(vStart),
+    verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart),
+    sermon_title: document.getElementById('sermonTitle').value.trim(),
+    level: currentLevel,
+    prayers: [
+      document.getElementById('prayer1').value.trim(),
+      document.getElementById('prayer2').value.trim(),
+      document.getElementById('prayer3').value.trim()
+    ].filter(Boolean)
+  };
+
+  try {
+    const resp = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+
+    let resultText = '';
+    if (Array.isArray(data)) {
+      const item = data[0];
+      if (item.choices) {
+        resultText = item.choices[0].message.content;
+      } else if (item.content && Array.isArray(item.content)) {
+        resultText = item.content.map(c => c.text || '').join('\n');
+      } else {
+        resultText = JSON.stringify(item, null, 2);
+      }
+    } else if (data.choices) {
+      resultText = data.choices[0].message.content;
+    } else if (data.content) {
+      resultText = data.content.map(c => c.text || '').join('\n');
+    } else {
+      resultText = JSON.stringify(data, null, 2);
+    }
+
+    let titleStr = `📖 ${book} ${chapter}:${vStart}`;
+    if (vEnd && vEnd !== vStart) titleStr += `-${vEnd}`;
+    document.getElementById('resultTitle').textContent = titleStr;
+    document.getElementById('resultContent').textContent = resultText;
+    document.getElementById('resultBox').classList.add('visible');
+    document.getElementById('statusBar').className = 'status-bar';
+
+  } catch (err) {
+    setStatus('error', '전송 실패: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '말씀 묵상 시작하기 ✦';
+    document.getElementById('loadingAnim').classList.remove('visible');
+  }
+}
+
+function copyResult() {
+  const text = document.getElementById('resultContent').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.action-btn');
+    btns[0].textContent = '✅ 복사됨!';
+    setTimeout(() => btns[0].textContent = '📋 복사하기', 1500);
+  });
+}
+
+function shareResult() {
+  const text = document.getElementById('resultContent').textContent;
+  const title = document.getElementById('resultTitle').textContent;
+  if (navigator.share) {
+    navigator.share({ title: title, text: text });
+  } else {
+    copyResult();
+  }
+}
+
+populateBooks();
+</script>
+</body>
+</html>

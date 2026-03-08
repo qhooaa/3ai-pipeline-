@@ -22,11 +22,6 @@
     --accent-soft: #f2b5c0;
     --accent-glow: rgba(232, 119, 138, 0.12);
     --warm: #fce8ec;
-    --lavender: #e8daf5;
-    --lavender-soft: rgba(232, 218, 245, 0.3);
-    --mint: #d4f0e8;
-    --mint-soft: rgba(212, 240, 232, 0.3);
-    --yellow: #fef3d0;
     --shadow: 0 2px 16px rgba(90, 48, 64, 0.06);
     --shadow-lg: 0 8px 32px rgba(90, 48, 64, 0.1);
   }
@@ -53,7 +48,7 @@
 
   .header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     padding-top: 8px;
   }
 
@@ -75,7 +70,7 @@
 
   .header h1 .name { color: var(--accent); }
 
-  .header p {
+  .header .date-line {
     font-size: 13px;
     color: var(--text-dim);
     font-weight: 300;
@@ -129,10 +124,7 @@
     transition: all 0.2s;
   }
 
-  .tab-btn:hover {
-    border-color: var(--accent-soft);
-    color: var(--text);
-  }
+  .tab-btn:hover { border-color: var(--accent-soft); color: var(--text); }
 
   .tab-btn.active {
     background: var(--accent);
@@ -159,10 +151,7 @@
     transition: border-color 0.2s;
   }
 
-  .book-select:focus {
-    outline: none;
-    border-color: var(--border-focus);
-  }
+  .book-select:focus { outline: none; border-color: var(--border-focus); }
 
   .verse-row {
     display: grid;
@@ -191,15 +180,8 @@
     transition: border-color 0.2s;
   }
 
-  .verse-input:focus {
-    outline: none;
-    border-color: var(--border-focus);
-  }
-
-  .verse-input::placeholder {
-    color: var(--text-light);
-    font-size: 12px;
-  }
+  .verse-input:focus { outline: none; border-color: var(--border-focus); }
+  .verse-input::placeholder { color: var(--text-light); font-size: 12px; }
 
   .verse-hint {
     font-size: 11px;
@@ -207,109 +189,6 @@
     margin-top: 8px;
     text-align: right;
   }
-
-  .text-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    background: var(--surface-alt);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    line-height: 1.6;
-    transition: border-color 0.2s;
-  }
-
-  .text-input:focus {
-    outline: none;
-    border-color: var(--border-focus);
-  }
-
-  .text-input::placeholder { color: var(--text-light); }
-
-  .level-toggle {
-    display: flex;
-    gap: 0;
-    background: var(--surface-alt);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 4px;
-  }
-
-  .level-btn {
-    flex: 1;
-    padding: 10px 0;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: var(--text-dim);
-    font-family: 'Gaegu', cursive;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.25s;
-    text-align: center;
-  }
-
-  .level-btn.active {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(232, 119, 138, 0.3);
-  }
-
-  .level-btn .level-emoji {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 2px;
-  }
-
-  .prayer-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .prayer-item:last-child { margin-bottom: 0; }
-
-  .prayer-num {
-    min-width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--warm);
-    color: var(--accent);
-    font-family: 'Gaegu', cursive;
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-  }
-
-  .prayer-input {
-    flex: 1;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface-alt);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 13px;
-    line-height: 1.6;
-    resize: none;
-    height: 44px;
-    transition: border-color 0.2s, height 0.2s;
-  }
-
-  .prayer-input:focus {
-    outline: none;
-    border-color: var(--border-focus);
-    height: 72px;
-  }
-
-  .prayer-input::placeholder { color: var(--text-light); }
 
   .submit-btn {
     width: 100%;
@@ -328,19 +207,9 @@
     margin-top: 8px;
   }
 
-  .submit-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 28px rgba(232, 119, 138, 0.4);
-  }
-
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(232, 119, 138, 0.4); }
   .submit-btn:active { transform: scale(0.98); }
-
-  .submit-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
   .status-bar {
     text-align: center;
@@ -351,13 +220,6 @@
     display: none;
   }
 
-  .status-bar.sending {
-    display: block;
-    background: var(--accent-glow);
-    color: var(--accent);
-    border: 1px solid var(--accent-soft);
-  }
-
   .status-bar.error {
     display: block;
     background: #fef0f0;
@@ -365,12 +227,7 @@
     border: 1px solid #f5d0d0;
   }
 
-  .loading-animation {
-    display: none;
-    text-align: center;
-    padding: 40px 0;
-  }
-
+  .loading-animation { display: none; text-align: center; padding: 40px 0; }
   .loading-animation.visible { display: block; }
 
   .loading-icon {
@@ -390,15 +247,8 @@
     50% { transform: translateY(-8px); }
   }
 
-  .result-box {
-    display: none;
-    margin-top: 24px;
-  }
-
-  .result-box.visible {
-    display: block;
-    animation: fadeUp 0.5s ease;
-  }
+  .result-box { display: none; margin-top: 24px; }
+  .result-box.visible { display: block; animation: fadeUp 0.5s ease; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
@@ -458,6 +308,117 @@
     background: var(--accent-glow);
   }
 
+  /* Timeline */
+  .timeline-section { margin-top: 32px; }
+
+  .timeline-label {
+    font-family: 'Gaegu', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .timeline-empty {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--text-light);
+    font-size: 13px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: 16px;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 14px;
+    cursor: pointer;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+    align-items: center;
+  }
+
+  .timeline-item:hover { border-color: var(--accent-soft); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .timeline-item:active { transform: scale(0.98); }
+
+  .timeline-dot {
+    min-width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    margin-top: 1px;
+  }
+
+  .timeline-item:first-child .timeline-dot { background: var(--accent); }
+
+  .timeline-body { flex: 1; min-width: 0; }
+
+  .timeline-verse {
+    font-family: 'Gowun Batang', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .timeline-summary {
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .timeline-date {
+    font-size: 11px;
+    color: var(--text-light);
+    white-space: nowrap;
+  }
+
+  .timeline-clear {
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .timeline-clear-btn {
+    font-size: 11px;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+
+  .timeline-clear-btn:hover { color: var(--text-dim); }
+
+  .back-btn {
+    display: none;
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: 'Gaegu', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 16px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .back-btn.visible { display: block; }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent-deep); }
+
   @media (max-width: 400px) {
     .container { padding: 20px 16px 80px; }
     .card { padding: 18px 16px; }
@@ -471,70 +432,39 @@
   <div class="header">
     <div class="header-deco">~ ~ ~</div>
     <h1><span class="name">수빈</span>의 말씀정복</h1>
-    <p>말씀 구절을 입력하면 묵상 가이드를 준비해드려요</p>
+    <div class="date-line" id="dateLine"></div>
   </div>
 
-  <div class="card">
-    <div class="card-label"><span class="emoji">📖</span> 성경 구절</div>
-    <div class="testament-tabs">
-      <button class="tab-btn active" onclick="switchTestament('ot', this)">구약</button>
-      <button class="tab-btn" onclick="switchTestament('nt', this)">신약</button>
+  <div id="inputArea">
+    <div class="card">
+      <div class="card-label"><span class="emoji">📖</span> 성경 구절</div>
+      <div class="testament-tabs">
+        <button class="tab-btn active" onclick="switchTestament('ot', this)">구약</button>
+        <button class="tab-btn" onclick="switchTestament('nt', this)">신약</button>
+      </div>
+      <select class="book-select" id="bookSelect">
+        <option value="">성경을 선택하세요</option>
+      </select>
+      <div class="verse-row">
+        <input class="verse-input" id="chapter" type="number" min="1" placeholder="장">
+        <span class="verse-separator">:</span>
+        <input class="verse-input" id="verseStart" type="number" min="1" placeholder="시작절">
+        <span class="verse-separator">~</span>
+        <input class="verse-input" id="verseEnd" type="number" min="1" placeholder="끝절">
+      </div>
+      <div class="verse-hint">* 끝절을 비우면 1절만 묵상해요</div>
     </div>
-    <select class="book-select" id="bookSelect">
-      <option value="">성경을 선택하세요</option>
-    </select>
-    <div class="verse-row">
-      <input class="verse-input" id="chapter" type="number" min="1" placeholder="장">
-      <span class="verse-separator">:</span>
-      <input class="verse-input" id="verseStart" type="number" min="1" placeholder="시작절">
-      <span class="verse-separator">~</span>
-      <input class="verse-input" id="verseEnd" type="number" min="1" placeholder="끝절">
-    </div>
-    <div class="verse-hint">* 끝절을 비우면 1절만 묵상해요</div>
-  </div>
 
-  <div class="card">
-    <div class="card-label"><span class="emoji">🕊</span> 오늘의 말씀 제목</div>
-    <input class="text-input" id="sermonTitle" type="text" placeholder="목회자님이 정한 설교 제목을 입력하세요">
+    <button class="submit-btn" id="submitBtn" onclick="submitRequest()">말씀 묵상 시작하기 ✦</button>
+    <div class="status-bar" id="statusBar"></div>
   </div>
-
-  <div class="card">
-    <div class="card-label"><span class="emoji">🎀</span> 설명 수준</div>
-    <div class="level-toggle">
-      <button class="level-btn" onclick="selectLevel('student', this)">
-        <span class="level-emoji">🌱</span>
-        쉽게 설명
-      </button>
-      <button class="level-btn active" onclick="selectLevel('adult', this)">
-        <span class="level-emoji">🌿</span>
-        일반 설명
-      </button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label"><span class="emoji">🙏</span> 나의 기도제목</div>
-    <div class="prayer-item">
-      <span class="prayer-num">1</span>
-      <textarea class="prayer-input" id="prayer1" placeholder="요즘 마음에 담고 있는 기도제목"></textarea>
-    </div>
-    <div class="prayer-item">
-      <span class="prayer-num">2</span>
-      <textarea class="prayer-input" id="prayer2" placeholder="두 번째 기도제목 (선택)"></textarea>
-    </div>
-    <div class="prayer-item">
-      <span class="prayer-num">3</span>
-      <textarea class="prayer-input" id="prayer3" placeholder="세 번째 기도제목 (선택)"></textarea>
-    </div>
-  </div>
-
-  <button class="submit-btn" id="submitBtn" onclick="submitRequest()">말씀 묵상 시작하기 ✦</button>
-  <div class="status-bar" id="statusBar"></div>
 
   <div class="loading-animation" id="loadingAnim">
     <div class="loading-icon">📖</div>
     <div class="loading-text">말씀을 묵상하고 있어요...</div>
   </div>
+
+  <button class="back-btn" id="backBtn" onclick="goBack()">← 돌아가기</button>
 
   <div class="result-box" id="resultBox">
     <div class="result-card">
@@ -547,163 +477,54 @@
     </div>
   </div>
 
+  <div class="timeline-section" id="timelineSection">
+    <div class="timeline-label"><span class="emoji">🕊</span> 묵상 기록</div>
+    <div id="timelineContent"></div>
+  </div>
+
 </div>
 
 <script>
 const BIBLE_BOOKS = {
-  ot: [
-    '창세기','출애굽기','레위기','민수기','신명기',
-    '여호수아','사사기','룻기','사무엘상','사무엘하',
-    '열왕기상','열왕기하','역대상','역대하','에스라',
-    '느헤미야','에스더','욥기','시편','잠언',
-    '전도서','아가','이사야','예레미야','예레미야애가',
-    '에스겔','다니엘','호세아','요엘','아모스',
-    '오바댜','요나','미가','나훔','하박국',
-    '스바냐','학개','스가랴','말라기'
-  ],
-  nt: [
-    '마태복음','마가복음','누가복음','요한복음','사도행전',
-    '로마서','고린도전서','고린도후서','갈라디아서','에베소서',
-    '빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서',
-    '디모데후서','디도서','빌레몬서','히브리서','야고보서',
-    '베드로전서','베드로후서','요한1서','요한2서','요한3서',
-    '유다서','요한계시록'
-  ]
+  ot: ['창세기','출애굽기','레위기','민수기','신명기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','역대상','역대하','에스라','느헤미야','에스더','욥기','시편','잠언','전도서','아가','이사야','예레미야','예레미야애가','에스겔','다니엘','호세아','요엘','아모스','오바댜','요나','미가','나훔','하박국','스바냐','학개','스가랴','말라기'],
+  nt: ['마태복음','마가복음','누가복음','요한복음','사도행전','로마서','고린도전서','고린도후서','갈라디아서','에베소서','빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서','디모데후서','디도서','빌레몬서','히브리서','야고보서','베드로전서','베드로후서','요한1서','요한2서','요한3서','유다서','요한계시록']
 };
 
 let currentTestament = 'ot';
-let currentLevel = 'adult';
-
 const WEBHOOK_URL = 'https://kimbombo.app.n8n.cloud/webhook/bible-guide';
+const STORAGE_KEY = 'bible_guide_history';
+
+function showDate() {
+  const now = new Date();
+  const days = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  const day = days[now.getDay()];
+  document.getElementById('dateLine').textContent = m + '월 ' + d + '일 ' + day + ', 은혜로운 하루 되세요 ♡';
+}
 
 function switchTestament(type, el) {
   currentTestament = type;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
   el.classList.add('active');
   populateBooks();
 }
 
 function populateBooks() {
-  const select = document.getElementById('bookSelect');
+  var select = document.getElementById('bookSelect');
   select.innerHTML = '<option value="">성경을 선택하세요</option>';
-  BIBLE_BOOKS[currentTestament].forEach(book => {
-    const opt = document.createElement('option');
+  BIBLE_BOOKS[currentTestament].forEach(function(book) {
+    var opt = document.createElement('option');
     opt.value = book;
     opt.textContent = book;
     select.appendChild(opt);
   });
 }
 
-function selectLevel(level, el) {
-  currentLevel = level;
-  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
 function setStatus(type, msg) {
-  const bar = document.getElementById('statusBar');
+  var bar = document.getElementById('statusBar');
   bar.className = 'status-bar ' + type;
   bar.textContent = msg;
-}
-
-function buildPromptText() {
-  const book = document.getElementById('bookSelect').value;
-  const chapter = document.getElementById('chapter').value;
-  const vStart = document.getElementById('verseStart').value;
-  const vEnd = document.getElementById('verseEnd').value;
-  const title = document.getElementById('sermonTitle').value.trim();
-  const p1 = document.getElementById('prayer1').value.trim();
-  const p2 = document.getElementById('prayer2').value.trim();
-  const p3 = document.getElementById('prayer3').value.trim();
-
-  let verseStr = `${book} ${chapter}장 ${vStart}절`;
-  if (vEnd && vEnd !== vStart) verseStr += `~${vEnd}절`;
-
-  const prayers = [p1, p2, p3].filter(Boolean);
-  let prayerStr = '';
-  if (prayers.length > 0) {
-    prayerStr = '\n\n나의 기도제목:\n' + prayers.map((p, i) => `${i + 1}. ${p}`).join('\n');
-  }
-
-  return `오늘의 말씀: ${verseStr}\n말씀 제목: ${title || '(없음)'}${prayerStr}`;
-}
-
-async function submitRequest() {
-  const book = document.getElementById('bookSelect').value;
-  const chapter = document.getElementById('chapter').value;
-  const vStart = document.getElementById('verseStart').value;
-  const vEnd = document.getElementById('verseEnd').value;
-
-  if (!book) { setStatus('error', '성경을 선택해주세요'); return; }
-  if (!chapter) { setStatus('error', '장을 입력해주세요'); return; }
-  if (!vStart) { setStatus('error', '시작 절을 입력해주세요'); return; }
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '묵상 준비 중...';
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('loadingAnim').classList.add('visible');
-  document.getElementById('statusBar').className = 'status-bar';
-
-  const promptText = buildPromptText();
-
-  const payload = {
-    input_text: promptText,
-    book: book,
-    chapter: parseInt(chapter),
-    verse_start: parseInt(vStart),
-    verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart),
-    sermon_title: document.getElementById('sermonTitle').value.trim(),
-    level: currentLevel,
-    prayers: [
-      document.getElementById('prayer1').value.trim(),
-      document.getElementById('prayer2').value.trim(),
-      document.getElementById('prayer3').value.trim()
-    ].filter(Boolean)
-  };
-
-  try {
-    const resp = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-
-    let resultText = '';
-    if (Array.isArray(data)) {
-      const item = data[0];
-      if (item.choices) {
-        resultText = item.choices[0].message.content;
-      } else if (item.content && Array.isArray(item.content)) {
-        resultText = item.content.map(c => c.text || '').join('\n');
-      } else {
-        resultText = JSON.stringify(item, null, 2);
-      }
-    } else if (data.choices) {
-      resultText = data.choices[0].message.content;
-    } else if (data.content) {
-      resultText = data.content.map(c => c.text || '').join('\n');
-    } else {
-      resultText = JSON.stringify(data, null, 2);
-    }
-
-    let titleStr = `📖 ${book} ${chapter}:${vStart}`;
-    if (vEnd && vEnd !== vStart) titleStr += `-${vEnd}`;
-    document.getElementById('resultTitle').textContent = titleStr;
-    document.getElementById('resultContent').innerHTML = formatResult(resultText);
-    document.getElementById('resultBox').classList.add('visible');
-    document.getElementById('statusBar').className = 'status-bar';
-
-  } catch (err) {
-    setStatus('error', '전송 실패: ' + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '말씀 묵상 시작하기 ✦';
-    document.getElementById('loadingAnim').classList.remove('visible');
-  }
 }
 
 function formatResult(text) {
@@ -715,18 +536,188 @@ function formatResult(text) {
     .replace(/→\s*(.+?)(<br>|$)/g, '→ <b>$1</b>$2');
 }
 
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e) { return []; }
+}
+
+function saveToHistory(verseLabel, resultText) {
+  var history = getHistory();
+  var summary = '';
+  var match = resultText.match(/7\.\s*전체 요약[^\n]*\n+(.+)/);
+  if (match) {
+    summary = match[1].replace(/["""]/g, '').trim().substring(0, 60);
+  } else {
+    summary = resultText.substring(0, 50).replace(/\n/g, ' ') + '...';
+  }
+  var entry = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    verse: verseLabel,
+    summary: summary,
+    result: resultText
+  };
+  history.unshift(entry);
+  if (history.length > 50) history.pop();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  renderTimeline();
+}
+
+function renderTimeline() {
+  var history = getHistory();
+  var container = document.getElementById('timelineContent');
+  if (history.length === 0) {
+    container.innerHTML = '<div class="timeline-empty">아직 묵상 기록이 없어요<br>첫 묵상을 시작해보세요 ✦</div>';
+    return;
+  }
+  var html = '';
+  history.forEach(function(entry) {
+    var d = new Date(entry.date);
+    var dateStr = (d.getMonth()+1) + '/' + d.getDate();
+    html += '<div class="timeline-item" onclick="viewHistory(' + entry.id + ')">' +
+      '<div class="timeline-dot"></div>' +
+      '<div class="timeline-body">' +
+        '<div class="timeline-verse">' + escapeHtml(entry.verse) + '</div>' +
+        '<div class="timeline-summary">' + escapeHtml(entry.summary) + '</div>' +
+      '</div>' +
+      '<div class="timeline-date">' + dateStr + '</div>' +
+    '</div>';
+  });
+  html += '<div class="timeline-clear"><button class="timeline-clear-btn" onclick="clearHistory()">기록 전체 삭제</button></div>';
+  container.innerHTML = html;
+}
+
+function viewHistory(id) {
+  var history = getHistory();
+  var entry = null;
+  for (var i = 0; i < history.length; i++) {
+    if (history[i].id === id) { entry = history[i]; break; }
+  }
+  if (!entry) return;
+  document.getElementById('inputArea').style.display = 'none';
+  document.getElementById('timelineSection').style.display = 'none';
+  document.getElementById('backBtn').classList.add('visible');
+  document.getElementById('resultTitle').textContent = '📖 ' + entry.verse;
+  document.getElementById('resultContent').innerHTML = formatResult(entry.result);
+  document.getElementById('resultBox').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBack() {
+  document.getElementById('inputArea').style.display = '';
+  document.getElementById('timelineSection').style.display = '';
+  document.getElementById('backBtn').classList.remove('visible');
+  document.getElementById('resultBox').classList.remove('visible');
+}
+
+function clearHistory() {
+  if (confirm('묵상 기록을 모두 삭제할까요?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderTimeline();
+  }
+}
+
+function getVerseLabel() {
+  var book = document.getElementById('bookSelect').value;
+  var chapter = document.getElementById('chapter').value;
+  var vStart = document.getElementById('verseStart').value;
+  var vEnd = document.getElementById('verseEnd').value;
+  var label = book + ' ' + chapter + ':' + vStart;
+  if (vEnd && vEnd !== vStart) label += '-' + vEnd;
+  return label;
+}
+
+async function submitRequest() {
+  var book = document.getElementById('bookSelect').value;
+  var chapter = document.getElementById('chapter').value;
+  var vStart = document.getElementById('verseStart').value;
+  var vEnd = document.getElementById('verseEnd').value;
+
+  if (!book) { setStatus('error', '성경을 선택해주세요'); return; }
+  if (!chapter) { setStatus('error', '장을 입력해주세요'); return; }
+  if (!vStart) { setStatus('error', '시작 절을 입력해주세요'); return; }
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '묵상 준비 중...';
+  document.getElementById('resultBox').classList.remove('visible');
+  document.getElementById('loadingAnim').classList.add('visible');
+  document.getElementById('statusBar').className = 'status-bar';
+  document.getElementById('backBtn').classList.remove('visible');
+
+  var verseStr = book + ' ' + chapter + '장 ' + vStart + '절';
+  if (vEnd && vEnd !== vStart) verseStr += '~' + vEnd + '절';
+  var promptText = '오늘의 말씀: ' + verseStr;
+  var verseLabel = getVerseLabel();
+
+  var payload = {
+    input_text: promptText,
+    book: book,
+    chapter: parseInt(chapter),
+    verse_start: parseInt(vStart),
+    verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart)
+  };
+
+  try {
+    var resp = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var data = await resp.json();
+
+    var resultText = '';
+    if (Array.isArray(data)) {
+      var item = data[0];
+      if (item.choices) {
+        resultText = item.choices[0].message.content;
+      } else if (item.content && Array.isArray(item.content)) {
+        resultText = item.content.map(function(c) { return c.text || ''; }).join('\n');
+      } else {
+        resultText = JSON.stringify(item, null, 2);
+      }
+    } else if (data.choices) {
+      resultText = data.choices[0].message.content;
+    } else if (data.content) {
+      resultText = data.content.map(function(c) { return c.text || ''; }).join('\n');
+    } else {
+      resultText = JSON.stringify(data, null, 2);
+    }
+
+    document.getElementById('resultTitle').textContent = '📖 ' + verseLabel;
+    document.getElementById('resultContent').innerHTML = formatResult(resultText);
+    document.getElementById('resultBox').classList.add('visible');
+    document.getElementById('statusBar').className = 'status-bar';
+
+    saveToHistory(verseLabel, resultText);
+
+  } catch (err) {
+    setStatus('error', '전송 실패: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '말씀 묵상 시작하기 ✦';
+    document.getElementById('loadingAnim').classList.remove('visible');
+  }
+}
+
 function copyResult() {
-  const text = document.getElementById('resultContent').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btns = document.querySelectorAll('.action-btn');
+  var text = document.getElementById('resultContent').innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btns = document.querySelectorAll('.action-btn');
     btns[0].textContent = '✅ 복사됨!';
-    setTimeout(() => btns[0].textContent = '📋 복사하기', 1500);
+    setTimeout(function() { btns[0].textContent = '📋 복사하기'; }, 1500);
   });
 }
 
 function shareResult() {
-  const text = document.getElementById('resultContent').innerText;
-  const title = document.getElementById('resultTitle').textContent;
+  var text = document.getElementById('resultContent').innerText;
+  var title = document.getElementById('resultTitle').textContent;
   if (navigator.share) {
     navigator.share({ title: title, text: text });
   } else {
@@ -734,7 +725,9 @@ function shareResult() {
   }
 }
 
+showDate();
 populateBooks();
+renderTimeline();
 </script>
 </body>
 </html>

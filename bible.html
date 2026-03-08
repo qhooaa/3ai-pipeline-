@@ -427,7 +427,6 @@
     font-size: 14.5px;
     line-height: 2;
     color: var(--text);
-    white-space: pre-wrap;
     word-break: keep-all;
   }
 
@@ -694,7 +693,7 @@ async function submitRequest() {
     let titleStr = `📖 ${book} ${chapter}:${vStart}`;
     if (vEnd && vEnd !== vStart) titleStr += `-${vEnd}`;
     document.getElementById('resultTitle').textContent = titleStr;
-    document.getElementById('resultContent').textContent = resultText;
+    document.getElementById('resultContent').innerHTML = formatResult(resultText);
     document.getElementById('resultBox').classList.add('visible');
     document.getElementById('statusBar').className = 'status-bar';
 
@@ -707,8 +706,17 @@ async function submitRequest() {
   }
 }
 
+function formatResult(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>')
+    .replace(/→\s*(.+?)(<br>|$)/g, '→ <b>$1</b>$2');
+}
+
 function copyResult() {
-  const text = document.getElementById('resultContent').textContent;
+  const text = document.getElementById('resultContent').innerText;
   navigator.clipboard.writeText(text).then(() => {
     const btns = document.querySelectorAll('.action-btn');
     btns[0].textContent = '✅ 복사됨!';
@@ -717,7 +725,7 @@ function copyResult() {
 }
 
 function shareResult() {
-  const text = document.getElementById('resultContent').textContent;
+  const text = document.getElementById('resultContent').innerText;
   const title = document.getElementById('resultTitle').textContent;
   if (navigator.share) {
     navigator.share({ title: title, text: text });

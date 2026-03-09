@@ -208,9 +208,9 @@
             const result = document.getElementById('result');
 
             btn.disabled = true;
-            btn.textContent = '분석 중...';
+            btn.textContent = '전송 중...';
             status.className = 'status loading';
-            status.textContent = '⏳ 파이프라인 실행 중... 12단계 AI 분석 + 검증이 진행됩니다. 약 3~5분 소요.';
+            status.textContent = '⏳ 전송 중...';
             status.style.display = 'block';
             result.style.display = 'none';
 
@@ -230,17 +230,16 @@
 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 
-                const data = await response.json();
-                
                 status.className = 'status success';
-                status.textContent = '✅ 분석 완료';
-                
-                result.textContent = data.result || JSON.stringify(data, null, 2);
-                result.style.display = 'block';
+                status.innerHTML = '✅ <strong>접수 완료</strong><br>12단계 AI 분석이 백그라운드에서 진행됩니다 (약 3~5분).<br>완료되면 이메일로 결과가 전달됩니다.';
+
+                // 입력 초기화
+                document.getElementById('question').value = '';
+                if (fileData) removeFile(new Event('click'));
 
             } catch (err) {
                 status.className = 'status error';
-                status.textContent = '❌ 오류: ' + err.message;
+                status.textContent = '❌ 전송 실패: ' + err.message;
             } finally {
                 btn.disabled = false;
                 btn.textContent = '분석 시작';

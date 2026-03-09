@@ -1,717 +1,268 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3-AI Review Pipeline</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface-hover: #22263a;
-    --border: #2a2e3f;
-    --text: #e4e6ef;
-    --text-dim: #7a7f96;
-    --accent: #6c5ce7;
-    --accent-glow: rgba(108, 92, 231, 0.25);
-    --green: #00b894;
-    --green-glow: rgba(0, 184, 148, 0.2);
-    --orange: #e17055;
-    --red: #d63031;
-    --tag-bg: rgba(108, 92, 231, 0.12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  .container {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
-
-  .header {
-    margin-bottom: 40px;
-  }
-
-  .header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
-
-  .header h1 span {
-    color: var(--accent);
-  }
-
-  .header p {
-    color: var(--text-dim);
-    font-size: 14px;
-  }
-
-  .section {
-    margin-bottom: 28px;
-  }
-
-  .section-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-
-  /* Pipeline selector */
-  .pipeline-toggle {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-
-  .pipeline-btn {
-    padding: 14px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-    font-family: inherit;
-    font-size: 14px;
-  }
-
-  .pipeline-btn:hover {
-    border-color: var(--accent);
-    background: var(--surface-hover);
-  }
-
-  .pipeline-btn.active {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    color: var(--text);
-    box-shadow: 0 0 20px var(--accent-glow);
-  }
-
-  .pipeline-btn .btn-title {
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 4px;
-    display: block;
-  }
-
-  .pipeline-btn .btn-desc {
-    font-size: 12px;
-    opacity: 0.7;
-  }
-
-  /* Doc type grid */
-  .doc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .doc-btn {
-    padding: 12px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 400;
-    text-align: left;
-  }
-
-  .doc-btn:hover {
-    border-color: var(--accent);
-    background: var(--surface-hover);
-  }
-
-  .doc-btn.active {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    color: var(--text);
-  }
-
-  /* Controls row */
-  .controls-row {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .toggle-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .toggle-label {
-    font-size: 14px;
-    color: var(--text-dim);
-  }
-
-  .toggle {
-    width: 44px;
-    height: 24px;
-    background: var(--border);
-    border-radius: 12px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .toggle.on {
-    background: var(--accent);
-  }
-
-  .toggle::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 18px;
-    height: 18px;
-    background: #fff;
-    border-radius: 50%;
-    transition: transform 0.2s;
-  }
-
-  .toggle.on::after {
-    transform: translateX(20px);
-  }
-
-  .rounds-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .rounds-label {
-    font-size: 14px;
-    color: var(--text-dim);
-  }
-
-  .rounds-select {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    padding: 6px 10px;
-    cursor: pointer;
-  }
-
-  .rounds-select:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-
-  /* Textarea */
-  .textarea-wrapper {
-    position: relative;
-  }
-
-  textarea {
-    width: 100%;
-    min-height: 220px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    line-height: 1.8;
-    padding: 16px;
-    resize: vertical;
-    transition: border-color 0.2s;
-  }
-
-  textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
-  textarea::placeholder {
-    color: var(--text-dim);
-    opacity: 0.5;
-  }
-
-  .char-count {
-    position: absolute;
-    bottom: 12px;
-    right: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-
-  /* Submit */
-  .submit-btn {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 10px;
-    background: var(--accent);
-    color: #fff;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
-    margin-top: 8px;
-  }
-
-  .submit-btn:hover {
-    background: #7c6df0;
-    box-shadow: 0 4px 24px var(--accent-glow);
-  }
-
-  .submit-btn:active {
-    transform: scale(0.98);
-  }
-
-  .submit-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-
-  /* Status */
-  .status-bar {
-    margin-top: 16px;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    display: none;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .status-bar.sending {
-    display: block;
-    background: var(--tag-bg);
-    color: var(--accent);
-    border: 1px solid rgba(108, 92, 231, 0.3);
-  }
-
-  .status-bar.success {
-    display: block;
-    background: var(--green-glow);
-    color: var(--green);
-    border: 1px solid rgba(0, 184, 148, 0.3);
-  }
-
-  .status-bar.error {
-    display: block;
-    background: rgba(214, 48, 49, 0.1);
-    color: var(--red);
-    border: 1px solid rgba(214, 48, 49, 0.3);
-  }
-
-  .status-bar.waiting {
-    display: block;
-    background: rgba(225, 112, 85, 0.1);
-    color: var(--orange);
-    border: 1px solid rgba(225, 112, 85, 0.3);
-  }
-
-  /* Result */
-  .result-box {
-    margin-top: 24px;
-    display: none;
-  }
-
-  .result-box.visible {
-    display: block;
-  }
-
-  .result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .result-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--green);
-  }
-
-  .copy-btn {
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    color: var(--text-dim);
-    font-family: inherit;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .copy-btn:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
-
-  .result-content {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    white-space: pre-wrap;
-    font-size: 14px;
-    line-height: 1.8;
-    max-height: 500px;
-    overflow-y: auto;
-  }
-
-  /* Payload preview */
-  .payload-preview {
-    margin-top: 16px;
-    padding: 12px 16px;
-    background: rgba(26, 29, 39, 0.8);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    white-space: pre-wrap;
-    display: none;
-  }
-
-  .payload-preview.visible {
-    display: block;
-  }
-
-  .debug-toggle {
-    font-size: 11px;
-    color: var(--text-dim);
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 12px;
-    display: inline-block;
-    opacity: 0.5;
-  }
-
-  .debug-toggle:hover {
-    opacity: 1;
-  }
-
-  /* Loop-specific UI */
-  .loop-controls {
-    display: none;
-  }
-
-  .loop-controls.visible {
-    display: flex;
-  }
-
-  @media (max-width: 600px) {
-    .doc-grid { grid-template-columns: 1fr; }
-    .controls-row { flex-direction: column; align-items: flex-start; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-AI Sequential Pipeline v11.1</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .subtitle {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 32px;
+        }
+        .field {
+            margin-bottom: 24px;
+        }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 14px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        textarea:focus { border-color: #666; }
+        .file-upload {
+            border: 2px dashed #333;
+            border-radius: 8px;
+            padding: 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #111;
+        }
+        .file-upload:hover { border-color: #555; background: #1a1a1a; }
+        .file-upload.has-file { border-color: #4a9eff; background: #0d1b2a; }
+        .file-upload input { display: none; }
+        .file-upload .icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .file-upload .text { font-size: 0.85rem; color: #888; }
+        .file-upload .filename { font-size: 0.9rem; color: #4a9eff; font-weight: 500; }
+        .file-upload .remove { font-size: 0.8rem; color: #ff6b6b; cursor: pointer; margin-top: 6px; }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .submit-btn:hover { background: #e0e0e0; }
+        .submit-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+        .status {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .status.loading { display: block; background: #1a1a2e; color: #7c83ff; }
+        .status.success { display: block; background: #0d2818; color: #4ade80; }
+        .status.error { display: block; background: #2d0a0a; color: #ff6b6b; }
+        .result {
+            margin-top: 24px;
+            padding: 20px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            max-height: 600px;
+            overflow-y: auto;
+            display: none;
+        }
+        .mode-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #1a1a2e;
+            color: #7c83ff;
+            margin-bottom: 8px;
+        }
+        .info {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 6px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
+        <h1>3-AI Sequential Pipeline</h1>
+        <p class="subtitle">Claude → GPT → Claude → GPT → Claude → Gemini × 2서클</p>
 
-  <div class="header">
-    <h1>3-AI <span>Review</span> Pipeline</h1>
-    <p>문서를 입력하면 Claude · GPT · Gemini가 병렬로 검토합니다.</p>
-  </div>
-
-  <!-- Pipeline 선택 -->
-  <div class="section">
-    <div class="section-label">Pipeline</div>
-    <div class="pipeline-toggle">
-      <button class="pipeline-btn" data-pipeline="review" onclick="selectPipeline('review')">
-        <span class="btn-title">Review</span>
-        <span class="btn-desc">병렬 1회 통합 — 빠른 검토</span>
-      </button>
-      <button class="pipeline-btn active" data-pipeline="loop" onclick="selectPipeline('loop')">
-        <span class="btn-title">Loop</span>
-        <span class="btn-desc">루프 구조 — 고강도 검토 + 이메일 승인</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- 문서유형 -->
-  <div class="section">
-    <div class="section-label">문서유형</div>
-    <div class="doc-grid">
-      <button class="doc-btn active" data-type="fundraising" onclick="selectDocType(this)">투자서류</button>
-      <button class="doc-btn" data-type="business" onclick="selectDocType(this)">사업설계</button>
-      <button class="doc-btn" data-type="tech_spec" onclick="selectDocType(this)">기술스펙</button>
-      <button class="doc-btn" data-type="presentation" onclick="selectDocType(this)">발표자료</button>
-      <button class="doc-btn" data-type="market_analysis" onclick="selectDocType(this)">시장분석</button>
-      <button class="doc-btn" data-type="ideation" onclick="selectDocType(this)">아이디어</button>
-    </div>
-  </div>
-
-  <!-- 옵션 -->
-  <div class="section">
-    <div class="section-label">옵션</div>
-    <div class="controls-row">
-      <div class="toggle-group">
-        <span class="toggle-label">검토모드</span>
-        <div class="toggle" id="reviewToggle" onclick="toggleReview()"></div>
-      </div>
-      <div class="controls-row loop-controls" id="loopControls">
-        <div class="toggle-group" id="modeToggle" style="display:none;">
-          <!-- Loop pipeline에서 simple/loop 선택 -->
+        <div class="field">
+            <label>질문 / 지시사항</label>
+            <textarea id="question" placeholder="분석하고 싶은 상황, 질문, 또는 검토 지시사항을 입력하세요.&#10;파일과 함께 질문을 넣으면 자료 기반으로 분석합니다."></textarea>
         </div>
-        <div class="rounds-group">
-          <span class="rounds-label">라운드</span>
-          <select class="rounds-select" id="nRounds">
-            <option value="1">1</option>
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-          </select>
+
+        <div class="field">
+            <label>파일 첨부 (선택)</label>
+            <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept=".docx,.pdf,.txt,.md" onchange="handleFile(event)">
+                <div class="icon">📄</div>
+                <div class="text">클릭 또는 드래그하여 파일 업로드 (.docx, .pdf, .txt, .md / 10MB 이하)</div>
+            </div>
+            <p class="info">파일 또는 질문 중 최소 하나는 입력해야 합니다.</p>
         </div>
-      </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submit()">분석 시작</button>
+
+        <div class="status" id="status"></div>
+        <div class="result" id="result"></div>
     </div>
-  </div>
 
-  <!-- 입력 -->
-  <div class="section">
-    <div class="section-label">입력 텍스트</div>
-    <div class="textarea-wrapper">
-      <textarea id="inputText" placeholder="검토할 문서 내용을 붙여넣으세요..." oninput="updateCharCount()"></textarea>
-      <span class="char-count" id="charCount">0자</span>
-    </div>
-  </div>
+    <script>
+        // ===== CONFIG =====
+        const WEBHOOK_URL = 'https://kimbombo.app.n8n.cloud/webhook/3ai-sequential-v2';
+        
+        let fileData = null;
+        let fileName = '';
+        let fileType = '';
 
-  <!-- 전송 -->
-  <button class="submit-btn" id="submitBtn" onclick="submitReview()">검토 요청</button>
-
-  <!-- 상태 -->
-  <div class="status-bar" id="statusBar"></div>
-
-  <!-- 디버그 -->
-  <span class="debug-toggle" onclick="togglePayload()">payload 미리보기</span>
-  <div class="payload-preview" id="payloadPreview"></div>
-
-  <!-- 결과 -->
-  <div class="result-box" id="resultBox">
-    <div class="result-header">
-      <span class="result-title">검토 결과</span>
-      <button class="copy-btn" onclick="copyResult()">복사</button>
-    </div>
-    <div class="result-content" id="resultContent"></div>
-  </div>
-
-</div>
-
-<script>
-  // State
-  let state = {
-    pipeline: 'loop',           // 'review' or 'loop'
-    docType: 'fundraising',
-    reviewMode: false,
-    nRounds: 2
-  };
-
-  const URLS = {
-    review: 'https://kimbombo.app.n8n.cloud/webhook/review',
-    loop: 'https://kimbombo.app.n8n.cloud/webhook/review-loop'
-  };
-
-  // Pipeline selection
-  function selectPipeline(type) {
-    state.pipeline = type;
-    document.querySelectorAll('.pipeline-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector(`[data-pipeline="${type}"]`).classList.add('active');
-    
-    const loopControls = document.getElementById('loopControls');
-    if (type === 'loop') {
-      loopControls.classList.add('visible');
-    } else {
-      loopControls.classList.remove('visible');
-    }
-    updatePayloadPreview();
-  }
-
-  // Doc type selection
-  function selectDocType(el) {
-    document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    state.docType = el.dataset.type;
-    updatePayloadPreview();
-  }
-
-  // Review mode toggle
-  function toggleReview() {
-    state.reviewMode = !state.reviewMode;
-    document.getElementById('reviewToggle').classList.toggle('on');
-    updatePayloadPreview();
-  }
-
-  // Char count
-  function updateCharCount() {
-    const len = document.getElementById('inputText').value.length;
-    document.getElementById('charCount').textContent = len.toLocaleString() + '자';
-    updatePayloadPreview();
-  }
-
-  // Build payload
-  function buildPayload() {
-    const text = document.getElementById('inputText').value.trim();
-    const payload = {
-      input_text: text,
-      doc_type: state.docType,
-      review_mode: state.reviewMode
-    };
-
-    if (state.pipeline === 'loop') {
-      payload.mode = 'loop';
-      payload.n_rounds = parseInt(document.getElementById('nRounds').value);
-    }
-
-    return payload;
-  }
-
-  // Payload preview
-  function updatePayloadPreview() {
-    const preview = document.getElementById('payloadPreview');
-    if (preview.classList.contains('visible')) {
-      const payload = buildPayload();
-      payload.input_text = payload.input_text 
-        ? (payload.input_text.length > 80 ? payload.input_text.substring(0, 80) + '...' : payload.input_text)
-        : '(비어있음)';
-      preview.textContent = 'POST ' + URLS[state.pipeline] + '\n\n' + JSON.stringify(payload, null, 2);
-    }
-  }
-
-  function togglePayload() {
-    const preview = document.getElementById('payloadPreview');
-    preview.classList.toggle('visible');
-    updatePayloadPreview();
-  }
-
-  // Set status
-  function setStatus(type, message) {
-    const bar = document.getElementById('statusBar');
-    bar.className = 'status-bar ' + type;
-    bar.textContent = message;
-  }
-
-  // Submit
-  async function submitReview() {
-    const text = document.getElementById('inputText').value.trim();
-    if (!text) {
-      setStatus('error', '텍스트를 입력하세요.');
-      return;
-    }
-
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = '전송 중...';
-    document.getElementById('resultBox').classList.remove('visible');
-
-    const payload = buildPayload();
-    const url = URLS[state.pipeline];
-
-    // Loop 모드: 응답을 기다리지 않고 전송만 (이메일 승인 흐름이므로)
-    if (state.pipeline === 'loop') {
-      try {
-        fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        // 응답을 기다리지 않음 — 파이프라인이 이메일 승인을 기다리므로
-        setStatus('success', '✅ 전송 완료 — 이메일에서 승인/거절 버튼을 확인하세요.');
-      } catch (err) {
-        setStatus('error', '전송 실패: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = '검토 요청';
-      }
-      return;
-    }
-
-    // Review 모드: 응답 대기 (바로 결과 반환)
-    setStatus('sending', '파이프라인 실행 중...');
-
-    try {
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!resp.ok) {
-        const errText = await resp.text();
-        throw new Error(`HTTP ${resp.status}: ${errText}`);
-      }
-
-      const data = await resp.json();
-
-      // Extract text from response
-      let resultText = '';
-      if (Array.isArray(data)) {
-        const item = data[0];
-        if (item.content && Array.isArray(item.content)) {
-          resultText = item.content.map(c => c.text || '').join('\n');
-        } else {
-          resultText = JSON.stringify(item, null, 2);
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert('파일 크기가 10MB를 초과합니다.');
+                return;
+            }
+            fileName = file.name;
+            fileType = file.type || file.name.split('.').pop();
+            
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                fileData = ev.target.result.split(',')[1]; // base64
+                const upload = document.getElementById('fileUpload');
+                upload.classList.add('has-file');
+                upload.innerHTML = `
+                    <div class="filename">📎 ${fileName}</div>
+                    <div class="remove" onclick="removeFile(event)">✕ 파일 제거</div>
+                `;
+            };
+            reader.readAsDataURL(file);
         }
-      } else if (data.content && Array.isArray(data.content)) {
-        resultText = data.content.map(c => c.text || '').join('\n');
-      } else {
-        resultText = JSON.stringify(data, null, 2);
-      }
 
-      setStatus('success', '완료!');
-      document.getElementById('resultContent').textContent = resultText;
-      document.getElementById('resultBox').classList.add('visible');
+        function removeFile(e) {
+            e.stopPropagation();
+            fileData = null;
+            fileName = '';
+            fileType = '';
+            const upload = document.getElementById('fileUpload');
+            upload.classList.remove('has-file');
+            upload.innerHTML = `
+                <input type="file" id="fileInput" accept=".docx,.pdf,.txt,.md" onchange="handleFile(event)">
+                <div class="icon">📄</div>
+                <div class="text">클릭 또는 드래그하여 파일 업로드 (.docx, .pdf, .txt, .md / 10MB 이하)</div>
+            `;
+        }
 
-    } catch (err) {
-      if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
-        setStatus('error', 'CORS 에러 — 브라우저에서 직접 호출이 차단되었습니다. n8n Webhook 설정에서 CORS를 허용하거나, 다른 방법을 사용하세요.');
-      } else {
-        setStatus('error', '에러: ' + err.message);
-      }
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '검토 요청';
-    }
-  }
+        async function submit() {
+            const question = document.getElementById('question').value.trim();
+            if (!question && !fileData) {
+                alert('질문 또는 파일 중 최소 하나를 입력하세요.');
+                return;
+            }
 
-  // Copy result
-  function copyResult() {
-    const text = document.getElementById('resultContent').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.querySelector('.copy-btn');
-      btn.textContent = '복사됨!';
-      setTimeout(() => btn.textContent = '복사', 1500);
-    });
-  }
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+            const result = document.getElementById('result');
 
-  // Init
-  selectPipeline('loop');
-</script>
+            btn.disabled = true;
+            btn.textContent = '분석 중...';
+            status.className = 'status loading';
+            status.textContent = '⏳ 파이프라인 실행 중... 12단계 AI 분석 + 검증이 진행됩니다. 약 3~5분 소요.';
+            status.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const payload = {
+                    question: question,
+                    file_data: fileData || '',
+                    file_name: fileName || '',
+                    file_type: fileType || ''
+                };
+
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                
+                status.className = 'status success';
+                status.textContent = '✅ 분석 완료';
+                
+                result.textContent = data.result || JSON.stringify(data, null, 2);
+                result.style.display = 'block';
+
+            } catch (err) {
+                status.className = 'status error';
+                status.textContent = '❌ 오류: ' + err.message;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '분석 시작';
+            }
+        }
+
+        // Drag and drop
+        const dropZone = document.getElementById('fileUpload');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#4a9eff'; });
+        dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = '#333'; });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#333';
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const input = document.getElementById('fileInput');
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+                handleFile({ target: input });
+            }
+        });
+    </script>
 </body>
 </html>

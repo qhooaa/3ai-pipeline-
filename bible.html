@@ -366,7 +366,9 @@
           아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>
           눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.
         </div>
-        <div class="preset-list" id="presetList"></div>
+        <select class="book-select" id="presetSelect">
+  <option value="">자주 묻는 질문을 선택하세요</option>
+</select>
         <textarea class="input-textarea" id="questionTopic" placeholder="궁금한 점이나 납득이 안 되는 부분을 자유롭게 적어주세요&#10;&#10;예) 착하게 살면 되지 왜 꼭 예수를 믿어야 해?&#10;예) 기도해도 응답이 없는 것 같아요"></textarea>
       </div>
       <button class="submit-btn" id="questionBtn">답변 찾기</button>
@@ -482,16 +484,17 @@ function switchTestament(t) {
 
 // ═══════ Preset Questions ═══════
 function renderPresets() {
-  var container = document.getElementById('presetList');
+  var sel = document.getElementById('presetSelect');
   presetQuestions.forEach(function(q) {
-    var btn = document.createElement('button');
-    btn.className = 'preset-btn';
-    btn.textContent = q;
-    btn.addEventListener('click', function() {
-      document.getElementById('questionTopic').value = q;
+    var o = document.createElement('option');
+    o.value = q; o.textContent = q;
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', function() {
+    if (this.value) {
+      document.getElementById('questionTopic').value = this.value;
       document.getElementById('questionTopic').focus();
-    });
-    container.appendChild(btn);
+    }
   });
 }
 

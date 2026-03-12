@@ -15,7 +15,7 @@
     --border: #ddd6c8;
     --border-focus: #7a8c6e;
     --text: #3a372e;
-    --text-dim: #8a847a;
+    --text-dim: #8a847a;a
     --text-light: #b8b0a4;
     --accent: #7a8c6e;
     --accent-deep: #5e6e52;
@@ -26,6 +26,8 @@
     --tag-meditation-text: #5e6e52;
     --tag-prayer: rgba(180, 155, 120, 0.15);
     --tag-prayer-text: #8a7050;
+    --tag-question: rgba(140, 120, 160, 0.15);
+    --tag-question-text: #6a5a7a;
     --shadow: 0 2px 12px rgba(58, 55, 46, 0.05);
     --shadow-lg: 0 6px 24px rgba(58, 55, 46, 0.1);
   }
@@ -51,38 +53,20 @@
 
   /* ── Header ── */
   .header { text-align: center; margin-bottom: 28px; }
-  .header-leaf {
-    font-size: 18px;
-    margin-bottom: 10px;
-    opacity: 0.5;
-  }
+  .header-leaf { font-size: 18px; margin-bottom: 10px; opacity: 0.5; }
   .header .app-label {
     font-family: 'DM Serif Display', serif;
-    font-size: 13px;
-    font-style: italic;
-    color: var(--accent);
-    letter-spacing: 2px;
-    margin-bottom: 6px;
+    font-size: 13px; font-style: italic;
+    color: var(--accent); letter-spacing: 2px; margin-bottom: 6px;
   }
   .header h1 {
     font-family: 'Gowun Batang', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 2px;
-    margin-bottom: 4px;
+    font-size: 28px; font-weight: 700;
+    color: var(--text); letter-spacing: 2px; margin-bottom: 4px;
   }
   .header h1 .name { color: var(--accent-deep); }
-  .header .sub {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 4px;
-  }
-  .header .date-line {
-    font-size: 11px;
-    color: var(--text-light);
-    margin-top: 8px;
-  }
+  .header .sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .header .date-line { font-size: 11px; color: var(--text-light); margin-top: 8px; }
 
   /* ── Mode Tabs ── */
   .mode-tabs {
@@ -95,101 +79,59 @@
     box-shadow: var(--shadow);
   }
   .mode-tab {
-    flex: 1;
-    padding: 10px 0;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: inherit;
+    flex: 1; padding: 10px 0;
+    font-size: 12px; font-weight: 500; font-family: inherit;
     color: var(--text-dim);
-    background: transparent;
-    border: none;
-    border-radius: 24px;
-    cursor: pointer;
-    transition: all 0.3s;
+    background: transparent; border: none; border-radius: 24px;
+    cursor: pointer; transition: all 0.3s;
   }
   .mode-tab.active {
-    background: var(--accent);
-    color: #fff;
+    background: var(--accent); color: #fff;
     box-shadow: 0 2px 8px rgba(122, 140, 110, 0.3);
   }
-  .mode-tab:not(.active):hover {
-    color: var(--accent);
-    background: var(--accent-glow);
-  }
+  .mode-tab:not(.active):hover { color: var(--accent); background: var(--accent-glow); }
 
   /* ── Cards ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 16px;
+    padding: 24px; margin-bottom: 16px;
     box-shadow: var(--shadow);
     transition: border-color 0.3s;
   }
   .card:focus-within { border-color: var(--border-focus); }
-  .card-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
+  .card-label { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 14px; }
 
   /* ── Testament tabs ── */
   .testament-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
   .tab-btn {
-    flex: 1;
-    padding: 8px 0;
-    font-size: 12px;
-    font-weight: 500;
-    font-family: inherit;
+    flex: 1; padding: 8px 0;
+    font-size: 12px; font-weight: 500; font-family: inherit;
     color: var(--text-dim);
     background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
+    border: 1px solid var(--border); border-radius: 20px;
+    cursor: pointer; transition: all 0.2s;
   }
-  .tab-btn.active {
-    background: var(--warm);
-    color: var(--accent-deep);
-    border-color: var(--accent-soft);
-  }
+  .tab-btn.active { background: var(--warm); color: var(--accent-deep); border-color: var(--accent-soft); }
 
   /* ── Book select ── */
   .book-select {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--text);
+    width: 100%; padding: 10px 14px;
+    font-size: 13px; font-family: inherit; color: var(--text);
     background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    appearance: none;
-    cursor: pointer;
-    margin-bottom: 12px;
+    border: 1px solid var(--border); border-radius: 10px;
+    appearance: none; cursor: pointer; margin-bottom: 12px;
   }
 
   /* ── Verse inputs ── */
-  .verse-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    overflow: hidden;
-  }
+  .verse-row { display: flex; align-items: center; gap: 6px; overflow: hidden; }
   .verse-input {
-    flex: 1;
-    min-width: 0;
-    padding: 10px 4px;
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--text);
+    flex: 1; min-width: 0; padding: 10px 4px;
+    font-size: 14px; font-family: inherit; color: var(--text);
     background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    text-align: center;
-    -moz-appearance: textfield;
+    border: 1px solid var(--border); border-radius: 10px;
+    text-align: center; -moz-appearance: textfield;
   }
   .verse-input::-webkit-outer-spin-button,
   .verse-input::-webkit-inner-spin-button { -webkit-appearance: none; }
@@ -197,37 +139,41 @@
   .verse-separator { color: var(--text-light); font-size: 14px; flex-shrink: 0; }
   .verse-hint { font-size: 10px; color: var(--text-light); margin-top: 8px; }
 
-  /* ── Prayer input ── */
-  .prayer-textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 16px;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--text);
+  /* ── Textarea (prayer & question) ── */
+  .input-textarea {
+    width: 100%; min-height: 120px; padding: 16px;
+    font-size: 13px; font-family: inherit; color: var(--text);
     background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    resize: vertical;
-    line-height: 1.8;
+    border: 1px solid var(--border); border-radius: 12px;
+    resize: vertical; line-height: 1.8;
     transition: border-color 0.3s;
   }
-  .prayer-textarea:focus { outline: none; border-color: var(--accent); }
-  .prayer-textarea::placeholder { color: var(--text-light); }
+  .input-textarea:focus { outline: none; border-color: var(--accent); }
+  .input-textarea::placeholder { color: var(--text-light); }
+
+  /* ── Preset question list ── */
+  .preset-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 14px;
+  }
+  .preset-btn {
+    padding: 6px 12px;
+    font-size: 11px; font-family: inherit; font-weight: 400;
+    color: var(--accent-deep);
+    background: var(--warm);
+    border: 1px solid var(--border); border-radius: 20px;
+    cursor: pointer; transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .preset-btn:hover { background: var(--accent-soft); color: #fff; border-color: var(--accent-soft); }
 
   /* ── Submit button ── */
   .submit-btn {
-    width: 100%;
-    padding: 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    color: #fff;
-    letter-spacing: 1px;
+    width: 100%; padding: 14px;
+    font-size: 13px; font-weight: 600; font-family: inherit;
+    color: #fff; letter-spacing: 1px;
     background: var(--accent);
-    border: none;
-    border-radius: 28px;
-    cursor: pointer;
+    border: none; border-radius: 28px; cursor: pointer;
     box-shadow: 0 4px 16px rgba(122, 140, 110, 0.25);
     transition: all 0.3s;
   }
@@ -235,119 +181,64 @@
   .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
   /* ── Status ── */
-  .status-bar {
-    text-align: center;
-    font-size: 12px;
-    margin-top: 8px;
-    min-height: 20px;
-    color: var(--text-dim);
-  }
+  .status-bar { text-align: center; font-size: 12px; margin-top: 8px; min-height: 20px; color: var(--text-dim); }
   .status-bar.error { color: #b85454; }
   .status-bar.success { color: var(--accent-deep); }
 
   /* ── Loading ── */
-  .loading-animation {
-    display: none;
-    text-align: center;
-    padding: 48px 20px;
-  }
+  .loading-animation { display: none; text-align: center; padding: 48px 20px; }
   .loading-animation.visible { display: block; }
-  .loading-icon {
-    font-size: 36px;
-    animation: floatBook 2s ease-in-out infinite;
-  }
-  @keyframes floatBook {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  .loading-text {
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-top: 12px;
-  }
+  .loading-icon { font-size: 36px; animation: floatBook 2s ease-in-out infinite; }
+  @keyframes floatBook { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .loading-text { font-size: 13px; color: var(--text-dim); margin-top: 12px; }
 
   /* ── Result ── */
-  .result-box {
-    display: none;
-    margin-top: 16px;
-    animation: fadeUp 0.5s ease;
-  }
+  .result-box { display: none; margin-top: 16px; animation: fadeUp 0.5s ease; }
   .result-box.visible { display: block; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .result-card {
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; box-shadow: var(--shadow-lg);
   }
   .result-title {
     font-family: 'Gowun Batang', serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent-deep);
-    padding: 16px 20px 0;
+    font-size: 15px; font-weight: 700;
+    color: var(--accent-deep); padding: 16px 20px 0;
   }
   .result-content {
     padding: 12px 20px 20px;
-    font-size: 13.5px;
-    line-height: 1.85;
-    color: var(--text);
-    word-break: keep-all;
+    font-size: 13.5px; line-height: 1.85;
+    color: var(--text); word-break: keep-all;
   }
   .result-content strong { color: var(--accent-deep); font-weight: 700; }
   .result-content .section-head {
-    display: block;
-    font-family: 'Gowun Batang', serif;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--accent-deep);
-    margin-top: 20px;
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--border);
+    display: block; font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: 14px; color: var(--accent-deep);
+    margin-top: 20px; margin-bottom: 6px;
+    padding-bottom: 4px; border-bottom: 1px solid var(--border);
   }
   .result-content .verse-ref {
     font-family: 'Gowun Batang', serif;
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 13px;
+    color: var(--accent); font-weight: 700; font-size: 13px;
   }
-  .result-actions {
-    display: flex;
-    border-top: 1px solid var(--border);
-  }
+  .result-actions { display: flex; border-top: 1px solid var(--border); }
   .action-btn {
-    flex: 1;
-    padding: 12px;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--text-dim);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
+    flex: 1; padding: 12px;
+    font-size: 13px; font-family: inherit;
+    color: var(--text-dim); background: transparent;
+    border: none; cursor: pointer; transition: all 0.2s;
   }
   .action-btn:first-child { border-right: 1px solid var(--border); }
   .action-btn:hover { background: var(--surface-alt); color: var(--accent); }
 
   /* ── Back button ── */
   .back-btn {
-    display: none;
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    background: var(--surface);
-    color: var(--text-dim);
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    margin-bottom: 16px;
-    text-align: center;
+    display: none; width: 100%; padding: 12px;
+    border: 1px solid var(--border); border-radius: 28px;
+    background: var(--surface); color: var(--text-dim);
+    font-size: 13px; font-family: inherit;
+    cursor: pointer; margin-bottom: 16px; text-align: center;
     transition: all 0.2s;
   }
   .back-btn.visible { display: block; }
@@ -355,113 +246,43 @@
 
   /* ── Timeline ── */
   .timeline-section { margin-top: 32px; }
-  .timeline-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
+  .timeline-title { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 16px; }
   .timeline-list { list-style: none; }
   .timeline-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 4px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.2s;
-    border-radius: 6px;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 4px; border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.2s; border-radius: 6px;
   }
   .timeline-item:hover { background: var(--accent-glow); }
-  .timeline-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent-soft);
-    margin-top: 7px;
-    flex-shrink: 0;
-  }
+  .timeline-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-soft); margin-top: 7px; flex-shrink: 0; }
   .timeline-item:first-child .timeline-dot { background: var(--accent); }
   .timeline-body { flex: 1; min-width: 0; }
-  .timeline-verse {
-    font-family: 'Gowun Batang', serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-  }
+  .timeline-verse { font-family: 'Gowun Batang', serif; font-size: 13px; font-weight: 700; color: var(--text); }
   .timeline-type {
-    display: inline-block;
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 8px;
-    margin-left: 6px;
-    font-weight: 500;
-    vertical-align: middle;
+    display: inline-block; font-size: 10px; padding: 1px 6px;
+    border-radius: 8px; margin-left: 6px; font-weight: 500; vertical-align: middle;
   }
   .timeline-type.meditation { background: var(--tag-meditation); color: var(--tag-meditation-text); }
   .timeline-type.prayer { background: var(--tag-prayer); color: var(--tag-prayer-text); }
-  .timeline-summary {
-    font-size: 12px;
-    color: var(--text-dim);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
+  .timeline-type.question { background: var(--tag-question); color: var(--tag-question-text); }
+  .timeline-summary { font-size: 12px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
   .timeline-date { font-size: 11px; color: var(--text-light); white-space: nowrap; }
   .timeline-clear { text-align: center; margin-top: 8px; }
-  .timeline-clear-btn {
-    font-size: 11px;
-    color: var(--text-light);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    font-family: inherit;
-  }
-  .timeline-empty {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-light);
-    padding: 24px 0;
-  }
+  .timeline-clear-btn { font-size: 11px; color: var(--text-light); background: none; border: none; cursor: pointer; text-decoration: underline; font-family: inherit; }
+  .timeline-empty { text-align: center; font-size: 12px; color: var(--text-light); padding: 24px 0; }
 
   /* ── Pagination ── */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    margin-top: 14px;
-    padding: 4px 0;
-  }
+  .pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; padding: 4px 0; }
   .page-btn {
-    width: 32px; height: 32px;
-    font-size: 13px;
-    font-family: inherit;
-    font-weight: 500;
-    color: var(--text-dim);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 32px; height: 32px; font-size: 13px; font-family: inherit; font-weight: 500;
+    color: var(--text-dim); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
   }
   .page-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
-  .page-btn.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    box-shadow: 0 2px 8px rgba(122, 140, 110, 0.25);
-  }
-  .page-btn.nav {
-    font-size: 11px;
-    color: var(--text-light);
-    width: auto;
-    padding: 0 10px;
-  }
+  .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 2px 8px rgba(122, 140, 110, 0.25); }
+  .page-btn.nav { font-size: 11px; color: var(--text-light); width: auto; padding: 0 10px; }
   .page-btn.nav:hover { color: var(--accent); }
 
   /* ── Mode sections ── */
@@ -472,6 +293,7 @@
   @media (max-width: 400px) {
     .container { padding: 28px 18px 80px; }
     .card { padding: 20px 18px; }
+    .mode-tab { font-size: 11px; }
   }
 </style>
 </head>
@@ -491,6 +313,7 @@
   <div class="mode-tabs">
     <button class="mode-tab active" id="tabMeditation">📖 말씀묵상</button>
     <button class="mode-tab" id="tabPrayer">🙏 기도근거</button>
+    <button class="mode-tab" id="tabQuestion">❓ 믿음질문</button>
   </div>
 
   <!-- ═══════ Input Area ═══════ -->
@@ -523,9 +346,19 @@
     <div class="mode-section" id="prayerMode">
       <div class="card">
         <div class="card-label">🙏 말씀에서 기도의 근거를 찾아드릴게요</div>
-        <textarea class="prayer-textarea" id="prayerTopic" placeholder="어떤 상황에서 무엇을 구하고 싶은지 자유롭게 적어주세요&#10;&#10;예) 직장에서 지혜를 달라고 기도하고 싶어요&#10;예) 아이가 건강하게 자라도록 기도하고 싶어요&#10;예) 사업이 잘 되게 해달라고 기도하고 싶어요"></textarea>
+        <textarea class="input-textarea" id="prayerTopic" placeholder="어떤 상황에서 무엇을 구하고 싶은지 자유롭게 적어주세요&#10;&#10;예) 직장에서 지혜를 달라고 기도하고 싶어요&#10;예) 아이가 건강하게 자라도록 기도하고 싶어요&#10;예) 사업이 잘 되게 해달라고 기도하고 싶어요"></textarea>
       </div>
       <button class="submit-btn" id="prayerBtn">기도 근거 찾기</button>
+    </div>
+
+    <!-- 믿음질문 모드 -->
+    <div class="mode-section" id="questionMode">
+      <div class="card">
+        <div class="card-label">❓ 신앙에 대한 질문, 성경으로 함께 생각해봐요</div>
+        <div class="preset-list" id="presetList"></div>
+        <textarea class="input-textarea" id="questionTopic" placeholder="궁금한 점이나 납득이 안 되는 부분을 자유롭게 적어주세요&#10;&#10;예) 착하게 살면 되지 왜 꼭 예수를 믿어야 해?&#10;예) 기도해도 응답이 없는 것 같아요"></textarea>
+      </div>
+      <button class="submit-btn" id="questionBtn">답변 찾기</button>
     </div>
 
     <div class="status-bar" id="statusBar"></div>
@@ -543,7 +376,7 @@
   <!-- Result -->
   <div class="result-box" id="resultBox">
     <div class="result-card">
-      <div class="result-title" id="resultTitle">📖 묵상 가이드</div>
+      <div class="result-title" id="resultTitle"></div>
       <div class="result-content" id="resultContent"></div>
       <div class="result-actions">
         <button class="action-btn" id="copyBtn">📋 복사하기</button>
@@ -564,10 +397,31 @@
 // ═══════ CONFIG ═══════
 var MEDITATION_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-guide';
 var PRAYER_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-prayer';
+var QUESTION_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-question';
 
 var currentMode = 'meditation';
 var currentPage = 1;
 var PAGE_SIZE = 10;
+
+// ═══════ Preset Questions ═══════
+var presetQuestions = [
+  '믿기만 하면 천국? 살인해도 회개하면 끝?',
+  '선한 하나님이 왜 고통을 허락해?',
+  '기도해도 응답 없던데?',
+  '착하게 살면 되지 왜 꼭 예수를 믿어야 해?',
+  '하나님이 있으면 왜 나쁜 사람이 잘 살아?',
+  '성경은 사람이 쓴 거 아냐?',
+  '과학이랑 성경이 충돌하잖아',
+  '다른 종교도 다 같은 신 아냐?',
+  '교회 다니는 사람들이 더 나쁘던데?',
+  '구약의 하나님은 왜 그렇게 잔인해?',
+  '눈에 안 보이는 걸 왜 믿어?',
+  '천국 지옥이 진짜 있어?',
+  '전지전능한 하나님이 왜 사탄을 안 없애?',
+  '성경 번역마다 다른데 뭘 믿어?',
+  '왜 꼭 교회를 다녀야 해?',
+  '예수 믿는다는 게 결국 심리 의존 아냐?'
+];
 
 // ═══════ Bible Data ═══════
 var otBooks = ['창세기','출애굽기','레위기','민수기','신명기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','역대상','역대하','에스라','느헤미야','에스더','욥기','시편','잠언','전도서','아가','이사야','예레미야','예레미야애가','에스겔','다니엘','호세아','요엘','아모스','오바댜','요나','미가','나훔','하박국','스바냐','학개','스가랴','말라기'];
@@ -586,8 +440,10 @@ function switchMode(mode) {
   currentMode = mode;
   document.getElementById('tabMeditation').classList.toggle('active', mode === 'meditation');
   document.getElementById('tabPrayer').classList.toggle('active', mode === 'prayer');
+  document.getElementById('tabQuestion').classList.toggle('active', mode === 'question');
   document.getElementById('meditationMode').classList.toggle('active', mode === 'meditation');
   document.getElementById('prayerMode').classList.toggle('active', mode === 'prayer');
+  document.getElementById('questionMode').classList.toggle('active', mode === 'question');
   document.getElementById('resultBox').classList.remove('visible');
   document.getElementById('statusBar').className = 'status-bar';
   document.getElementById('statusBar').textContent = '';
@@ -609,6 +465,21 @@ function switchTestament(t) {
   document.getElementById('tabOT').classList.toggle('active', t === 'ot');
   document.getElementById('tabNT').classList.toggle('active', t === 'nt');
   populateBooks(t);
+}
+
+// ═══════ Preset Questions ═══════
+function renderPresets() {
+  var container = document.getElementById('presetList');
+  presetQuestions.forEach(function(q) {
+    var btn = document.createElement('button');
+    btn.className = 'preset-btn';
+    btn.textContent = q;
+    btn.addEventListener('click', function() {
+      document.getElementById('questionTopic').value = q;
+      document.getElementById('questionTopic').focus();
+    });
+    container.appendChild(btn);
+  });
 }
 
 // ═══════ Status ═══════
@@ -648,8 +519,7 @@ async function submitMeditation() {
   if (vEnd && parseInt(vEnd) > parseInt(vStart)) verseLabel += '-' + vEnd;
 
   var btn = document.getElementById('meditationBtn');
-  btn.disabled = true;
-  btn.textContent = '묵상 준비 중...';
+  btn.disabled = true; btn.textContent = '묵상 준비 중...';
   setStatus('', '');
   document.getElementById('resultBox').classList.remove('visible');
   document.getElementById('loadingIcon').textContent = '📖';
@@ -657,36 +527,23 @@ async function submitMeditation() {
   document.getElementById('loadingAnim').classList.add('visible');
 
   var payload = {
-    mode: 'meditation',
-    input_text: '오늘의 말씀: ' + verseLabel,
-    book: book,
-    chapter: parseInt(ch),
-    verse_start: parseInt(vStart),
-    verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart)
+    mode: 'meditation', input_text: '오늘의 말씀: ' + verseLabel,
+    book: book, chapter: parseInt(ch),
+    verse_start: parseInt(vStart), verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart)
   };
 
   try {
-    var resp = await fetch(MEDITATION_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    var resp = await fetch(MEDITATION_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     var data = await resp.json();
     var resultText = extractResultText(data);
-
     document.getElementById('resultTitle').textContent = '📖 ' + verseLabel;
     document.getElementById('resultContent').innerHTML = formatResult(resultText);
     document.getElementById('resultBox').classList.add('visible');
     document.getElementById('statusBar').className = 'status-bar';
     saveToHistory('meditation', verseLabel, resultText);
-  } catch (err) {
-    setStatus('error', '전송 실패: ' + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '묵상 시작하기';
-    document.getElementById('loadingAnim').classList.remove('visible');
-  }
+  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
+  finally { btn.disabled = false; btn.textContent = '묵상 시작하기'; document.getElementById('loadingAnim').classList.remove('visible'); }
 }
 
 // ═══════ Submit Prayer ═══════
@@ -695,8 +552,7 @@ async function submitPrayer() {
   if (!topic) { setStatus('error', '기도 주제를 입력해주세요'); return; }
 
   var btn = document.getElementById('prayerBtn');
-  btn.disabled = true;
-  btn.textContent = '말씀을 찾고 있어요...';
+  btn.disabled = true; btn.textContent = '말씀을 찾고 있어요...';
   setStatus('', '');
   document.getElementById('resultBox').classList.remove('visible');
   document.getElementById('loadingIcon').textContent = '🙏';
@@ -706,27 +562,46 @@ async function submitPrayer() {
   var payload = { mode: 'prayer', input_text: topic };
 
   try {
-    var resp = await fetch(PRAYER_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    var resp = await fetch(PRAYER_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     var data = await resp.json();
     var resultText = extractResultText(data);
-
     document.getElementById('resultTitle').textContent = '🙏 ' + topic;
     document.getElementById('resultContent').innerHTML = formatResult(resultText);
     document.getElementById('resultBox').classList.add('visible');
     document.getElementById('statusBar').className = 'status-bar';
     saveToHistory('prayer', topic, resultText);
-  } catch (err) {
-    setStatus('error', '전송 실패: ' + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '기도 근거 찾기';
-    document.getElementById('loadingAnim').classList.remove('visible');
-  }
+  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
+  finally { btn.disabled = false; btn.textContent = '기도 근거 찾기'; document.getElementById('loadingAnim').classList.remove('visible'); }
+}
+
+// ═══════ Submit Question ═══════
+async function submitQuestion() {
+  var topic = document.getElementById('questionTopic').value.trim();
+  if (!topic) { setStatus('error', '질문을 입력해주세요'); return; }
+
+  var btn = document.getElementById('questionBtn');
+  btn.disabled = true; btn.textContent = '성경에서 답을 찾고 있어요...';
+  setStatus('', '');
+  document.getElementById('resultBox').classList.remove('visible');
+  document.getElementById('loadingIcon').textContent = '❓';
+  document.getElementById('loadingText').textContent = '성경에서 답을 찾고 있어요...';
+  document.getElementById('loadingAnim').classList.add('visible');
+
+  var payload = { mode: 'question', input_text: topic };
+
+  try {
+    var resp = await fetch(QUESTION_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var data = await resp.json();
+    var resultText = extractResultText(data);
+    document.getElementById('resultTitle').textContent = '❓ ' + topic;
+    document.getElementById('resultContent').innerHTML = formatResult(resultText);
+    document.getElementById('resultBox').classList.add('visible');
+    document.getElementById('statusBar').className = 'status-bar';
+    saveToHistory('question', topic, resultText);
+  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
+  finally { btn.disabled = false; btn.textContent = '답변 찾기'; document.getElementById('loadingAnim').classList.remove('visible'); }
 }
 
 // ═══════ Extract Result ═══════
@@ -780,8 +655,9 @@ function renderTimeline() {
     var globalIdx = startIdx + i;
     var d = new Date(item.date);
     var dateStr = (d.getMonth()+1) + '/' + d.getDate();
-    var typeLabel = item.type === 'prayer' ? '기도' : '묵상';
-    var typeClass = item.type === 'prayer' ? 'prayer' : 'meditation';
+    var typeMap = { meditation: '묵상', prayer: '기도', question: '질문' };
+    var typeLabel = typeMap[item.type] || '묵상';
+    var typeClass = item.type || 'meditation';
 
     var li = document.createElement('li');
     li.className = 'timeline-item';
@@ -811,9 +687,7 @@ function renderTimeline() {
       var pb = document.createElement('button');
       pb.className = 'page-btn' + (p === currentPage ? ' active' : '');
       pb.textContent = p;
-      pb.onclick = (function(page) {
-        return function(e) { e.stopPropagation(); currentPage = page; renderTimeline(); };
-      })(p);
+      pb.onclick = (function(page) { return function(e) { e.stopPropagation(); currentPage = page; renderTimeline(); }; })(p);
       pagDiv.appendChild(pb);
     }
     if (currentPage < totalPages) {
@@ -833,7 +707,6 @@ function renderTimeline() {
   clearBtn.addEventListener('click', function() { clearHistory(); });
   clearDiv.appendChild(clearBtn);
   list.appendChild(clearDiv);
-
   section.style.display = 'block';
 }
 
@@ -841,7 +714,8 @@ function showHistoryItem(idx) {
   var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
   var item = history[idx];
   if (!item) return;
-  var icon = item.type === 'prayer' ? '🙏' : '📖';
+  var iconMap = { meditation: '📖', prayer: '🙏', question: '❓' };
+  var icon = iconMap[item.type] || '📖';
   document.getElementById('resultTitle').textContent = icon + ' ' + item.label;
   document.getElementById('resultContent').innerHTML = formatResult(item.fullText);
   document.getElementById('resultBox').classList.add('visible');
@@ -880,24 +754,24 @@ function copyResult() {
 function shareResult() {
   var text = document.getElementById('resultContent').innerText;
   var title = document.getElementById('resultTitle').textContent;
-  if (navigator.share) {
-    navigator.share({ title: title, text: text });
-  } else {
-    copyResult();
-  }
+  if (navigator.share) { navigator.share({ title: title, text: text }); }
+  else { copyResult(); }
 }
 
 // ═══════ Init ═══════
 showDate();
 populateBooks('ot');
+renderPresets();
 renderTimeline();
 
 document.getElementById('tabMeditation').addEventListener('click', function() { switchMode('meditation'); });
 document.getElementById('tabPrayer').addEventListener('click', function() { switchMode('prayer'); });
+document.getElementById('tabQuestion').addEventListener('click', function() { switchMode('question'); });
 document.getElementById('tabOT').addEventListener('click', function() { switchTestament('ot'); });
 document.getElementById('tabNT').addEventListener('click', function() { switchTestament('nt'); });
 document.getElementById('meditationBtn').addEventListener('click', function() { submitMeditation(); });
 document.getElementById('prayerBtn').addEventListener('click', function() { submitPrayer(); });
+document.getElementById('questionBtn').addEventListener('click', function() { submitQuestion(); });
 document.getElementById('backBtn').addEventListener('click', function() { goBack(); });
 document.getElementById('copyBtn').addEventListener('click', function() { copyResult(); });
 document.getElementById('shareBtn').addEventListener('click', function() { shareResult(); });

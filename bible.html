@@ -15,7 +15,7 @@
     --border: #ddd6c8;
     --border-focus: #7a8c6e;
     --text: #3a372e;
-    --text-dim: #8a847a;a
+    --text-dim: #8a847a;
     --text-light: #b8b0a4;
     --accent: #7a8c6e;
     --accent-deep: #5e6e52;
@@ -269,6 +269,13 @@
   .timeline-date { font-size: 11px; color: var(--text-light); white-space: nowrap; }
   .timeline-clear { text-align: center; margin-top: 8px; }
   .timeline-clear-btn { font-size: 11px; color: var(--text-light); background: none; border: none; cursor: pointer; text-decoration: underline; font-family: inherit; }
+  .timeline-del-btn {
+    font-size: 10px; color: var(--text-light); background: none;
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 2px 6px; cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  .timeline-del-btn:hover { color: #b85454; border-color: #b85454; }
   .timeline-empty { text-align: center; font-size: 12px; color: var(--text-light); padding: 24px 0; }
 
   /* ── Pagination ── */
@@ -354,7 +361,11 @@
     <!-- 믿음질문 모드 -->
     <div class="mode-section" id="questionMode">
       <div class="card">
-        <div class="card-label">❓ 신앙에 대한 질문, 성경으로 함께 생각해봐요</div>
+        <div class="card-label">❓ 믿음에 대한 솔직한 질문, 성경에서 답을 찾아봐요</div>
+        <div style="font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px;">
+          아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>
+          눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.
+        </div>
         <div class="preset-list" id="presetList"></div>
         <textarea class="input-textarea" id="questionTopic" placeholder="궁금한 점이나 납득이 안 되는 부분을 자유롭게 적어주세요&#10;&#10;예) 착하게 살면 되지 왜 꼭 예수를 믿어야 해?&#10;예) 기도해도 응답이 없는 것 같아요"></textarea>
       </div>
@@ -447,6 +458,8 @@ function switchMode(mode) {
   document.getElementById('resultBox').classList.remove('visible');
   document.getElementById('statusBar').className = 'status-bar';
   document.getElementById('statusBar').textContent = '';
+  currentPage = 1;
+  renderTimeline();
 }
 
 // ═══════ Testament / Book Select ═══════
@@ -637,40 +650,71 @@ function renderTimeline() {
   var list = document.getElementById('timelineList');
   list.innerHTML = '';
 
-  if (history.length === 0) {
+  // Filter by current mode
+  var modeTypeMap = { meditation: 'meditation', prayer: 'prayer', question: 'question' };
+  var filterType = modeTypeMap[currentMode] || 'meditation';
+  var filtered = [];
+  history.forEach(function(item, idx) {
+    if (item.type === filterType) filtered.push({ item: item, globalIdx: idx });
+  });
+
+  var titleMap = { meditation: '📝 묵상 기록', prayer: '📝 기도 기록', question: '📝 질문 기록' };
+  document.querySelector('.timeline-title').textContent = titleMap[currentMode] || '📝 나의 기록';
+
+  if (filtered.length === 0) {
     list.innerHTML = '<div class="timeline-empty">아직 기록이 없어요</div>';
     section.style.display = 'block';
     return;
   }
 
-  var totalPages = Math.ceil(history.length / PAGE_SIZE);
+  var totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
 
   var startIdx = (currentPage - 1) * PAGE_SIZE;
-  var endIdx = Math.min(startIdx + PAGE_SIZE, history.length);
-  var pageItems = history.slice(startIdx, endIdx);
+  var endIdx = Math.min(startIdx + PAGE_SIZE, filtered.length);
+  var pageItems = filtered.slice(startIdx, endIdx);
 
-  pageItems.forEach(function(item, i) {
-    var globalIdx = startIdx + i;
+  pageItems.forEach(function(entry) {
+    var item = entry.item;
+    var globalIdx = entry.globalIdx;
     var d = new Date(item.date);
     var dateStr = (d.getMonth()+1) + '/' + d.getDate();
-    var typeMap = { meditation: '묵상', prayer: '기도', question: '질문' };
-    var typeLabel = typeMap[item.type] || '묵상';
-    var typeClass = item.type || 'meditation';
 
     var li = document.createElement('li');
     li.className = 'timeline-item';
-    li.onclick = function() { showHistoryItem(globalIdx); };
-    li.innerHTML =
-      '<div class="timeline-dot"></div>' +
-      '<div class="timeline-body">' +
-        '<div class="timeline-verse">' + item.label +
-          '<span class="timeline-type ' + typeClass + '">' + typeLabel + '</span>' +
-        '</div>' +
-        '<div class="timeline-summary">' + item.summary + '</div>' +
-      '</div>' +
-      '<div class="timeline-date">' + dateStr + '</div>';
+
+    var dotDiv = document.createElement('div');
+    dotDiv.className = 'timeline-dot';
+
+    var bodyDiv = document.createElement('div');
+    bodyDiv.className = 'timeline-body';
+    bodyDiv.innerHTML =
+      '<div class="timeline-verse">' + item.label + '</div>' +
+      '<div class="timeline-summary">' + item.summary + '</div>';
+    bodyDiv.addEventListener('click', function() { showHistoryItem(globalIdx); });
+
+    var rightDiv = document.createElement('div');
+    rightDiv.style.cssText = 'display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;';
+
+    var dateSpan = document.createElement('div');
+    dateSpan.className = 'timeline-date';
+    dateSpan.textContent = dateStr;
+
+    var delBtn = document.createElement('button');
+    delBtn.className = 'timeline-del-btn';
+    delBtn.textContent = '삭제';
+    delBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      deleteHistoryItem(globalIdx);
+    });
+
+    rightDiv.appendChild(dateSpan);
+    rightDiv.appendChild(delBtn);
+
+    li.appendChild(dotDiv);
+    li.appendChild(bodyDiv);
+    li.appendChild(rightDiv);
     list.appendChild(li);
   });
 
@@ -708,6 +752,15 @@ function renderTimeline() {
   clearDiv.appendChild(clearBtn);
   list.appendChild(clearDiv);
   section.style.display = 'block';
+}
+
+function deleteHistoryItem(globalIdx) {
+  var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
+  if (globalIdx >= 0 && globalIdx < history.length) {
+    history.splice(globalIdx, 1);
+    localStorage.setItem('bible_history', JSON.stringify(history));
+    renderTimeline();
+  }
 }
 
 function showHistoryItem(idx) {

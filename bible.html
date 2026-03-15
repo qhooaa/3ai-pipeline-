@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="말씀노트">
 <title>수빈의 말씀노트</title>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <style>
   :root {
     --bg: #f4f1eb;
@@ -20,287 +21,266 @@
     --accent: #7a8c6e;
     --accent-deep: #5e6e52;
     --accent-soft: #a4b498;
-    --accent-glow: rgba(122, 140, 110, 0.1);
+    --accent-glow: rgba(122,140,110,0.1);
     --warm: #e8e2d6;
-    --tag-meditation: rgba(122, 140, 110, 0.15);
-    --tag-meditation-text: #5e6e52;
-    --tag-prayer: rgba(180, 155, 120, 0.15);
-    --tag-prayer-text: #8a7050;
-    --tag-question: rgba(140, 120, 160, 0.15);
-    --tag-question-text: #6a5a7a;
-    --shadow: 0 2px 12px rgba(58, 55, 46, 0.05);
-    --shadow-lg: 0 6px 24px rgba(58, 55, 46, 0.1);
+    --shadow: 0 2px 12px rgba(58,55,46,.05);
+    --shadow-lg: 0 6px 24px rgba(58,55,46,.1);
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.7;
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--bg); color:var(--text);
+    min-height:100vh; line-height:1.7;
     background-image:
-      radial-gradient(circle at 20% 80%, rgba(122, 140, 110, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(200, 180, 140, 0.06) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%,rgba(122,140,110,.06) 0%,transparent 50%),
+      radial-gradient(circle at 80% 20%,rgba(200,180,140,.06) 0%,transparent 50%);
   }
-
-  .container {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: 40px 24px 100px;
-  }
+  .container { max-width:520px; margin:0 auto; padding:40px 24px 100px; }
 
   /* ── Header ── */
-  .header { text-align: center; margin-bottom: 28px; }
-  .header-leaf { font-size: 18px; margin-bottom: 10px; opacity: 0.5; }
-  .header .app-label {
-    font-family: 'DM Serif Display', serif;
-    font-size: 13px; font-style: italic;
-    color: var(--accent); letter-spacing: 2px; margin-bottom: 6px;
-  }
-  .header h1 {
-    font-family: 'Gowun Batang', serif;
-    font-size: 28px; font-weight: 700;
-    color: var(--text); letter-spacing: 2px; margin-bottom: 4px;
-  }
-  .header h1 .name { color: var(--accent-deep); }
-  .header .sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
-  .header .date-line { font-size: 11px; color: var(--text-light); margin-top: 8px; }
+  .header { text-align:center; margin-bottom:24px; }
+  .header-leaf { font-size:18px; margin-bottom:10px; opacity:.5; }
+  .header .app-label { font-family:'DM Serif Display',serif; font-style:italic; font-size:13px; color:var(--accent); letter-spacing:2px; margin-bottom:6px; }
+  .header h1 { font-family:'Gowun Batang',serif; font-size:28px; font-weight:700; color:var(--text); letter-spacing:2px; margin-bottom:4px; }
+  .header h1 .name { color:var(--accent-deep); }
+  .header .sub { font-size:12px; color:var(--text-dim); margin-top:4px; }
+  .header .date-line { font-size:11px; color:var(--text-light); margin-top:8px; }
 
-  /* ── Mode Tabs ── */
+  /* ── Mode Tabs (4개) ── */
   .mode-tabs {
-    display: flex;
-    margin-bottom: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 4px;
-    box-shadow: var(--shadow);
+    display:flex; margin-bottom:24px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:28px; padding:4px; box-shadow:var(--shadow);
   }
   .mode-tab {
-    flex: 1; padding: 10px 0;
-    font-size: 12px; font-weight: 500; font-family: inherit;
-    color: var(--text-dim);
-    background: transparent; border: none; border-radius: 24px;
-    cursor: pointer; transition: all 0.3s;
+    flex:1; padding:9px 0;
+    font-size:11px; font-weight:500; font-family:inherit;
+    color:var(--text-dim); background:transparent;
+    border:none; border-radius:24px; cursor:pointer; transition:all .3s;
+    white-space:nowrap;
   }
-  .mode-tab.active {
-    background: var(--accent); color: #fff;
-    box-shadow: 0 2px 8px rgba(122, 140, 110, 0.3);
-  }
-  .mode-tab:not(.active):hover { color: var(--accent); background: var(--accent-glow); }
-
-  /* ── Cards ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px; margin-bottom: 16px;
-    box-shadow: var(--shadow);
-    transition: border-color 0.3s;
-  }
-  .card:focus-within { border-color: var(--border-focus); }
-  .card-label { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 14px; }
-
-  /* ── Testament tabs ── */
-  .testament-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-  .tab-btn {
-    flex: 1; padding: 8px 0;
-    font-size: 12px; font-weight: 500; font-family: inherit;
-    color: var(--text-dim);
-    background: var(--surface-alt);
-    border: 1px solid var(--border); border-radius: 20px;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .tab-btn.active { background: var(--warm); color: var(--accent-deep); border-color: var(--accent-soft); }
-
-  /* ── Book select ── */
-  .book-select {
-    width: 100%; padding: 10px 14px;
-    font-size: 13px; font-family: inherit; color: var(--text);
-    background: var(--surface-alt);
-    border: 1px solid var(--border); border-radius: 10px;
-    appearance: none; cursor: pointer; margin-bottom: 12px;
-  }
-
-  /* ── Verse inputs ── */
-  .verse-row { display: flex; align-items: center; gap: 6px; overflow: hidden; }
-  .verse-input {
-    flex: 1; min-width: 0; padding: 10px 4px;
-    font-size: 14px; font-family: inherit; color: var(--text);
-    background: var(--surface-alt);
-    border: 1px solid var(--border); border-radius: 10px;
-    text-align: center; -moz-appearance: textfield;
-  }
-  .verse-input::-webkit-outer-spin-button,
-  .verse-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .verse-input:focus { outline: none; border-color: var(--accent); }
-  .verse-separator { color: var(--text-light); font-size: 14px; flex-shrink: 0; }
-  .verse-hint { font-size: 10px; color: var(--text-light); margin-top: 8px; }
-
-  /* ── Textarea (prayer & question) ── */
-  .input-textarea {
-    width: 100%; min-height: 120px; padding: 16px;
-    font-size: 13px; font-family: inherit; color: var(--text);
-    background: var(--surface-alt);
-    border: 1px solid var(--border); border-radius: 12px;
-    resize: vertical; line-height: 1.8;
-    transition: border-color 0.3s;
-  }
-  .input-textarea:focus { outline: none; border-color: var(--accent); }
-  .input-textarea::placeholder { color: var(--text-light); }
-
-  /* ── Preset question list ── */
-  .preset-list {
-    display: flex; flex-direction: column; gap: 6px;
-    margin-bottom: 14px;
-  }
-  .preset-btn {
-    padding: 6px 12px;
-    font-size: 11px; font-family: inherit; font-weight: 400;
-    color: var(--accent-deep);
-    background: var(--warm);
-    border: 1px solid var(--border); border-radius: 20px;
-    cursor: pointer; transition: all 0.2s;
-    line-height: 1.4;
-  }
-  .preset-btn:hover { background: var(--accent-soft); color: #fff; border-color: var(--accent-soft); }
-
-  /* ── Submit button ── */
-  .submit-btn {
-    width: 100%; padding: 14px;
-    font-size: 13px; font-weight: 600; font-family: inherit;
-    color: #fff; letter-spacing: 1px;
-    background: var(--accent);
-    border: none; border-radius: 28px; cursor: pointer;
-    box-shadow: 0 4px 16px rgba(122, 140, 110, 0.25);
-    transition: all 0.3s;
-  }
-  .submit-btn:hover { background: var(--accent-deep); transform: translateY(-1px); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  /* ── Status ── */
-  .status-bar { text-align: center; font-size: 12px; margin-top: 8px; min-height: 20px; color: var(--text-dim); }
-  .status-bar.error { color: #b85454; }
-  .status-bar.success { color: var(--accent-deep); }
-
-  /* ── Loading ── */
-  .loading-animation { display: none; text-align: center; padding: 48px 20px; }
-  .loading-animation.visible { display: block; }
-  .loading-icon { font-size: 36px; animation: floatBook 2s ease-in-out infinite; }
-  @keyframes floatBook { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .loading-text { font-size: 13px; color: var(--text-dim); margin-top: 12px; }
-
-  /* ── Result ── */
-  .result-box { display: none; margin-top: 16px; animation: fadeUp 0.5s ease; }
-  .result-box.visible { display: block; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .result-card {
-    background: var(--surface);
-    border: 1px solid var(--border); border-radius: 16px;
-    overflow: hidden; box-shadow: var(--shadow-lg);
-  }
-  .result-title {
-    font-family: 'Gowun Batang', serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--accent-deep); padding: 16px 20px 0;
-  }
-  .result-content {
-    padding: 12px 20px 20px;
-    font-size: 13.5px; line-height: 1.85;
-    color: var(--text); word-break: keep-all;
-  }
-  .result-content strong { color: var(--accent-deep); font-weight: 700; }
-  .result-content .section-head {
-    display: block; font-family: 'Gowun Batang', serif;
-    font-weight: 700; font-size: 14px; color: var(--accent-deep);
-    margin-top: 20px; margin-bottom: 6px;
-    padding-bottom: 4px; border-bottom: 1px solid var(--border);
-  }
-  .result-content .verse-ref {
-    font-family: 'Gowun Batang', serif;
-    color: var(--accent); font-weight: 700; font-size: 13px;
-  }
-  .result-actions { display: flex; border-top: 1px solid var(--border); }
-  .action-btn {
-    flex: 1; padding: 12px;
-    font-size: 13px; font-family: inherit;
-    color: var(--text-dim); background: transparent;
-    border: none; cursor: pointer; transition: all 0.2s;
-  }
-  .action-btn:first-child { border-right: 1px solid var(--border); }
-  .action-btn:hover { background: var(--surface-alt); color: var(--accent); }
-
-  /* ── Back button ── */
-  .back-btn {
-    display: none; width: 100%; padding: 12px;
-    border: 1px solid var(--border); border-radius: 28px;
-    background: var(--surface); color: var(--text-dim);
-    font-size: 13px; font-family: inherit;
-    cursor: pointer; margin-bottom: 16px; text-align: center;
-    transition: all 0.2s;
-  }
-  .back-btn.visible { display: block; }
-  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* ── Timeline ── */
-  .timeline-section { margin-top: 32px; }
-  .timeline-title { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 16px; }
-  .timeline-list { list-style: none; }
-  .timeline-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 4px; border-bottom: 1px solid var(--border);
-    cursor: pointer; transition: background 0.2s; border-radius: 6px;
-  }
-  .timeline-item:hover { background: var(--accent-glow); }
-  .timeline-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-soft); margin-top: 7px; flex-shrink: 0; }
-  .timeline-item:first-child .timeline-dot { background: var(--accent); }
-  .timeline-body { flex: 1; min-width: 0; }
-  .timeline-verse { font-family: 'Gowun Batang', serif; font-size: 13px; font-weight: 700; color: var(--text); }
-  .timeline-type {
-    display: inline-block; font-size: 10px; padding: 1px 6px;
-    border-radius: 8px; margin-left: 6px; font-weight: 500; vertical-align: middle;
-  }
-  .timeline-type.meditation { background: var(--tag-meditation); color: var(--tag-meditation-text); }
-  .timeline-type.prayer { background: var(--tag-prayer); color: var(--tag-prayer-text); }
-  .timeline-type.question { background: var(--tag-question); color: var(--tag-question-text); }
-  .timeline-summary { font-size: 12px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-  .timeline-date { font-size: 11px; color: var(--text-light); white-space: nowrap; }
-  .timeline-clear { text-align: center; margin-top: 8px; }
-  .timeline-clear-btn { font-size: 11px; color: var(--text-light); background: none; border: none; cursor: pointer; text-decoration: underline; font-family: inherit; }
-  .timeline-del-btn {
-    font-size: 10px; color: var(--text-light); background: none;
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 2px 6px; cursor: pointer; font-family: inherit;
-    transition: all 0.2s;
-  }
-  .timeline-del-btn:hover { color: #b85454; border-color: #b85454; }
-  .timeline-empty { text-align: center; font-size: 12px; color: var(--text-light); padding: 24px 0; }
-
-  /* ── Pagination ── */
-  .pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; padding: 4px 0; }
-  .page-btn {
-    width: 32px; height: 32px; font-size: 13px; font-family: inherit; font-weight: 500;
-    color: var(--text-dim); background: var(--surface);
-    border: 1px solid var(--border); border-radius: 8px;
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .page-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
-  .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 2px 8px rgba(122, 140, 110, 0.25); }
-  .page-btn.nav { font-size: 11px; color: var(--text-light); width: auto; padding: 0 10px; }
-  .page-btn.nav:hover { color: var(--accent); }
+  .mode-tab.active { background:var(--accent); color:#fff; box-shadow:0 2px 8px rgba(122,140,110,.3); }
+  .mode-tab:not(.active):hover { color:var(--accent); background:var(--accent-glow); }
 
   /* ── Mode sections ── */
-  .mode-section { display: none; }
-  .mode-section.active { display: block; }
+  .mode-section { display:none; }
+  .mode-section.active { display:block; }
 
-  /* ── Responsive ── */
-  @media (max-width: 400px) {
-    .container { padding: 28px 18px 80px; }
-    .card { padding: 20px 18px; }
-    .mode-tab { font-size: 11px; }
+  /* ── Cards ── */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:16px; box-shadow:var(--shadow); transition:border-color .3s; }
+  .card:focus-within { border-color:var(--border-focus); }
+  .card-label { font-size:12px; font-weight:500; color:var(--accent); margin-bottom:14px; }
+
+  /* ── Testament tabs ── */
+  .testament-tabs { display:flex; gap:8px; margin-bottom:12px; }
+  .tab-btn { flex:1; padding:8px 0; font-size:12px; font-weight:500; font-family:inherit; color:var(--text-dim); background:var(--surface-alt); border:1px solid var(--border); border-radius:20px; cursor:pointer; transition:all .2s; }
+  .tab-btn.active { background:var(--warm); color:var(--accent-deep); border-color:var(--accent-soft); }
+
+  /* ── Selects & Inputs ── */
+  .book-select { width:100%; padding:10px 14px; font-size:13px; font-family:inherit; color:var(--text); background:var(--surface-alt); border:1px solid var(--border); border-radius:10px; appearance:none; cursor:pointer; margin-bottom:12px; }
+  .verse-row { display:flex; align-items:center; gap:6px; overflow:hidden; }
+  .verse-input { flex:1; min-width:0; padding:10px 4px; font-size:14px; font-family:inherit; color:var(--text); background:var(--surface-alt); border:1px solid var(--border); border-radius:10px; text-align:center; -moz-appearance:textfield; }
+  .verse-input::-webkit-outer-spin-button,.verse-input::-webkit-inner-spin-button { -webkit-appearance:none; }
+  .verse-input:focus { outline:none; border-color:var(--accent); }
+  .verse-separator { color:var(--text-light); font-size:14px; flex-shrink:0; }
+  .verse-hint { font-size:10px; color:var(--text-light); margin-top:8px; }
+
+  /* ── Textarea ── */
+  .input-textarea { width:100%; min-height:120px; padding:16px; font-size:13px; font-family:inherit; color:var(--text); background:var(--surface-alt); border:1px solid var(--border); border-radius:12px; resize:vertical; line-height:1.8; transition:border-color .3s; }
+  .input-textarea:focus { outline:none; border-color:var(--accent); }
+  .input-textarea::placeholder { color:var(--text-light); }
+
+  /* ── Submit button ── */
+  .submit-btn { width:100%; padding:14px; font-size:13px; font-weight:600; font-family:inherit; color:#fff; letter-spacing:1px; background:var(--accent); border:none; border-radius:28px; cursor:pointer; box-shadow:0 4px 16px rgba(122,140,110,.25); transition:all .3s; }
+  .submit-btn:hover { background:var(--accent-deep); transform:translateY(-1px); }
+  .submit-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+  /* ── Status ── */
+  .status-bar { text-align:center; font-size:12px; margin-top:8px; min-height:20px; color:var(--text-dim); }
+  .status-bar.error { color:#b85454; }
+  .status-bar.success { color:var(--accent-deep); }
+
+  /* ── Loading ── */
+  .loading-animation { display:none; text-align:center; padding:48px 20px; }
+  .loading-animation.visible { display:block; }
+  .loading-icon { font-size:36px; animation:floatBook 2s ease-in-out infinite; }
+  @keyframes floatBook { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .loading-text { font-size:13px; color:var(--text-dim); margin-top:12px; }
+
+  /* ── Result ── */
+  .result-box { display:none; margin-top:16px; animation:fadeUp .5s ease; }
+  .result-box.visible { display:block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .result-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:var(--shadow-lg); }
+  .result-title { font-family:'Gowun Batang',serif; font-size:15px; font-weight:700; color:var(--accent-deep); padding:16px 20px 0; }
+  .result-content { padding:12px 20px 20px; font-size:13.5px; line-height:1.85; color:var(--text); word-break:keep-all; }
+  .result-content strong { color:var(--accent-deep); font-weight:700; }
+  .result-content .section-head { display:block; font-family:'Gowun Batang',serif; font-weight:700; font-size:14px; color:var(--accent-deep); margin-top:20px; margin-bottom:6px; padding-bottom:4px; border-bottom:1px solid var(--border); }
+  .result-content .verse-ref { font-family:'Gowun Batang',serif; color:var(--accent); font-weight:700; font-size:13px; }
+  .result-actions { display:flex; border-top:1px solid var(--border); }
+  .action-btn { flex:1; padding:12px; font-size:13px; font-family:inherit; color:var(--text-dim); background:transparent; border:none; cursor:pointer; transition:all .2s; }
+  .action-btn:first-child { border-right:1px solid var(--border); }
+  .action-btn:hover { background:var(--surface-alt); color:var(--accent); }
+
+  /* ── Back button ── */
+  .back-btn { display:none; width:100%; padding:12px; border:1px solid var(--border); border-radius:28px; background:var(--surface); color:var(--text-dim); font-size:13px; font-family:inherit; cursor:pointer; margin-bottom:16px; text-align:center; transition:all .2s; }
+  .back-btn.visible { display:block; }
+  .back-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* ── Timeline ── */
+  .timeline-section { margin-top:32px; }
+  .timeline-title { font-size:12px; font-weight:500; color:var(--accent); margin-bottom:16px; }
+  .timeline-list { list-style:none; }
+  .timeline-item { display:flex; align-items:flex-start; gap:12px; padding:10px 4px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; border-radius:6px; }
+  .timeline-item:hover { background:var(--accent-glow); }
+  .timeline-dot { width:8px; height:8px; border-radius:50%; background:var(--accent-soft); margin-top:7px; flex-shrink:0; }
+  .timeline-item:first-child .timeline-dot { background:var(--accent); }
+  .timeline-body { flex:1; min-width:0; }
+  .timeline-verse { font-family:'Gowun Batang',serif; font-size:13px; font-weight:700; color:var(--text); }
+  .timeline-summary { font-size:12px; color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  .timeline-date { font-size:11px; color:var(--text-light); white-space:nowrap; }
+  .timeline-clear { text-align:center; margin-top:8px; }
+  .timeline-clear-btn { font-size:11px; color:var(--text-light); background:none; border:none; cursor:pointer; text-decoration:underline; font-family:inherit; }
+  .timeline-del-btn { font-size:10px; color:var(--text-light); background:none; border:1px solid var(--border); border-radius:4px; padding:2px 6px; cursor:pointer; font-family:inherit; transition:all .2s; }
+  .timeline-del-btn:hover { color:#b85454; border-color:#b85454; }
+  .timeline-empty { text-align:center; font-size:12px; color:var(--text-light); padding:24px 0; }
+
+  /* ── Pagination ── */
+  .pagination { display:flex; justify-content:center; align-items:center; gap:6px; margin-top:14px; padding:4px 0; }
+  .page-btn { width:32px; height:32px; font-size:13px; font-family:inherit; font-weight:500; color:var(--text-dim); background:var(--surface); border:1px solid var(--border); border-radius:8px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; }
+  .page-btn:hover { border-color:var(--accent-soft); color:var(--accent); }
+  .page-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .page-btn.nav { font-size:11px; color:var(--text-light); width:auto; padding:0 10px; }
+
+  /* ══════════════════════════════════════════
+     역사 흐름도 전용 CSS
+  ══════════════════════════════════════════ */
+  .tree-wrap { padding-bottom:8px; }
+
+  /* Progress */
+  .progress-wrap { max-width:480px; margin:0 auto 12px; }
+  .progress-label { font-size:11px; color:#7a8c6e; margin-bottom:5px; display:flex; justify-content:space-between; }
+  .progress-track { height:6px; background:#e0ddd5; border-radius:10px; overflow:hidden; }
+  .progress-fill  { height:100%; background:linear-gradient(to right,#c4922a,#5e7a4e); border-radius:10px; transition:width .4s ease; }
+
+  /* Prophecy hint */
+  .prophecy-hint { max-width:480px; margin:0 auto 14px; font-size:11px; color:#5a8a9e; text-align:center; }
+
+  /* Legend */
+  .legend { display:flex; justify-content:center; gap:12px; margin-bottom:18px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .legend-dot { width:10px; height:10px; border-radius:2px; }
+  .legend-label { font-size:11px; color:#8a847a; }
+
+  /* Tree */
+  .tree { position:relative; max-width:480px; margin:0 auto; padding:0 14px; }
+  .trunk {
+    position:absolute; left:50%; top:0; bottom:0; width:3px; transform:translateX(-50%);
+    background:linear-gradient(to bottom,
+      #c4922a 0%,#c4922a 12%,#b87333 22%,#8a7050 35%,
+      #5e7a4e 48%,#4a6e7a 63%,#6a5a7a 75%,#5e7a6e 87%,#ccc 100%);
+    z-index:0;
+  }
+
+  /* Era */
+  .era { position:relative; margin-bottom:6px; z-index:1; }
+  .era-row { display:flex; align-items:flex-start; }
+
+  /* Sides */
+  .side { flex:1; display:flex; flex-direction:column; padding-top:12px; min-height:44px; }
+  .side.left  { align-items:flex-end; padding-right:8px; }
+  .side.right { align-items:flex-start; padding-left:8px; }
+  .branch-line { width:14px; height:2px; opacity:.4; margin-bottom:4px; flex-shrink:0; }
+  .side.left  .branch-line { margin-right:-2px; align-self:flex-end; }
+  .side.right .branch-line { margin-left:-2px; align-self:flex-start; }
+  .pills { display:flex; flex-wrap:wrap; gap:3px; max-width:134px; }
+  .side.left  .pills { justify-content:flex-end; }
+  .side.right .pills { justify-content:flex-start; }
+
+  /* Pill */
+  .pill { display:inline-flex; align-items:center; gap:3px; padding:3px 7px; border-radius:20px; font-size:10px; border:1.5px solid; white-space:nowrap; transition:all .2s; }
+  .pill-history  { background:#e8f0e4; border-color:#7a8c6e; color:#3a5a2e; cursor:pointer; }
+  .pill-history:active { transform:scale(.95); }
+  .pill-history.read { background:#7a8c6e; border-color:#5e7050; color:#fff; }
+  .pill-history.read::after { content:'✓'; font-size:9px; margin-left:1px; }
+  .pill-history.blocked { background:#f0ede8; border-color:#ccc; color:#bbb; cursor:not-allowed; }
+  .pill-poetry   { background:#ede8f5; border-color:#9a7ab8; color:#4a2a6e; }
+  .pill-prophecy { background:#e4eef0; border-color:#5a8a9e; color:#1a4a5e; }
+
+  /* Number badge */
+  .num-badge { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; background:#7a8c6e; color:#fff; font-size:8.5px; font-weight:700; flex-shrink:0; }
+  .pill-history.read .num-badge { background:rgba(255,255,255,.3); }
+  .pill-history.blocked .num-badge { background:#ccc; }
+  .num-badge.sub { background:#b0a898; }
+
+  /* Locked side */
+  .side-locked { opacity:.28; filter:grayscale(.7); transition:all .5s; pointer-events:none; }
+
+  /* Connection tag */
+  .conn-tag { display:inline-block; font-size:8.5px; padding:1px 5px; border-radius:8px; background:#f0ede8; border:1px solid #ddd; color:#aaa; margin-top:2px; white-space:nowrap; }
+
+  /* Node */
+  .node-wrap { display:flex; flex-direction:column; align-items:center; width:120px; flex-shrink:0; cursor:pointer; }
+  .node-circle { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:3px solid transparent; box-shadow:0 2px 6px rgba(0,0,0,.1); transition:all .2s; position:relative; z-index:2; }
+  .node-circle .inner { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.35); }
+  .node-circle.silence .inner { background:#bbb; }
+  .node-label { font-family:'Gowun Batang',serif; font-size:11px; font-weight:700; text-align:center; color:#3a372e; line-height:1.45; margin-top:5px; max-width:100px; }
+  .node-label.silence { color:#aaa; }
+  .node-period { font-size:9.5px; color:#bbb; margin-top:1px; text-align:center; }
+  .node-history { margin-top:6px; display:flex; flex-wrap:wrap; justify-content:center; gap:3px; }
+  .node-toggle  { font-size:9px; color:#ccc; margin-top:4px; }
+
+  /* Desc box */
+  .desc-box { display:none; margin:8px 8px 4px; background:#fff; border-radius:0 10px 10px 0; padding:10px 14px; font-size:12px; color:#3a372e; line-height:1.75; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+  .desc-box.open { display:block; }
+  .desc-era-name { font-weight:700; }
+
+  /* NT cap */
+  .nt-cap { position:relative; z-index:1; text-align:center; padding-top:14px; }
+  .nt-badge { display:inline-block; padding:9px 22px; background:#3a372e; color:#f4f1eb; border-radius:28px; font-family:'Gowun Batang',serif; font-size:13px; font-weight:700; letter-spacing:1.5px; box-shadow:0 4px 16px rgba(58,55,46,.2); }
+  .nt-period { font-size:10px; color:#bbb; margin-top:5px; }
+
+  /* Reset & footer */
+  .reset-btn { display:block; margin:18px auto 0; font-size:10px; color:#ccc; background:none; border:1px solid #e0ddd5; border-radius:12px; padding:4px 12px; cursor:pointer; font-family:inherit; }
+  .tree-footer { text-align:center; margin-top:20px; font-size:10px; color:#ccc; line-height:1.9; }
+
+  /* ── Toast (공용) ── */
+  .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:#3a372e; color:#f4f1eb; padding:9px 18px; border-radius:20px; font-size:12px; opacity:0; transition:all .3s; pointer-events:none; z-index:2000; white-space:nowrap; max-width:90vw; text-align:center; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ══════════════════════════════════════════
+     책 내용 모달
+  ══════════════════════════════════════════ */
+  .modal-overlay { position:fixed; inset:0; background:rgba(30,25,15,.65); z-index:1500; display:none; align-items:flex-end; justify-content:center; backdrop-filter:blur(2px); }
+  .modal-overlay.open { display:flex; }
+  .modal-sheet { background:#f9f6ef; border-radius:20px 20px 0 0; width:100%; max-width:520px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 -8px 40px rgba(0,0,0,.25); animation:slideUp .25s ease; }
+  @keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-handle { width:36px; height:4px; background:#ddd; border-radius:2px; margin:12px auto 0; flex-shrink:0; }
+  .modal-header { padding:12px 20px 10px; border-bottom:1px solid #ede8dc; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .modal-book-title { font-family:'Gowun Batang',serif; font-size:19px; color:#3a372e; letter-spacing:1px; }
+  .modal-close { background:none; border:none; font-size:22px; color:#bbb; cursor:pointer; line-height:1; padding:2px 6px; }
+  .modal-close:hover { color:#888; }
+  .modal-body { flex:1; overflow-y:auto; padding:18px 20px 8px; font-size:14px; line-height:1.95; color:#3a372e; font-family:'Noto Sans KR',sans-serif; }
+  .modal-body h1 { font-family:'Gowun Batang',serif; font-size:17px; margin:22px 0 8px; color:#3a372e; border-bottom:1px solid #e8e4db; padding-bottom:6px; }
+  .modal-body h2 { font-family:'Gowun Batang',serif; font-size:15px; margin:18px 0 6px; color:#5e7a4e; }
+  .modal-body h3 { font-size:13px; font-weight:700; margin:14px 0 4px; color:#7a8c6e; }
+  .modal-body p  { margin-bottom:13px; }
+  .modal-body strong { color:#3a372e; font-weight:600; }
+  .modal-body hr { border:none; border-top:1px solid #e8e4db; margin:18px 0; }
+  .modal-body blockquote { border-left:3px solid #c4922a; padding-left:12px; color:#6a5a4a; font-style:italic; margin:12px 0; }
+  .modal-loading { text-align:center; color:#aaa; padding:40px 0; font-size:13px; }
+  .modal-footer { padding:12px 20px 20px; border-top:1px solid #ede8dc; flex-shrink:0; display:flex; gap:10px; }
+  .btn-read-done { flex:1; border:none; border-radius:24px; padding:13px; font-size:14px; font-family:'Noto Sans KR',sans-serif; cursor:pointer; font-weight:500; transition:all .2s; }
+  .btn-read-done.unread  { background:#7a8c6e; color:#fff; }
+  .btn-read-done.unread:hover { background:#5e7050; }
+  .btn-read-done.already { background:#e8f0e4; color:#5e7050; border:1.5px solid #7a8c6e; }
+  .btn-modal-close-alt { padding:13px 18px; border:1.5px solid #ddd; border-radius:24px; background:none; color:#888; font-size:14px; font-family:'Noto Sans KR',sans-serif; cursor:pointer; transition:all .2s; }
+  .btn-modal-close-alt:hover { background:#f0ede8; }
+
+  @media (max-width:400px) {
+    .container { padding:28px 18px 80px; }
+    .card { padding:20px 18px; }
+    .mode-tab { font-size:10px; }
   }
 </style>
 </head>
@@ -318,25 +298,309 @@
 
   <!-- Mode Tabs -->
   <div class="mode-tabs">
-    <button class="mode-tab active" id="tabMeditation">📖 말씀묵상</button>
-    <button class="mode-tab" id="tabPrayer">🙏 기도근거</button>
-    <button class="mode-tab" id="tabQuestion">❓ 믿음질문</button>
+    <button class="mode-tab active" id="tabTree">📜 흐름도</button>
+    <button class="mode-tab" id="tabMeditation">📖 묵상</button>
+    <button class="mode-tab" id="tabPrayer">🙏 기도</button>
+    <button class="mode-tab" id="tabQuestion">❓ 질문</button>
   </div>
 
-  <!-- ═══════ Input Area ═══════ -->
-  <div id="inputArea">
+  <!-- ═══════ 역사 흐름도 모드 ═══════ -->
+  <div class="mode-section active" id="treeMode">
+    <div class="tree-wrap">
+      <p style="font-size:11px;color:#aaa;text-align:center;margin-bottom:14px;line-height:1.6">
+        역사서를 순서대로 읽어야 다음 책이 활성화돼요<br>시가서 = 해당 책 직후 해금 · 예언서 = 역사서 전체 완독 후 해금
+      </p>
 
-    <!-- 말씀묵상 모드 -->
-    <div class="mode-section active" id="meditationMode">
+      <div class="progress-wrap">
+        <div class="progress-label"><span>역사서 읽기 진행</span><span id="progressText">0 / 13</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+
+      <div class="prophecy-hint" id="prophecyHint">
+        📜 예언서는 역사서 13권 완독 후 열려요 (<span id="prophecyCount">0</span>/13)
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#e8f0e4;border:1.5px solid #7a8c6e"></div><span class="legend-label">역사서</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ede8f5;border:1.5px solid #9a7ab8"></div><span class="legend-label">시가서</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e4eef0;border:1.5px solid #5a8a9e"></div><span class="legend-label">예언서</span></div>
+      </div>
+
+      <div class="tree">
+        <div class="trunk"></div>
+
+        <!-- ① 창조 · 족장 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left" id="side-poetry-욥기">
+              <div class="branch-line" style="background:#9a7ab8"></div>
+              <div class="pills">
+                <div><span class="pill pill-poetry">욥기</span><div class="conn-tag">← 창세기 완독 후</div></div>
+              </div>
+            </div>
+            <div class="node-wrap" onclick="toggleEra('creation')">
+              <div class="node-circle" style="background:#c4922a;border-color:#c4922a88"><div class="inner"></div></div>
+              <div class="node-label">창조 · 족장 시대</div>
+              <div class="node-period">BC 2000+</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-창세기" onclick="openBookModal(event,'창세기')"><span class="num-badge">1</span>창세기</span>
+              </div>
+              <div class="node-toggle" id="toggle-creation">▼</div>
+            </div>
+            <div class="side right"></div>
+          </div>
+          <div class="desc-box" id="desc-creation" style="border-left:3px solid #c4922a">
+            <span class="desc-era-name" style="color:#c4922a">창조 · 족장 시대</span><br>
+            아담부터 요셉까지. 인류의 시작과 이스라엘 민족의 뿌리.<br><br>
+            <b style="color:#9a7ab8">📖 욥기</b> — 창세기 완독 시 해금. 족장 시대 인물 욥의 고통과 믿음의 기록.
+          </div>
+        </div>
+
+        <!-- ② 출애굽 · 광야 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('exodus')">
+              <div class="node-circle" style="background:#b87333;border-color:#b8733388"><div class="inner"></div></div>
+              <div class="node-label">출애굽 · 광야</div>
+              <div class="node-period">BC 1446–1406</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-출애굽기" onclick="toggleRead(event,'출애굽기')"><span class="num-badge">2</span>출애굽기</span>
+                <span class="pill pill-history" id="h-레위기"   onclick="toggleRead(event,'레위기')"  ><span class="num-badge sub">2a</span>레위기</span>
+                <span class="pill pill-history" id="h-민수기"   onclick="toggleRead(event,'민수기')"  ><span class="num-badge sub">2b</span>민수기</span>
+                <span class="pill pill-history" id="h-신명기"   onclick="toggleRead(event,'신명기')"  ><span class="num-badge sub">2c</span>신명기</span>
+              </div>
+              <div class="node-toggle" id="toggle-exodus">▼</div>
+            </div>
+            <div class="side right"></div>
+          </div>
+          <div class="desc-box" id="desc-exodus" style="border-left:3px solid #b87333">
+            <span class="desc-era-name" style="color:#b87333">출애굽 · 광야</span><br>
+            모세의 인도로 이집트 탈출, 40년 광야, 율법 수여.<br><br>
+            출애굽기가 뼈대. 레위기·민수기·신명기는 보조 — 율법 상세 내용으로 나중에 돌아와도 됨.
+          </div>
+        </div>
+
+        <!-- ③ 정복 · 사사 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('conquest')">
+              <div class="node-circle" style="background:#8a7050;border-color:#8a705088"><div class="inner"></div></div>
+              <div class="node-label">정복 · 사사 시대</div>
+              <div class="node-period">BC 1406–1050</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-여호수아" onclick="toggleRead(event,'여호수아')"><span class="num-badge">3</span>여호수아</span>
+                <span class="pill pill-history" id="h-사사기"   onclick="toggleRead(event,'사사기')"  ><span class="num-badge">4</span>사사기</span>
+                <span class="pill pill-history" id="h-룻기"     onclick="toggleRead(event,'룻기')"    ><span class="num-badge">5</span>룻기</span>
+              </div>
+              <div class="node-toggle" id="toggle-conquest">▼</div>
+            </div>
+            <div class="side right"></div>
+          </div>
+          <div class="desc-box" id="desc-conquest" style="border-left:3px solid #8a7050">
+            <span class="desc-era-name" style="color:#8a7050">정복 · 사사 시대</span><br>
+            가나안 정복 후 사사들이 다스리는 혼란기.<br><br>
+            룻기는 사사기 시대 배경의 짧은 이야기. 다윗의 증조할머니 룻 등장.
+          </div>
+        </div>
+
+        <!-- ④ 통일 왕국 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('kingdom')">
+              <div class="node-circle" style="background:#5e7a4e;border-color:#5e7a4e88"><div class="inner"></div></div>
+              <div class="node-label">통일 왕국</div>
+              <div class="node-period">BC 1050–930</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-사무엘상" onclick="toggleRead(event,'사무엘상')"><span class="num-badge">6</span>사무엘상</span>
+                <span class="pill pill-history" id="h-사무엘하" onclick="toggleRead(event,'사무엘하')"><span class="num-badge">7</span>사무엘하</span>
+              </div>
+              <div class="node-toggle" id="toggle-kingdom">▼</div>
+            </div>
+            <div class="side right"></div>
+          </div>
+          <div class="desc-box" id="desc-kingdom" style="border-left:3px solid #5e7a4e">
+            <span class="desc-era-name" style="color:#5e7a4e">통일 왕국</span><br>
+            사울→다윗→솔로몬. 이스라엘의 황금기.<br><br>
+            사무엘상/하 완독 시 <b style="color:#9a7ab8">시편</b> 해금.
+          </div>
+        </div>
+
+        <!-- 시편 행 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left" id="side-poetry-시편">
+              <div class="branch-line" style="background:#9a7ab8"></div>
+              <div class="pills">
+                <div><span class="pill pill-poetry">시편</span><div class="conn-tag">← 사무엘상/하 완독 후</div></div>
+              </div>
+            </div>
+            <div class="side" style="width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding-top:12px;">
+              <div style="width:3px;height:100%;background:transparent;"></div>
+            </div>
+            <div class="side right"></div>
+          </div>
+        </div>
+
+        <!-- ⑤ 분열 왕국 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left" id="side-poetry-솔로몬">
+              <div class="branch-line" style="background:#9a7ab8"></div>
+              <div class="pills">
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                  <div><span class="pill pill-poetry">잠언</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+                  <div><span class="pill pill-poetry">전도서</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+                  <div><span class="pill pill-poetry">아가</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="node-wrap" onclick="toggleEra('divided')">
+              <div class="node-circle" style="background:#4a6e7a;border-color:#4a6e7a88"><div class="inner"></div></div>
+              <div class="node-label">분열 왕국</div>
+              <div class="node-period">BC 930–586</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-열왕기상" onclick="toggleRead(event,'열왕기상')"><span class="num-badge">8</span>열왕기상</span>
+                <span class="pill pill-history" id="h-열왕기하" onclick="toggleRead(event,'열왕기하')"><span class="num-badge">9</span>열왕기하</span>
+                <span class="pill pill-history" id="h-역대상"   onclick="toggleRead(event,'역대상')"  ><span class="num-badge sub">9a</span>역대상</span>
+                <span class="pill pill-history" id="h-역대하"   onclick="toggleRead(event,'역대하')"  ><span class="num-badge sub">9b</span>역대하</span>
+              </div>
+              <div class="node-toggle" id="toggle-divided">▼</div>
+            </div>
+            <div class="side right" id="side-prophecy-divided">
+              <div class="branch-line" style="background:#5a8a9e"></div>
+              <div class="pills">
+                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+                  <div><span class="pill pill-prophecy">이사야</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">예레미야</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">호세아</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">아모스</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">미가</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">나훔</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">하박국</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">스바냐</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="desc-box" id="desc-divided" style="border-left:3px solid #4a6e7a">
+            <span class="desc-era-name" style="color:#4a6e7a">분열 왕국</span><br>
+            북이스라엘(BC 722 멸망)과 남유다 분열.<br><br>
+            열왕기상 완독 시 <b style="color:#9a7ab8">잠언·전도서·아가</b> 해금. 예언서 8권은 역사서 전체 완독 후 해금.
+          </div>
+        </div>
+
+        <!-- ⑥ 바벨론 포로기 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('exile')">
+              <div class="node-circle" style="background:#6a5a7a;border-color:#6a5a7a88"><div class="inner"></div></div>
+              <div class="node-label">바벨론 포로기</div>
+              <div class="node-period">BC 586–538</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-예레미야애가" onclick="toggleRead(event,'예레미야애가')"><span class="num-badge">10</span>예레미야애가</span>
+              </div>
+              <div class="node-toggle" id="toggle-exile">▼</div>
+            </div>
+            <div class="side right" id="side-prophecy-exile">
+              <div class="branch-line" style="background:#5a8a9e"></div>
+              <div class="pills">
+                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+                  <div><span class="pill pill-prophecy">에스겔</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">다니엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">오바댜</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="desc-box" id="desc-exile" style="border-left:3px solid #6a5a7a">
+            <span class="desc-era-name" style="color:#6a5a7a">바벨론 포로기</span><br>
+            예루살렘 함락 후 바벨론 포로 생활.<br><br>
+            예레미야애가를 먼저 읽으면 함락의 충격을 느끼고 에스겔·다니엘로 진입.
+          </div>
+        </div>
+
+        <!-- ⑦ 포로 귀환기 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('return')">
+              <div class="node-circle" style="background:#5e7a6e;border-color:#5e7a6e88"><div class="inner"></div></div>
+              <div class="node-label">포로 귀환기</div>
+              <div class="node-period">BC 538–400</div>
+              <div class="node-history">
+                <span class="pill pill-history" id="h-에스라"   onclick="toggleRead(event,'에스라')"  ><span class="num-badge">11</span>에스라</span>
+                <span class="pill pill-history" id="h-느헤미야" onclick="toggleRead(event,'느헤미야')"><span class="num-badge">12</span>느헤미야</span>
+                <span class="pill pill-history" id="h-에스더"   onclick="toggleRead(event,'에스더')"  ><span class="num-badge">13</span>에스더</span>
+              </div>
+              <div class="node-toggle" id="toggle-return">▼</div>
+            </div>
+            <div class="side right" id="side-prophecy-return">
+              <div class="branch-line" style="background:#5a8a9e"></div>
+              <div class="pills">
+                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+                  <div><span class="pill pill-prophecy">학개</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">스가랴</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">말라기</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">요엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                  <div><span class="pill pill-prophecy">요나</span><div class="conn-tag">← 역사서 완독 후</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="desc-box" id="desc-return" style="border-left:3px solid #5e7a6e">
+            <span class="desc-era-name" style="color:#5e7a6e">포로 귀환기</span><br>
+            페르시아 고레스 칙령으로 귀환. 성전 재건.<br><br>
+            말라기는 구약의 마지막 목소리. 이후 400년 침묵.
+          </div>
+        </div>
+
+        <!-- 침묵기 -->
+        <div class="era">
+          <div class="era-row">
+            <div class="side left"></div>
+            <div class="node-wrap" onclick="toggleEra('silence')">
+              <div class="node-circle silence" style="background:#ddd;border-color:#ccc"><div class="inner"></div></div>
+              <div class="node-label silence">침묵기 (400년)</div>
+              <div class="node-period">BC 400–BC 4</div>
+              <div class="node-toggle" id="toggle-silence">▼</div>
+            </div>
+            <div class="side right"></div>
+          </div>
+          <div class="desc-box" id="desc-silence" style="border-left:3px solid #aaa">
+            <span class="desc-era-name" style="color:#aaa">침묵기 (400년)</span><br>
+            성경에 기록 없음. 헬라·로마 제국 지배.<br><br>
+            이 침묵이 깨지는 순간이 세례 요한의 등장.
+          </div>
+        </div>
+
+        <div class="nt-cap">
+          <div class="nt-badge">✦ 신약 — 예수 그리스도</div>
+          <div class="nt-period">BC 4 / AD 1~100</div>
+        </div>
+      </div><!-- /tree -->
+
+      <button class="reset-btn" onclick="resetProgress()">처음부터 다시</button>
+      <div class="tree-footer">
+        * 2a·2b·2c·9a·9b는 보조 역사서 (핵심 읽은 후 읽어도 됨)<br>
+        * 욥기 연대 불명 (족장 시대 추정) · 요엘·요나 연대는 학자마다 의견 다름
+      </div>
+    </div><!-- /tree-wrap -->
+  </div><!-- /treeMode -->
+
+  <!-- ═══════ 말씀묵상 모드 ═══════ -->
+  <div class="mode-section" id="meditationMode">
+    <div id="inputArea-meditation">
       <div class="card">
         <div class="card-label">📖 성경 구절</div>
         <div class="testament-tabs">
           <button class="tab-btn active" id="tabOT">구약</button>
           <button class="tab-btn" id="tabNT">신약</button>
         </div>
-        <select class="book-select" id="bookSelect">
-          <option value="">성경을 선택하세요</option>
-        </select>
+        <select class="book-select" id="bookSelect"><option value="">성경을 선택하세요</option></select>
         <div class="verse-row">
           <input class="verse-input" id="chapter" type="number" min="1" placeholder="장">
           <span class="verse-separator">:</span>
@@ -347,490 +611,518 @@
         <div class="verse-hint">* 끝절을 비우면 1절만 묵상해요</div>
       </div>
       <button class="submit-btn" id="meditationBtn">묵상 시작하기</button>
+      <div class="status-bar" id="statusBarMeditation"></div>
     </div>
+    <div class="loading-animation" id="loadingMeditation">
+      <div class="loading-icon">📖</div>
+      <div class="loading-text">말씀을 묵상하고 있어요...</div>
+    </div>
+    <button class="back-btn" id="backBtnMeditation">← 돌아가기</button>
+    <div class="result-box" id="resultMeditation">
+      <div class="result-card">
+        <div class="result-title" id="resultTitleMeditation"></div>
+        <div class="result-content" id="resultContentMeditation"></div>
+        <div class="result-actions">
+          <button class="action-btn" id="copyBtnMeditation">📋 복사하기</button>
+          <button class="action-btn" id="shareBtnMeditation">💌 공유하기</button>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-section" id="timelineMeditation">
+      <div class="timeline-title">📝 묵상 기록</div>
+      <ul class="timeline-list" id="timelineListMeditation"></ul>
+    </div>
+  </div>
 
-    <!-- 기도근거 모드 -->
-    <div class="mode-section" id="prayerMode">
+  <!-- ═══════ 기도근거 모드 ═══════ -->
+  <div class="mode-section" id="prayerMode">
+    <div id="inputArea-prayer">
       <div class="card">
         <div class="card-label">🙏 말씀에서 기도의 근거를 찾아드릴게요</div>
-        <textarea class="input-textarea" id="prayerTopic" placeholder="어떤 상황에서 무엇을 구하고 싶은지 자유롭게 적어주세요&#10;&#10;예) 직장에서 지혜를 달라고 기도하고 싶어요&#10;예) 아이가 건강하게 자라도록 기도하고 싶어요&#10;예) 사업이 잘 되게 해달라고 기도하고 싶어요"></textarea>
+        <textarea class="input-textarea" id="prayerTopic" placeholder="어떤 상황에서 무엇을 구하고 싶은지 자유롭게 적어주세요&#10;&#10;예) 직장에서 지혜를 달라고 기도하고 싶어요&#10;예) 아이가 건강하게 자라도록 기도하고 싶어요"></textarea>
       </div>
       <button class="submit-btn" id="prayerBtn">기도 근거 찾기</button>
+      <div class="status-bar" id="statusBarPrayer"></div>
     </div>
+    <div class="loading-animation" id="loadingPrayer">
+      <div class="loading-icon">🙏</div>
+      <div class="loading-text">성경에서 기도 근거를 찾고 있어요...</div>
+    </div>
+    <button class="back-btn" id="backBtnPrayer">← 돌아가기</button>
+    <div class="result-box" id="resultPrayer">
+      <div class="result-card">
+        <div class="result-title" id="resultTitlePrayer"></div>
+        <div class="result-content" id="resultContentPrayer"></div>
+        <div class="result-actions">
+          <button class="action-btn" id="copyBtnPrayer">📋 복사하기</button>
+          <button class="action-btn" id="shareBtnPrayer">💌 공유하기</button>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-section" id="timelinePrayer">
+      <div class="timeline-title">📝 기도 기록</div>
+      <ul class="timeline-list" id="timelineListPrayer"></ul>
+    </div>
+  </div>
 
-    <!-- 믿음질문 모드 -->
-    <div class="mode-section" id="questionMode">
+  <!-- ═══════ 믿음질문 모드 ═══════ -->
+  <div class="mode-section" id="questionMode">
+    <div id="inputArea-question">
       <div class="card">
         <div class="card-label">❓ 믿음에 대한 솔직한 질문, 성경에서 답을 찾아봐요</div>
-        <div style="font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px;">
-          아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>
-          눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;">
+          아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.
         </div>
-        <select class="book-select" id="presetSelect">
-  <option value="">자주 묻는 질문을 선택하세요</option>
-</select>
+        <select class="book-select" id="presetSelect"><option value="">자주 묻는 질문을 선택하세요</option></select>
         <textarea class="input-textarea" id="questionTopic" placeholder="궁금한 점이나 납득이 안 되는 부분을 자유롭게 적어주세요&#10;&#10;예) 착하게 살면 되지 왜 꼭 예수를 믿어야 해?&#10;예) 기도해도 응답이 없는 것 같아요"></textarea>
       </div>
       <button class="submit-btn" id="questionBtn">답변 찾기</button>
+      <div class="status-bar" id="statusBarQuestion"></div>
     </div>
-
-    <div class="status-bar" id="statusBar"></div>
-  </div>
-
-  <!-- Loading -->
-  <div class="loading-animation" id="loadingAnim">
-    <div class="loading-icon" id="loadingIcon">📖</div>
-    <div class="loading-text" id="loadingText">말씀을 묵상하고 있어요...</div>
-  </div>
-
-  <!-- Back button -->
-  <button class="back-btn" id="backBtn">← 돌아가기</button>
-
-  <!-- Result -->
-  <div class="result-box" id="resultBox">
-    <div class="result-card">
-      <div class="result-title" id="resultTitle"></div>
-      <div class="result-content" id="resultContent"></div>
-      <div class="result-actions">
-        <button class="action-btn" id="copyBtn">📋 복사하기</button>
-        <button class="action-btn" id="shareBtn">💌 공유하기</button>
+    <div class="loading-animation" id="loadingQuestion">
+      <div class="loading-icon">❓</div>
+      <div class="loading-text">성경에서 답을 찾고 있어요...</div>
+    </div>
+    <button class="back-btn" id="backBtnQuestion">← 돌아가기</button>
+    <div class="result-box" id="resultQuestion">
+      <div class="result-card">
+        <div class="result-title" id="resultTitleQuestion"></div>
+        <div class="result-content" id="resultContentQuestion"></div>
+        <div class="result-actions">
+          <button class="action-btn" id="copyBtnQuestion">📋 복사하기</button>
+          <button class="action-btn" id="shareBtnQuestion">💌 공유하기</button>
+        </div>
       </div>
     </div>
+    <div class="timeline-section" id="timelineQuestion">
+      <div class="timeline-title">📝 질문 기록</div>
+      <ul class="timeline-list" id="timelineListQuestion"></ul>
+    </div>
   </div>
 
-  <!-- Timeline -->
-  <div class="timeline-section" id="timelineSection">
-    <div class="timeline-title">📝 나의 기록</div>
-    <ul class="timeline-list" id="timelineList"></ul>
-  </div>
+</div><!-- /container -->
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Book Content Modal -->
+<div class="modal-overlay" id="bookModal" onclick="handleModalBackdrop(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-book-title" id="modalTitle"></span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="modal-loading">📖 불러오는 중...</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-close-alt" onclick="closeModal()">닫기</button>
+      <button class="btn-read-done" id="modalReadBtn" onclick="modalToggleRead()"></button>
+    </div>
+  </div>
 </div>
 
 <script>
 // ═══════ CONFIG ═══════
 var MEDITATION_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-guide';
-var PRAYER_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-prayer';
-var QUESTION_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-question';
+var PRAYER_WEBHOOK     = 'https://kimbombo.app.n8n.cloud/webhook/bible-prayer';
+var QUESTION_WEBHOOK   = 'https://kimbombo.app.n8n.cloud/webhook/bible-question';
 
-var currentMode = 'meditation';
-var currentPage = 1;
+var CONTENT_BASE_URL = 'https://raw.githubusercontent.com/qhooaa/eightfloor/main/bible-content';
+var BOOK_CONTENT_FILES = {
+  '창세기': '창세기.md',
+  // '출애굽기': '출애굽기.md',
+};
+
+var currentMode = 'tree';
+var currentPage = { meditation:1, prayer:1, question:1 };
 var PAGE_SIZE = 10;
 
 // ═══════ Preset Questions ═══════
 var presetQuestions = [
-  '믿기만 하면 천국? 살인해도 회개하면 끝?',
-  '선한 하나님이 왜 고통을 허락해?',
-  '기도해도 응답 없던데?',
-  '착하게 살면 되지 왜 꼭 예수를 믿어야 해?',
-  '하나님이 있으면 왜 나쁜 사람이 잘 살아?',
-  '성경은 사람이 쓴 거 아냐?',
-  '과학이랑 성경이 충돌하잖아',
-  '다른 종교도 다 같은 신 아냐?',
-  '교회 다니는 사람들이 더 나쁘던데?',
-  '구약의 하나님은 왜 그렇게 잔인해?',
-  '눈에 안 보이는 걸 왜 믿어?',
-  '천국 지옥이 진짜 있어?',
-  '전지전능한 하나님이 왜 사탄을 안 없애?',
-  '성경 번역마다 다른데 뭘 믿어?',
-  '왜 꼭 교회를 다녀야 해?',
-  '예수 믿는다는 게 결국 심리 의존 아냐?'
+  '믿기만 하면 천국? 살인해도 회개하면 끝?','선한 하나님이 왜 고통을 허락해?',
+  '기도해도 응답 없던데?','착하게 살면 되지 왜 꼭 예수를 믿어야 해?',
+  '하나님이 있으면 왜 나쁜 사람이 잘 살아?','성경은 사람이 쓴 거 아냐?',
+  '과학이랑 성경이 충돌하잖아','다른 종교도 다 같은 신 아냐?',
+  '교회 다니는 사람들이 더 나쁘던데?','구약의 하나님은 왜 그렇게 잔인해?',
+  '눈에 안 보이는 걸 왜 믿어?','천국 지옥이 진짜 있어?',
+  '전지전능한 하나님이 왜 사탄을 안 없애?','성경 번역마다 다른데 뭘 믿어?',
+  '왜 꼭 교회를 다녀야 해?','예수 믿는다는 게 결국 심리 의존 아냐?'
 ];
 
 // ═══════ Bible Data ═══════
 var otBooks = ['창세기','출애굽기','레위기','민수기','신명기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','역대상','역대하','에스라','느헤미야','에스더','욥기','시편','잠언','전도서','아가','이사야','예레미야','예레미야애가','에스겔','다니엘','호세아','요엘','아모스','오바댜','요나','미가','나훔','하박국','스바냐','학개','스가랴','말라기'];
-var ntBooks = ['마태복음','마가복음','누가복음','요한복음','사도행전','로마서','고린도전서','고린도후서','갈라디아서','에베소서','빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서','디모데후서','디도서','빌레몬서','히브리서','야고보서','베드로전서','베드로후서','요한일서','요한이서','요한삼서','유다서','요한계시록'];
+var ntBooks  = ['마태복음','마가복음','누가복음','요한복음','사도행전','로마서','고린도전서','고린도후서','갈라디아서','에베소서','빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서','디모데후서','디도서','빌레몬서','히브리서','야고보서','베드로전서','베드로후서','요한일서','요한이서','요한삼서','유다서','요한계시록'];
 
 // ═══════ Date ═══════
 function showDate() {
   var d = new Date();
   var days = ['일','월','화','수','목','금','토'];
   document.getElementById('dateLine').textContent =
-    d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 ' + d.getDate() + '일 ' + days[d.getDay()] + '요일';
+    d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 '+days[d.getDay()]+'요일';
 }
 
 // ═══════ Mode Switch ═══════
 function switchMode(mode) {
   currentMode = mode;
-  document.getElementById('tabMeditation').classList.toggle('active', mode === 'meditation');
-  document.getElementById('tabPrayer').classList.toggle('active', mode === 'prayer');
-  document.getElementById('tabQuestion').classList.toggle('active', mode === 'question');
-  document.getElementById('meditationMode').classList.toggle('active', mode === 'meditation');
-  document.getElementById('prayerMode').classList.toggle('active', mode === 'prayer');
-  document.getElementById('questionMode').classList.toggle('active', mode === 'question');
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('statusBar').className = 'status-bar';
-  document.getElementById('statusBar').textContent = '';
-  currentPage = 1;
-  renderTimeline();
+  ['tree','meditation','prayer','question'].forEach(function(m) {
+    document.getElementById('tab'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active', m===mode);
+    document.getElementById(m+'Mode').classList.toggle('active', m===mode);
+  });
+  if (mode !== 'tree') renderTimeline(mode);
 }
 
-// ═══════ Testament / Book Select ═══════
+// ═══════ Testament / Book ═══════
 function populateBooks(testament) {
   var sel = document.getElementById('bookSelect');
   sel.innerHTML = '<option value="">성경을 선택하세요</option>';
   var list = testament === 'nt' ? ntBooks : otBooks;
-  list.forEach(function(b) {
-    var o = document.createElement('option');
-    o.value = b; o.textContent = b;
-    sel.appendChild(o);
-  });
+  list.forEach(function(b) { var o=document.createElement('option'); o.value=b; o.textContent=b; sel.appendChild(o); });
 }
-
 function switchTestament(t) {
-  document.getElementById('tabOT').classList.toggle('active', t === 'ot');
-  document.getElementById('tabNT').classList.toggle('active', t === 'nt');
+  document.getElementById('tabOT').classList.toggle('active', t==='ot');
+  document.getElementById('tabNT').classList.toggle('active', t==='nt');
   populateBooks(t);
 }
 
 // ═══════ Preset Questions ═══════
 function renderPresets() {
   var sel = document.getElementById('presetSelect');
-  presetQuestions.forEach(function(q) {
-    var o = document.createElement('option');
-    o.value = q; o.textContent = q;
-    sel.appendChild(o);
-  });
-  sel.addEventListener('change', function() {
-    if (this.value) {
-      document.getElementById('questionTopic').value = this.value;
-      document.getElementById('questionTopic').focus();
-    }
-  });
+  presetQuestions.forEach(function(q) { var o=document.createElement('option'); o.value=q; o.textContent=q; sel.appendChild(o); });
+  sel.addEventListener('change', function() { if(this.value){ document.getElementById('questionTopic').value=this.value; document.getElementById('questionTopic').focus(); } });
 }
 
 // ═══════ Status ═══════
-function setStatus(type, msg) {
-  var bar = document.getElementById('statusBar');
-  bar.textContent = msg;
-  bar.className = 'status-bar ' + type;
+function setStatus(modeKey, type, msg) {
+  var bar = document.getElementById('statusBar'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
+  if (!bar) return;
+  bar.textContent = msg; bar.className = 'status-bar '+(type||'');
 }
 
 // ═══════ Format Result ═══════
 function formatResult(text) {
   if (!text) return '';
-  text = text.replace(/\*\*/g, '');
-  text = text.replace(/^(\d+)\.\s*(.+)$/gm, function(m, num, title) {
-    return '<span class="section-head">' + num + '. ' + title + '</span>';
-  });
-  text = text.replace(/[【\[]([\uAC00-\uD7A3a-zA-Z0-9\s]+\d+:\d+(?:-\d+)?)[】\]]/g, function(m, ref) {
-    return '<span class="verse-ref">📖 ' + ref + '</span>';
-  });
+  text = text.replace(/\*\*/g,'');
+  text = text.replace(/^(\d+)\.\s*(.+)$/gm, function(m,num,title){ return '<span class="section-head">'+num+'. '+title+'</span>'; });
+  text = text.replace(/[【\[]([\uAC00-\uD7A3a-zA-Z0-9\s]+\d+:\d+(?:-\d+)?)[】\]]/g, function(m,ref){ return '<span class="verse-ref">📖 '+ref+'</span>'; });
   text = text.replace(/→\s*(.+)/g, '→ <strong>$1</strong>');
-  text = text.replace(/\n/g, '<br>');
+  text = text.replace(/\n/g,'<br>');
   return text;
 }
 
-// ═══════ Submit Meditation ═══════
+// ═══════ Generic Submit ═══════
+async function submitRequest(modeKey, webhookUrl, payload, label) {
+  var loadingEl  = document.getElementById('loading'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
+  var resultBox  = document.getElementById('result'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
+  var resultTitle= document.getElementById('resultTitle'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
+  var resultContent= document.getElementById('resultContent'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
+  var inputArea  = document.getElementById('inputArea-'+modeKey);
+
+  setStatus(modeKey,'','');
+  resultBox.classList.remove('visible');
+  loadingEl.classList.add('visible');
+  inputArea.style.display = 'none';
+
+  try {
+    var resp = await fetch(webhookUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    if (!resp.ok) throw new Error('HTTP '+resp.status);
+    var data = await resp.json();
+    var resultText = extractResultText(data);
+    resultTitle.textContent = label;
+    resultContent.innerHTML = formatResult(resultText);
+    resultBox.classList.add('visible');
+    document.getElementById('backBtn'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1)).classList.add('visible');
+    saveToHistory(modeKey, label.replace(/^[📖🙏❓]\s*/,''), resultText);
+  } catch(err) {
+    setStatus(modeKey,'error','전송 실패: '+err.message);
+    inputArea.style.display = 'block';
+  } finally {
+    loadingEl.classList.remove('visible');
+  }
+}
+
+// ═══════ Submit handlers ═══════
 async function submitMeditation() {
-  var book = document.getElementById('bookSelect').value;
-  var ch = document.getElementById('chapter').value;
-  var vStart = document.getElementById('verseStart').value;
-  var vEnd = document.getElementById('verseEnd').value;
-
-  if (!book) { setStatus('error', '성경을 선택해주세요'); return; }
-  if (!ch) { setStatus('error', '장을 입력해주세요'); return; }
-  if (!vStart) { setStatus('error', '시작절을 입력해주세요'); return; }
-
-  var verseLabel = book + ' ' + ch + ':' + vStart;
-  if (vEnd && parseInt(vEnd) > parseInt(vStart)) verseLabel += '-' + vEnd;
-
-  var btn = document.getElementById('meditationBtn');
-  btn.disabled = true; btn.textContent = '묵상 준비 중...';
-  setStatus('', '');
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('loadingIcon').textContent = '📖';
-  document.getElementById('loadingText').textContent = '말씀을 묵상하고 있어요...';
-  document.getElementById('loadingAnim').classList.add('visible');
-
-  var payload = {
-    mode: 'meditation', input_text: '오늘의 말씀: ' + verseLabel,
-    book: book, chapter: parseInt(ch),
-    verse_start: parseInt(vStart), verse_end: vEnd ? parseInt(vEnd) : parseInt(vStart)
-  };
-
-  try {
-    var resp = await fetch(MEDITATION_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    var data = await resp.json();
-    var resultText = extractResultText(data);
-    document.getElementById('resultTitle').textContent = '📖 ' + verseLabel;
-    document.getElementById('resultContent').innerHTML = formatResult(resultText);
-    document.getElementById('resultBox').classList.add('visible');
-    document.getElementById('statusBar').className = 'status-bar';
-    saveToHistory('meditation', verseLabel, resultText);
-  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
-  finally { btn.disabled = false; btn.textContent = '묵상 시작하기'; document.getElementById('loadingAnim').classList.remove('visible'); }
+  var book=document.getElementById('bookSelect').value, ch=document.getElementById('chapter').value;
+  var vS=document.getElementById('verseStart').value, vE=document.getElementById('verseEnd').value;
+  if (!book){ setStatus('meditation','error','성경을 선택해주세요'); return; }
+  if (!ch){ setStatus('meditation','error','장을 입력해주세요'); return; }
+  if (!vS){ setStatus('meditation','error','시작절을 입력해주세요'); return; }
+  var label = '📖 '+book+' '+ch+':'+vS+(vE&&parseInt(vE)>parseInt(vS)?'-'+vE:'');
+  var btn = document.getElementById('meditationBtn'); btn.disabled=true; btn.textContent='묵상 준비 중...';
+  await submitRequest('meditation', MEDITATION_WEBHOOK,
+    { mode:'meditation', input_text:'오늘의 말씀: '+label.replace('📖 ',''), book, chapter:parseInt(ch), verse_start:parseInt(vS), verse_end:vE?parseInt(vE):parseInt(vS) },
+    label);
+  btn.disabled=false; btn.textContent='묵상 시작하기';
 }
 
-// ═══════ Submit Prayer ═══════
 async function submitPrayer() {
-  var topic = document.getElementById('prayerTopic').value.trim();
-  if (!topic) { setStatus('error', '기도 주제를 입력해주세요'); return; }
-
-  var btn = document.getElementById('prayerBtn');
-  btn.disabled = true; btn.textContent = '말씀을 찾고 있어요...';
-  setStatus('', '');
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('loadingIcon').textContent = '🙏';
-  document.getElementById('loadingText').textContent = '성경에서 기도 근거를 찾고 있어요...';
-  document.getElementById('loadingAnim').classList.add('visible');
-
-  var payload = { mode: 'prayer', input_text: topic };
-
-  try {
-    var resp = await fetch(PRAYER_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    var data = await resp.json();
-    var resultText = extractResultText(data);
-    document.getElementById('resultTitle').textContent = '🙏 ' + topic;
-    document.getElementById('resultContent').innerHTML = formatResult(resultText);
-    document.getElementById('resultBox').classList.add('visible');
-    document.getElementById('statusBar').className = 'status-bar';
-    saveToHistory('prayer', topic, resultText);
-  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
-  finally { btn.disabled = false; btn.textContent = '기도 근거 찾기'; document.getElementById('loadingAnim').classList.remove('visible'); }
+  var topic=document.getElementById('prayerTopic').value.trim();
+  if (!topic){ setStatus('prayer','error','기도 주제를 입력해주세요'); return; }
+  var btn=document.getElementById('prayerBtn'); btn.disabled=true; btn.textContent='말씀을 찾고 있어요...';
+  await submitRequest('prayer', PRAYER_WEBHOOK, { mode:'prayer', input_text:topic }, '🙏 '+topic);
+  btn.disabled=false; btn.textContent='기도 근거 찾기';
 }
 
-// ═══════ Submit Question ═══════
 async function submitQuestion() {
-  var topic = document.getElementById('questionTopic').value.trim();
-  if (!topic) { setStatus('error', '질문을 입력해주세요'); return; }
-
-  var btn = document.getElementById('questionBtn');
-  btn.disabled = true; btn.textContent = '성경에서 답을 찾고 있어요...';
-  setStatus('', '');
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('loadingIcon').textContent = '❓';
-  document.getElementById('loadingText').textContent = '성경에서 답을 찾고 있어요...';
-  document.getElementById('loadingAnim').classList.add('visible');
-
-  var payload = { mode: 'question', input_text: topic };
-
-  try {
-    var resp = await fetch(QUESTION_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    var data = await resp.json();
-    var resultText = extractResultText(data);
-    document.getElementById('resultTitle').textContent = '❓ ' + topic;
-    document.getElementById('resultContent').innerHTML = formatResult(resultText);
-    document.getElementById('resultBox').classList.add('visible');
-    document.getElementById('statusBar').className = 'status-bar';
-    saveToHistory('question', topic, resultText);
-  } catch (err) { setStatus('error', '전송 실패: ' + err.message); }
-  finally { btn.disabled = false; btn.textContent = '답변 찾기'; document.getElementById('loadingAnim').classList.remove('visible'); }
+  var topic=document.getElementById('questionTopic').value.trim();
+  if (!topic){ setStatus('question','error','질문을 입력해주세요'); return; }
+  var btn=document.getElementById('questionBtn'); btn.disabled=true; btn.textContent='성경에서 답을 찾고 있어요...';
+  await submitRequest('question', QUESTION_WEBHOOK, { mode:'question', input_text:topic }, '❓ '+topic);
+  btn.disabled=false; btn.textContent='답변 찾기';
 }
 
 // ═══════ Extract Result ═══════
 function extractResultText(data) {
-  if (Array.isArray(data)) {
-    var item = data[0];
-    if (item.choices) return item.choices[0].message.content;
-    if (item.content && Array.isArray(item.content)) return item.content.map(function(c) { return c.text || ''; }).join('\n');
-    return JSON.stringify(item, null, 2);
-  }
+  if (Array.isArray(data)) { var i=data[0]; if(i.choices) return i.choices[0].message.content; if(i.content&&Array.isArray(i.content)) return i.content.map(function(c){return c.text||''}).join('\n'); return JSON.stringify(i,null,2); }
   if (data.choices) return data.choices[0].message.content;
-  if (data.content) {
-    if (typeof data.content === 'string') return data.content;
-    return data.content.map(function(c) { return c.text || ''; }).join('\n');
-  }
-  return JSON.stringify(data, null, 2);
+  if (data.content) { if(typeof data.content==='string') return data.content; return data.content.map(function(c){return c.text||''}).join('\n'); }
+  return JSON.stringify(data,null,2);
+}
+
+// ═══════ Back ═══════
+function goBack(modeKey) {
+  var cap = modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
+  document.getElementById('result'+cap).classList.remove('visible');
+  document.getElementById('backBtn'+cap).classList.remove('visible');
+  document.getElementById('inputArea-'+modeKey).style.display='block';
 }
 
 // ═══════ History ═══════
 function saveToHistory(type, label, text) {
-  var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
-  var summary = text.replace(/\*\*/g, '').substring(0, 80);
-  history.unshift({ type: type, label: label, summary: summary, fullText: text, date: new Date().toISOString() });
-  if (history.length > 100) history = history.slice(0, 100);
+  var history = JSON.parse(localStorage.getItem('bible_history')||'[]');
+  history.unshift({ type, label, summary:text.replace(/\*\*/g,'').substring(0,80), fullText:text, date:new Date().toISOString() });
+  if (history.length>100) history=history.slice(0,100);
   localStorage.setItem('bible_history', JSON.stringify(history));
-  currentPage = 1;
-  renderTimeline();
+  renderTimeline(type);
 }
 
-function renderTimeline() {
-  var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
-  var section = document.getElementById('timelineSection');
-  var list = document.getElementById('timelineList');
-  list.innerHTML = '';
+function renderTimeline(modeKey) {
+  var cap = modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
+  var listEl = document.getElementById('timelineList'+cap);
+  if (!listEl) return;
+  listEl.innerHTML='';
+  var history = JSON.parse(localStorage.getItem('bible_history')||'[]');
+  var filtered = history.map(function(item,idx){return{item,globalIdx:idx}}).filter(function(e){return e.item.type===modeKey});
+  if (!filtered.length){ listEl.innerHTML='<div class="timeline-empty">아직 기록이 없어요</div>'; return; }
 
-  // Filter by current mode
-  var modeTypeMap = { meditation: 'meditation', prayer: 'prayer', question: 'question' };
-  var filterType = modeTypeMap[currentMode] || 'meditation';
-  var filtered = [];
-  history.forEach(function(item, idx) {
-    if (item.type === filterType) filtered.push({ item: item, globalIdx: idx });
+  var page = currentPage[modeKey]||1;
+  var total = Math.ceil(filtered.length/PAGE_SIZE);
+  if(page>total) page=total; if(page<1) page=1; currentPage[modeKey]=page;
+
+  filtered.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE).forEach(function(entry){
+    var item=entry.item, gi=entry.globalIdx;
+    var d=new Date(item.date), dateStr=(d.getMonth()+1)+'/'+d.getDate();
+    var li=document.createElement('li'); li.className='timeline-item';
+    var dot=document.createElement('div'); dot.className='timeline-dot';
+    var body=document.createElement('div'); body.className='timeline-body';
+    body.innerHTML='<div class="timeline-verse">'+item.label+'</div><div class="timeline-summary">'+item.summary+'</div>';
+    body.addEventListener('click', function(){ showHistoryItem(gi, modeKey); });
+    var right=document.createElement('div'); right.style.cssText='display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;';
+    var ds=document.createElement('div'); ds.className='timeline-date'; ds.textContent=dateStr;
+    var del=document.createElement('button'); del.className='timeline-del-btn'; del.textContent='삭제';
+    del.addEventListener('click',function(e){ e.stopPropagation(); deleteHistoryItem(gi, modeKey); });
+    right.appendChild(ds); right.appendChild(del);
+    li.appendChild(dot); li.appendChild(body); li.appendChild(right); listEl.appendChild(li);
   });
 
-  var titleMap = { meditation: '📝 묵상 기록', prayer: '📝 기도 기록', question: '📝 질문 기록' };
-  document.querySelector('.timeline-title').textContent = titleMap[currentMode] || '📝 나의 기록';
-
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="timeline-empty">아직 기록이 없어요</div>';
-    section.style.display = 'block';
-    return;
+  if (total>1) {
+    var pag=document.createElement('div'); pag.className='pagination';
+    if(page>1){ var p=document.createElement('button'); p.className='page-btn nav'; p.textContent='‹'; p.onclick=function(e){e.stopPropagation();currentPage[modeKey]--;renderTimeline(modeKey);}; pag.appendChild(p); }
+    for(var i=1;i<=total;i++){ var pb=document.createElement('button'); pb.className='page-btn'+(i===page?' active':''); pb.textContent=i; pb.onclick=(function(pg){return function(e){e.stopPropagation();currentPage[modeKey]=pg;renderTimeline(modeKey);};})(i); pag.appendChild(pb); }
+    if(page<total){ var n=document.createElement('button'); n.className='page-btn nav'; n.textContent='›'; n.onclick=function(e){e.stopPropagation();currentPage[modeKey]++;renderTimeline(modeKey);}; pag.appendChild(n); }
+    listEl.appendChild(pag);
   }
 
-  var totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  if (currentPage > totalPages) currentPage = totalPages;
-  if (currentPage < 1) currentPage = 1;
-
-  var startIdx = (currentPage - 1) * PAGE_SIZE;
-  var endIdx = Math.min(startIdx + PAGE_SIZE, filtered.length);
-  var pageItems = filtered.slice(startIdx, endIdx);
-
-  pageItems.forEach(function(entry) {
-    var item = entry.item;
-    var globalIdx = entry.globalIdx;
-    var d = new Date(item.date);
-    var dateStr = (d.getMonth()+1) + '/' + d.getDate();
-
-    var li = document.createElement('li');
-    li.className = 'timeline-item';
-
-    var dotDiv = document.createElement('div');
-    dotDiv.className = 'timeline-dot';
-
-    var bodyDiv = document.createElement('div');
-    bodyDiv.className = 'timeline-body';
-    bodyDiv.innerHTML =
-      '<div class="timeline-verse">' + item.label + '</div>' +
-      '<div class="timeline-summary">' + item.summary + '</div>';
-    bodyDiv.addEventListener('click', function() { showHistoryItem(globalIdx); });
-
-    var rightDiv = document.createElement('div');
-    rightDiv.style.cssText = 'display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;';
-
-    var dateSpan = document.createElement('div');
-    dateSpan.className = 'timeline-date';
-    dateSpan.textContent = dateStr;
-
-    var delBtn = document.createElement('button');
-    delBtn.className = 'timeline-del-btn';
-    delBtn.textContent = '삭제';
-    delBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      deleteHistoryItem(globalIdx);
-    });
-
-    rightDiv.appendChild(dateSpan);
-    rightDiv.appendChild(delBtn);
-
-    li.appendChild(dotDiv);
-    li.appendChild(bodyDiv);
-    li.appendChild(rightDiv);
-    list.appendChild(li);
-  });
-
-  if (totalPages > 1) {
-    var pagDiv = document.createElement('div');
-    pagDiv.className = 'pagination';
-    if (currentPage > 1) {
-      var prevBtn = document.createElement('button');
-      prevBtn.className = 'page-btn nav'; prevBtn.textContent = '‹';
-      prevBtn.onclick = function(e) { e.stopPropagation(); currentPage--; renderTimeline(); };
-      pagDiv.appendChild(prevBtn);
-    }
-    for (var p = 1; p <= totalPages; p++) {
-      var pb = document.createElement('button');
-      pb.className = 'page-btn' + (p === currentPage ? ' active' : '');
-      pb.textContent = p;
-      pb.onclick = (function(page) { return function(e) { e.stopPropagation(); currentPage = page; renderTimeline(); }; })(p);
-      pagDiv.appendChild(pb);
-    }
-    if (currentPage < totalPages) {
-      var nextBtn = document.createElement('button');
-      nextBtn.className = 'page-btn nav'; nextBtn.textContent = '›';
-      nextBtn.onclick = function(e) { e.stopPropagation(); currentPage++; renderTimeline(); };
-      pagDiv.appendChild(nextBtn);
-    }
-    list.appendChild(pagDiv);
-  }
-
-  var clearDiv = document.createElement('div');
-  clearDiv.className = 'timeline-clear';
-  var clearBtn = document.createElement('button');
-  clearBtn.className = 'timeline-clear-btn';
-  clearBtn.textContent = '기록 전체 삭제';
-  clearBtn.addEventListener('click', function() { clearHistory(); });
-  clearDiv.appendChild(clearBtn);
-  list.appendChild(clearDiv);
-  section.style.display = 'block';
+  var clr=document.createElement('div'); clr.className='timeline-clear';
+  var clrBtn=document.createElement('button'); clrBtn.className='timeline-clear-btn'; clrBtn.textContent='기록 전체 삭제';
+  clrBtn.addEventListener('click', function(){ if(confirm('기록을 전부 삭제할까요?')){ localStorage.removeItem('bible_history'); renderTimeline(modeKey); } });
+  clr.appendChild(clrBtn); listEl.appendChild(clr);
 }
 
-function deleteHistoryItem(globalIdx) {
-  var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
-  if (globalIdx >= 0 && globalIdx < history.length) {
-    history.splice(globalIdx, 1);
-    localStorage.setItem('bible_history', JSON.stringify(history));
-    renderTimeline();
-  }
+function deleteHistoryItem(idx, modeKey) {
+  var h=JSON.parse(localStorage.getItem('bible_history')||'[]');
+  h.splice(idx,1); localStorage.setItem('bible_history',JSON.stringify(h)); renderTimeline(modeKey);
 }
 
-function showHistoryItem(idx) {
-  var history = JSON.parse(localStorage.getItem('bible_history') || '[]');
-  var item = history[idx];
-  if (!item) return;
-  var iconMap = { meditation: '📖', prayer: '🙏', question: '❓' };
-  var icon = iconMap[item.type] || '📖';
-  document.getElementById('resultTitle').textContent = icon + ' ' + item.label;
-  document.getElementById('resultContent').innerHTML = formatResult(item.fullText);
-  document.getElementById('resultBox').classList.add('visible');
-  document.getElementById('backBtn').classList.add('visible');
-  document.getElementById('inputArea').style.display = 'none';
-  document.getElementById('timelineSection').style.display = 'none';
-  document.querySelector('.mode-tabs').style.display = 'none';
-}
-
-function goBack() {
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('backBtn').classList.remove('visible');
-  document.getElementById('inputArea').style.display = 'block';
-  document.getElementById('timelineSection').style.display = 'block';
-  document.querySelector('.mode-tabs').style.display = 'flex';
-}
-
-function clearHistory() {
-  if (confirm('기록을 전부 삭제할까요?')) {
-    localStorage.removeItem('bible_history');
-    currentPage = 1;
-    renderTimeline();
-  }
+function showHistoryItem(idx, modeKey) {
+  var h=JSON.parse(localStorage.getItem('bible_history')||'[]'); var item=h[idx]; if(!item) return;
+  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
+  var iconMap={meditation:'📖',prayer:'🙏',question:'❓'};
+  document.getElementById('resultTitle'+cap).textContent=(iconMap[item.type]||'📖')+' '+item.label;
+  document.getElementById('resultContent'+cap).innerHTML=formatResult(item.fullText);
+  document.getElementById('result'+cap).classList.add('visible');
+  document.getElementById('backBtn'+cap).classList.add('visible');
+  document.getElementById('inputArea-'+modeKey).style.display='none';
+  document.getElementById('timeline'+cap).style.display='none';
 }
 
 // ═══════ Copy / Share ═══════
-function copyResult() {
-  var text = document.getElementById('resultContent').innerText;
-  var btn = document.getElementById('copyBtn');
-  navigator.clipboard.writeText(text).then(function() {
-    btn.textContent = '✅ 복사됨!';
-    setTimeout(function() { btn.textContent = '📋 복사하기'; }, 1500);
-  });
+function copyResult(modeKey) {
+  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
+  var text=document.getElementById('resultContent'+cap).innerText;
+  var btn=document.getElementById('copyBtn'+cap);
+  navigator.clipboard.writeText(text).then(function(){ btn.textContent='✅ 복사됨!'; setTimeout(function(){btn.textContent='📋 복사하기';},1500); });
+}
+function shareResult(modeKey) {
+  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
+  var text=document.getElementById('resultContent'+cap).innerText;
+  var title=document.getElementById('resultTitle'+cap).textContent;
+  if(navigator.share){ navigator.share({title,text}); } else { copyResult(modeKey); }
 }
 
-function shareResult() {
-  var text = document.getElementById('resultContent').innerText;
-  var title = document.getElementById('resultTitle').textContent;
-  if (navigator.share) { navigator.share({ title: title, text: text }); }
-  else { copyResult(); }
+// ═══════════════════════════════════════════
+// 역사 흐름도 로직
+// ═══════════════════════════════════════════
+var CORE_ORDER = ['창세기','출애굽기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','예레미야애가','에스라','느헤미야','에스더'];
+var SUB_BOOKS  = { '레위기':'출애굽기','민수기':'출애굽기','신명기':'출애굽기','역대상':'열왕기하','역대하':'열왕기하' };
+var POETRY_UNLOCK  = { 'side-poetry-욥기':['창세기'],'side-poetry-시편':['사무엘상','사무엘하'],'side-poetry-솔로몬':['열왕기상'] };
+var PROPHECY_SIDES = ['side-prophecy-divided','side-prophecy-exile','side-prophecy-return'];
+var ALL_HISTORY    = Object.keys(SUB_BOOKS).concat(CORE_ORDER);
+var readBooks      = JSON.parse(localStorage.getItem('bible_read_v4')||'[]');
+var openEraId      = null;
+
+function canRead(book) {
+  if (SUB_BOOKS[book]) return readBooks.indexOf(SUB_BOOKS[book]) !== -1;
+  var idx = CORE_ORDER.indexOf(book);
+  if (idx <= 0) return true;
+  return readBooks.indexOf(CORE_ORDER[idx-1]) !== -1;
+}
+function isAllCoreRead() { return CORE_ORDER.every(function(b){ return readBooks.indexOf(b)!==-1; }); }
+function coreCount()     { return CORE_ORDER.filter(function(b){ return readBooks.indexOf(b)!==-1; }).length; }
+
+function renderAll() {
+  ALL_HISTORY.forEach(function(book) {
+    var el=document.getElementById('h-'+book); if(!el) return;
+    var isRead=readBooks.indexOf(book)!==-1, canCheck=canRead(book);
+    el.classList.toggle('read',isRead); el.classList.toggle('blocked',!isRead&&!canCheck);
+  });
+  Object.keys(POETRY_UNLOCK).forEach(function(sid) {
+    var el=document.getElementById(sid); if(!el) return;
+    el.classList.toggle('side-locked', !POETRY_UNLOCK[sid].every(function(b){return readBooks.indexOf(b)!==-1;}));
+  });
+  var allDone=isAllCoreRead();
+  PROPHECY_SIDES.forEach(function(sid){ var el=document.getElementById(sid); if(el) el.classList.toggle('side-locked',!allDone); });
+  var cnt=coreCount();
+  document.getElementById('progressText').textContent=cnt+' / 13';
+  document.getElementById('progressFill').style.width=Math.round(cnt/13*100)+'%';
+  document.getElementById('prophecyCount').textContent=cnt;
+  document.getElementById('prophecyHint').style.display=allDone?'none':'block';
+}
+
+function toggleRead(e, book) {
+  e.stopPropagation();
+  if (readBooks.indexOf(book)!==-1) {
+    var ci=CORE_ORDER.indexOf(book);
+    if (ci!==-1&&CORE_ORDER.slice(ci+1).some(function(b){return readBooks.indexOf(b)!==-1;})) { showToast('⚠️ 이후 읽은 책을 먼저 해제해주세요'); return; }
+    readBooks.splice(readBooks.indexOf(book),1);
+    showToast('📖 '+book+' 읽음 해제');
+    localStorage.setItem('bible_read_v4',JSON.stringify(readBooks)); renderAll(); return;
+  }
+  if (!canRead(book)) {
+    var ci2=CORE_ORDER.indexOf(book);
+    var req=SUB_BOOKS[book]||(ci2>0?CORE_ORDER[ci2-1]:'');
+    showToast('⛔ 먼저 '+req+'을(를) 읽어주세요'); return;
+  }
+  var wasAllDone=isAllCoreRead();
+  readBooks.push(book); showToast('✅ '+book+' 완료!');
+  localStorage.setItem('bible_read_v4',JSON.stringify(readBooks)); renderAll();
+  Object.keys(POETRY_UNLOCK).forEach(function(sid) {
+    var req=POETRY_UNLOCK[sid];
+    if(req[req.length-1]===book&&req.every(function(b){return readBooks.indexOf(b)!==-1;})) {
+      var lbl={'side-poetry-욥기':'욥기','side-poetry-시편':'시편','side-poetry-솔로몬':'잠언·전도서·아가'};
+      setTimeout(function(){showToast('🔓 '+lbl[sid]+' 해금!');},500);
+    }
+  });
+  if (!wasAllDone&&isAllCoreRead()) setTimeout(function(){showToast('🎉 역사서 완독! 예언서가 모두 열렸어요');},700);
+}
+
+function toggleEra(id) {
+  var desc=document.getElementById('desc-'+id), tog=document.getElementById('toggle-'+id); if(!desc) return;
+  if(openEraId&&openEraId!==id){ var p=document.getElementById('desc-'+openEraId),pt=document.getElementById('toggle-'+openEraId); if(p)p.classList.remove('open'); if(pt)pt.textContent='▼'; }
+  if(openEraId===id){ desc.classList.remove('open'); tog.textContent='▼'; openEraId=null; }
+  else { desc.classList.add('open'); tog.textContent='▲'; openEraId=id; }
+}
+
+function resetProgress() {
+  if(!confirm('읽기 진행을 초기화할까요?')) return;
+  readBooks=[]; localStorage.removeItem('bible_read_v4'); renderAll(); showToast('초기화 완료');
+}
+
+// ═══════════════════════════════════════════
+// 책 내용 모달
+// ═══════════════════════════════════════════
+var currentModalBook = null;
+
+function openBookModal(e, book) {
+  e.stopPropagation();
+  if (!canRead(book)) {
+    var ci=CORE_ORDER.indexOf(book), req=SUB_BOOKS[book]||(ci>0?CORE_ORDER[ci-1]:'');
+    showToast('⛔ 먼저 '+req+'을(를) 읽어주세요'); return;
+  }
+  if (!BOOK_CONTENT_FILES[book]) { toggleRead(e,book); return; }
+  currentModalBook=book;
+  document.getElementById('modalTitle').textContent=book;
+  document.getElementById('modalBody').innerHTML='<div class="modal-loading">📖 불러오는 중...</div>';
+  document.getElementById('bookModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  updateModalBtn();
+  fetch(CONTENT_BASE_URL+'/'+BOOK_CONTENT_FILES[book])
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(md){ document.getElementById('modalBody').innerHTML=marked.parse(md); document.getElementById('modalBody').scrollTop=0; })
+    .catch(function(){ document.getElementById('modalBody').innerHTML='<div class="modal-loading" style="color:#c47a5a">⚠️ 내용을 불러올 수 없어요.<br><small style="color:#bbb">GitHub 파일 경로를 확인해주세요</small></div>'; });
+}
+
+function updateModalBtn() {
+  var btn=document.getElementById('modalReadBtn'); if(!currentModalBook) return;
+  var isRead=readBooks.indexOf(currentModalBook)!==-1;
+  btn.textContent=isRead?'✓ 읽음 표시됨 (취소하기)':'✅ 완독 표시하기';
+  btn.className='btn-read-done '+(isRead?'already':'unread');
+}
+
+function modalToggleRead() {
+  if(!currentModalBook) return;
+  toggleRead({stopPropagation:function(){}}, currentModalBook);
+  updateModalBtn();
+}
+
+function closeModal() { document.getElementById('bookModal').classList.remove('open'); document.body.style.overflow=''; currentModalBook=null; }
+function handleModalBackdrop(e) { if(e.target===document.getElementById('bookModal')) closeModal(); }
+
+// ═══════ Toast ═══════
+function showToast(msg) {
+  var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._tt); window._tt=setTimeout(function(){t.classList.remove('show');},2200);
 }
 
 // ═══════ Init ═══════
 showDate();
 populateBooks('ot');
 renderPresets();
-renderTimeline();
+renderAll();
+renderTimeline('meditation');
+renderTimeline('prayer');
+renderTimeline('question');
 
-document.getElementById('tabMeditation').addEventListener('click', function() { switchMode('meditation'); });
-document.getElementById('tabPrayer').addEventListener('click', function() { switchMode('prayer'); });
-document.getElementById('tabQuestion').addEventListener('click', function() { switchMode('question'); });
-document.getElementById('tabOT').addEventListener('click', function() { switchTestament('ot'); });
-document.getElementById('tabNT').addEventListener('click', function() { switchTestament('nt'); });
-document.getElementById('meditationBtn').addEventListener('click', function() { submitMeditation(); });
-document.getElementById('prayerBtn').addEventListener('click', function() { submitPrayer(); });
-document.getElementById('questionBtn').addEventListener('click', function() { submitQuestion(); });
-document.getElementById('backBtn').addEventListener('click', function() { goBack(); });
-document.getElementById('copyBtn').addEventListener('click', function() { copyResult(); });
-document.getElementById('shareBtn').addEventListener('click', function() { shareResult(); });
+document.getElementById('tabTree').addEventListener('click', function(){ switchMode('tree'); });
+document.getElementById('tabMeditation').addEventListener('click', function(){ switchMode('meditation'); });
+document.getElementById('tabPrayer').addEventListener('click', function(){ switchMode('prayer'); });
+document.getElementById('tabQuestion').addEventListener('click', function(){ switchMode('question'); });
+document.getElementById('tabOT').addEventListener('click', function(){ switchTestament('ot'); });
+document.getElementById('tabNT').addEventListener('click', function(){ switchTestament('nt'); });
+document.getElementById('meditationBtn').addEventListener('click', function(){ submitMeditation(); });
+document.getElementById('prayerBtn').addEventListener('click', function(){ submitPrayer(); });
+document.getElementById('questionBtn').addEventListener('click', function(){ submitQuestion(); });
+document.getElementById('backBtnMeditation').addEventListener('click', function(){ goBack('meditation'); });
+document.getElementById('backBtnPrayer').addEventListener('click', function(){ goBack('prayer'); });
+document.getElementById('backBtnQuestion').addEventListener('click', function(){ goBack('question'); });
+document.getElementById('copyBtnMeditation').addEventListener('click', function(){ copyResult('meditation'); });
+document.getElementById('shareBtnMeditation').addEventListener('click', function(){ shareResult('meditation'); });
+document.getElementById('copyBtnPrayer').addEventListener('click', function(){ copyResult('prayer'); });
+document.getElementById('shareBtnPrayer').addEventListener('click', function(){ shareResult('prayer'); });
+document.getElementById('copyBtnQuestion').addEventListener('click', function(){ copyResult('question'); });
+document.getElementById('shareBtnQuestion').addEventListener('click', function(){ shareResult('question'); });
 </script>
 </body>
 </html>

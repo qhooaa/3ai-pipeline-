@@ -47,18 +47,8 @@
   .header .date-line { font-size:11px; color:var(--text-light); margin-top:8px; }
 
   /* ── Mode Tabs (4개) ── */
-  .mode-tabs {
-    display:flex; margin-bottom:24px;
-    background:var(--surface); border:1px solid var(--border);
-    border-radius:28px; padding:4px; box-shadow:var(--shadow);
-  }
-  .mode-tab {
-    flex:1; padding:9px 0;
-    font-size:11px; font-weight:500; font-family:inherit;
-    color:var(--text-dim); background:transparent;
-    border:none; border-radius:24px; cursor:pointer; transition:all .3s;
-    white-space:nowrap;
-  }
+  .mode-tabs { display:flex; margin-bottom:24px; background:var(--surface); border:1px solid var(--border); border-radius:28px; padding:4px; box-shadow:var(--shadow); }
+  .mode-tab { flex:1; padding:9px 0; font-size:11px; font-weight:500; font-family:inherit; color:var(--text-dim); background:transparent; border:none; border-radius:24px; cursor:pointer; transition:all .3s; white-space:nowrap; }
   .mode-tab.active { background:var(--accent); color:#fff; box-shadow:0 2px 8px rgba(122,140,110,.3); }
   .mode-tab:not(.active):hover { color:var(--accent); background:var(--accent-glow); }
 
@@ -156,37 +146,20 @@
      역사 흐름도 전용 CSS
   ══════════════════════════════════════════ */
   .tree-wrap { padding-bottom:8px; }
-
-  /* Progress */
   .progress-wrap { max-width:480px; margin:0 auto 12px; }
   .progress-label { font-size:11px; color:#7a8c6e; margin-bottom:5px; display:flex; justify-content:space-between; }
   .progress-track { height:6px; background:#e0ddd5; border-radius:10px; overflow:hidden; }
   .progress-fill  { height:100%; background:linear-gradient(to right,#c4922a,#5e7a4e); border-radius:10px; transition:width .4s ease; }
-
-  /* Prophecy hint */
   .prophecy-hint { max-width:480px; margin:0 auto 14px; font-size:11px; color:#5a8a9e; text-align:center; }
-
-  /* Legend */
   .legend { display:flex; justify-content:center; gap:12px; margin-bottom:18px; flex-wrap:wrap; }
   .legend-item { display:flex; align-items:center; gap:5px; }
   .legend-dot { width:10px; height:10px; border-radius:2px; }
   .legend-label { font-size:11px; color:#8a847a; }
 
-  /* Tree */
   .tree { position:relative; max-width:480px; margin:0 auto; padding:0 14px; }
-  .trunk {
-    position:absolute; left:50%; top:0; bottom:0; width:3px; transform:translateX(-50%);
-    background:linear-gradient(to bottom,
-      #c4922a 0%,#c4922a 12%,#b87333 22%,#8a7050 35%,
-      #5e7a4e 48%,#4a6e7a 63%,#6a5a7a 75%,#5e7a6e 87%,#ccc 100%);
-    z-index:0;
-  }
-
-  /* Era */
+  .trunk { position:absolute; left:50%; top:0; bottom:0; width:3px; transform:translateX(-50%); background:linear-gradient(to bottom, #c4922a 0%,#c4922a 12%,#b87333 22%,#8a7050 35%, #5e7a4e 48%,#4a6e7a 63%,#6a5a7a 75%,#5e7a6e 87%,#ccc 100%); z-index:0; }
   .era { position:relative; margin-bottom:6px; z-index:1; }
   .era-row { display:flex; align-items:flex-start; }
-
-  /* Sides */
   .side { flex:1; display:flex; flex-direction:column; padding-top:12px; min-height:44px; }
   .side.left  { align-items:flex-end; padding-right:8px; }
   .side.right { align-items:flex-start; padding-left:8px; }
@@ -196,30 +169,25 @@
   .pills { display:flex; flex-wrap:wrap; gap:3px; max-width:134px; }
   .side.left  .pills { justify-content:flex-end; }
   .side.right .pills { justify-content:flex-start; }
-
-  /* Pill */
-  .pill { display:inline-flex; align-items:center; gap:3px; padding:3px 7px; border-radius:20px; font-size:10px; border:1.5px solid; white-space:nowrap; transition:all .2s; }
-  .pill-history  { background:#e8f0e4; border-color:#7a8c6e; color:#3a5a2e; cursor:pointer; }
-  .pill-history:active { transform:scale(.95); }
+  .pill { display:inline-flex; align-items:center; gap:3px; padding:3px 7px; border-radius:20px; font-size:10px; border:1.5px solid; white-space:nowrap; transition:all .2s; cursor:pointer; }
+  .pill:active { transform:scale(.95); }
+  .pill-history  { background:#e8f0e4; border-color:#7a8c6e; color:#3a5a2e; }
   .pill-history.read { background:#7a8c6e; border-color:#5e7050; color:#fff; }
   .pill-history.read::after { content:'✓'; font-size:9px; margin-left:1px; }
+  .pill-history.partial::after { content:''; display:inline-block; width:7px; height:7px; border:1.5px solid #5e7050; border-radius:50%; margin-left:1px; }
   .pill-history.blocked { background:#f0ede8; border-color:#ccc; color:#bbb; cursor:not-allowed; }
   .pill-poetry   { background:#ede8f5; border-color:#9a7ab8; color:#4a2a6e; }
+  .pill-poetry.read { background:#9a7ab8; border-color:#7a5a98; color:#fff; }
+  .pill-poetry.read::after { content:'✓'; font-size:9px; margin-left:1px; }
   .pill-prophecy { background:#e4eef0; border-color:#5a8a9e; color:#1a4a5e; }
-
-  /* Number badge */
+  .pill-prophecy.read { background:#5a8a9e; border-color:#3a6a7e; color:#fff; }
+  .pill-prophecy.read::after { content:'✓'; font-size:9px; margin-left:1px; }
   .num-badge { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; background:#7a8c6e; color:#fff; font-size:8.5px; font-weight:700; flex-shrink:0; }
   .pill-history.read .num-badge { background:rgba(255,255,255,.3); }
   .pill-history.blocked .num-badge { background:#ccc; }
   .num-badge.sub { background:#b0a898; }
-
-  /* Locked side */
   .side-locked { opacity:.28; filter:grayscale(.7); transition:all .5s; pointer-events:none; }
-
-  /* Connection tag */
   .conn-tag { display:inline-block; font-size:8.5px; padding:1px 5px; border-radius:8px; background:#f0ede8; border:1px solid #ddd; color:#aaa; margin-top:2px; white-space:nowrap; }
-
-  /* Node */
   .node-wrap { display:flex; flex-direction:column; align-items:center; width:120px; flex-shrink:0; cursor:pointer; }
   .node-circle { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:3px solid transparent; box-shadow:0 2px 6px rgba(0,0,0,.1); transition:all .2s; position:relative; z-index:2; }
   .node-circle .inner { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.35); }
@@ -229,55 +197,70 @@
   .node-period { font-size:9.5px; color:#bbb; margin-top:1px; text-align:center; }
   .node-history { margin-top:6px; display:flex; flex-wrap:wrap; justify-content:center; gap:3px; }
   .node-toggle  { font-size:9px; color:#ccc; margin-top:4px; }
-
-  /* Desc box */
   .desc-box { display:none; margin:8px 8px 4px; background:#fff; border-radius:0 10px 10px 0; padding:10px 14px; font-size:12px; color:#3a372e; line-height:1.75; box-shadow:0 2px 12px rgba(0,0,0,.06); }
   .desc-box.open { display:block; }
   .desc-era-name { font-weight:700; }
-
-  /* NT cap */
   .nt-cap { position:relative; z-index:1; text-align:center; padding-top:14px; }
   .nt-badge { display:inline-block; padding:9px 22px; background:#3a372e; color:#f4f1eb; border-radius:28px; font-family:'Gowun Batang',serif; font-size:13px; font-weight:700; letter-spacing:1.5px; box-shadow:0 4px 16px rgba(58,55,46,.2); }
   .nt-period { font-size:10px; color:#bbb; margin-top:5px; }
-
-  /* Reset & footer */
   .reset-btn { display:block; margin:18px auto 0; font-size:10px; color:#ccc; background:none; border:1px solid #e0ddd5; border-radius:12px; padding:4px 12px; cursor:pointer; font-family:inherit; }
   .tree-footer { text-align:center; margin-top:20px; font-size:10px; color:#ccc; line-height:1.9; }
 
-  /* ── Toast (공용) ── */
+  /* ── Toast ── */
   .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:#3a372e; color:#f4f1eb; padding:9px 18px; border-radius:20px; font-size:12px; opacity:0; transition:all .3s; pointer-events:none; z-index:2000; white-space:nowrap; max-width:90vw; text-align:center; }
   .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
   /* ══════════════════════════════════════════
-     책 내용 모달
+     막 선택 모달
   ══════════════════════════════════════════ */
-  .modal-overlay { position:fixed; inset:0; background:rgba(30,25,15,.65); z-index:1500; display:none; align-items:flex-end; justify-content:center; backdrop-filter:blur(2px); }
-  .modal-overlay.open { display:flex; }
-  .modal-sheet { background:#f9f6ef; border-radius:20px 20px 0 0; width:100%; max-width:520px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 -8px 40px rgba(0,0,0,.25); animation:slideUp .25s ease; }
-  @keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:translateY(0);opacity:1} }
-  .modal-handle { width:36px; height:4px; background:#ddd; border-radius:2px; margin:12px auto 0; flex-shrink:0; }
-  .modal-header { padding:12px 20px 10px; border-bottom:1px solid #ede8dc; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
-  .modal-book-title { font-family:'Gowun Batang',serif; font-size:19px; color:#3a372e; letter-spacing:1px; }
-  .modal-close { background:none; border:none; font-size:22px; color:#bbb; cursor:pointer; line-height:1; padding:2px 6px; }
-  .modal-close:hover { color:#888; }
-  .modal-body { flex:1; overflow-y:auto; padding:18px 20px 8px; font-size:14px; line-height:1.95; color:#3a372e; font-family:'Noto Sans KR',sans-serif; }
-  .modal-body h1 { font-family:'Gowun Batang',serif; font-size:18px; font-weight:700; margin:28px 0 10px; color:#3a372e; border-bottom:2px solid #e8e4db; padding-bottom:8px; line-height:1.5; }
-  .modal-body h2 { font-family:'Gowun Batang',serif; font-size:15px; font-weight:700; margin:22px 0 8px; color:#3a372e; padding-left:10px; border-left:3px solid #c4922a; line-height:1.5; }
-  .modal-body h3 { font-family:'Noto Sans KR',sans-serif; font-size:13px; font-weight:700; margin:18px 0 6px; color:#3a372e; }
-  .modal-body p  { margin-bottom:14px; color:#3a372e; word-break:keep-all; }
-  .modal-body strong { color:#3a372e; font-weight:700; }
-  .modal-body hr { border:none; border-top:1px solid #e8e4db; margin:20px 0; }
-  .modal-body blockquote { border-left:3px solid #c4922a; padding:8px 12px; color:#5a4a3a; background:#faf7f2; border-radius:0 6px 6px 0; margin:14px 0; font-style:normal; }
-  .modal-body ol, .modal-body ul { padding-left:18px; margin-bottom:14px; }
-  .modal-body li { margin-bottom:8px; line-height:1.85; color:#3a372e; }
-  .modal-loading { text-align:center; color:#aaa; padding:40px 0; font-size:13px; }
-  .modal-footer { padding:12px 20px 20px; border-top:1px solid #ede8dc; flex-shrink:0; display:flex; gap:10px; }
-  .btn-read-done { flex:1; border:none; border-radius:24px; padding:13px; font-size:14px; font-family:'Noto Sans KR',sans-serif; cursor:pointer; font-weight:500; transition:all .2s; }
-  .btn-read-done.unread  { background:#7a8c6e; color:#fff; }
-  .btn-read-done.unread:hover { background:#5e7050; }
-  .btn-read-done.already { background:#e8f0e4; color:#5e7050; border:1.5px solid #7a8c6e; }
-  .btn-modal-close-alt { padding:13px 18px; border:1.5px solid #ddd; border-radius:24px; background:none; color:#888; font-size:14px; font-family:'Noto Sans KR',sans-serif; cursor:pointer; transition:all .2s; }
-  .btn-modal-close-alt:hover { background:#f0ede8; }
+  .act-overlay { position:fixed; inset:0; z-index:1500; background:rgba(58,55,46,.45); backdrop-filter:blur(4px); display:none; align-items:flex-end; justify-content:center; }
+  .act-overlay.open { display:flex; }
+  .act-modal { background:#faf8f4; border-radius:20px 20px 0 0; width:100%; max-width:520px; max-height:70vh; overflow-y:auto; box-shadow:0 -4px 24px rgba(58,55,46,.15); animation:slideUp .3s cubic-bezier(.22,1,.36,1); }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .act-modal-header { position:sticky; top:0; background:#faf8f4; padding:20px 24px 12px; border-bottom:1px solid #e8e2d6; display:flex; align-items:center; justify-content:space-between; z-index:2; }
+  .act-modal-title { font-family:'Gowun Batang',serif; font-size:17px; font-weight:700; color:#3a372e; }
+  .act-modal-close { width:32px; height:32px; border-radius:50%; border:none; background:#e8e2d6; color:#8a847a; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .act-modal-close:hover { background:#ddd6c8; color:#3a372e; }
+  .act-list { padding:8px 20px 24px; }
+  .act-item { display:flex; align-items:center; gap:12px; padding:14px 16px; margin-bottom:8px; border-radius:14px; border:1.5px solid #e8e2d6; background:#fff; cursor:pointer; transition:all .2s; }
+  .act-item:hover:not(.act-locked) { border-color:#7a8c6e; background:#f0f5ed; }
+  .act-item:active:not(.act-locked) { transform:scale(.98); }
+  .act-locked { opacity:.45; cursor:not-allowed; background:#f8f6f2; }
+  .act-completed { border-color:#7a8c6e; background:#f0f5ed; }
+  .act-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+  .act-icon-done { background:#7a8c6e; color:#fff; }
+  .act-icon-next { background:#e8e2d6; color:#5e6e52; }
+  .act-icon-lock { background:#f0ede8; color:#ccc; }
+  .act-info { flex:1; min-width:0; }
+  .act-info-title { font-size:13px; font-weight:600; color:#3a372e; margin-bottom:2px; }
+  .act-info-chapters { font-size:11px; color:#8a847a; }
+  .act-arrow { color:#ccc; font-size:12px; }
+
+  /* ══════════════════════════════════════════
+     콘텐츠 모달 (전체 화면)
+  ══════════════════════════════════════════ */
+  .content-modal { display:none; position:fixed; inset:0; z-index:1600; background:#faf8f4; overflow-y:auto; }
+  .content-modal.open { display:block; }
+  .content-header { position:sticky; top:0; z-index:10; background:#faf8f4; padding:16px 20px; border-bottom:1px solid #e8e2d6; display:flex; align-items:center; gap:12px; }
+  .content-back { padding:8px 14px; border-radius:20px; border:1px solid #ddd6c8; background:#fff; color:#8a847a; font-size:12px; font-family:inherit; cursor:pointer; white-space:nowrap; }
+  .content-back:hover { border-color:#7a8c6e; color:#5e6e52; }
+  .content-title-area { flex:1; min-width:0; }
+  .content-book-name { font-family:'Gowun Batang',serif; font-size:15px; font-weight:700; color:#3a372e; }
+  .content-act-info { font-size:11px; color:#8a847a; margin-top:1px; }
+  .content-body { max-width:520px; margin:0 auto; padding:24px 24px 120px; font-size:14px; line-height:2; color:#3a372e; word-break:keep-all; }
+  .content-body h1 { font-family:'Gowun Batang',serif; font-size:18px; font-weight:700; margin:28px 0 10px; border-bottom:2px solid #e8e4db; padding-bottom:8px; }
+  .content-body h2 { font-family:'Gowun Batang',serif; font-size:15px; font-weight:700; margin:22px 0 8px; padding-left:10px; border-left:3px solid #c4922a; }
+  .content-body p { margin-bottom:14px; }
+  .content-body strong { color:#5e6e52; }
+  .content-body hr { border:none; border-top:1px solid #e8e4db; margin:20px 0; }
+  .content-body blockquote { border-left:3px solid #c4922a; padding:8px 12px; color:#5a4a3a; background:#faf7f2; border-radius:0 6px 6px 0; margin:14px 0; }
+  .content-body ol,.content-body ul { padding-left:18px; margin-bottom:14px; }
+  .content-body li { margin-bottom:8px; line-height:1.85; }
+  .content-footer { position:fixed; bottom:0; left:0; right:0; z-index:1610; background:linear-gradient(transparent, #faf8f4 30%); padding:24px 20px 28px; text-align:center; }
+  .complete-btn { padding:14px 36px; border-radius:28px; border:none; background:#7a8c6e; color:#fff; font-size:13px; font-weight:600; font-family:inherit; cursor:pointer; letter-spacing:1px; box-shadow:0 4px 16px rgba(122,140,110,.3); transition:all .3s; }
+  .complete-btn:hover { background:#5e6e52; transform:translateY(-1px); }
+  .complete-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+  .complete-btn.done { background:#e8e2d6; color:#7a8c6e; box-shadow:none; }
 
   @media (max-width:400px) {
     .container { padding:28px 18px 80px; }
@@ -312,16 +295,11 @@
       <p style="font-size:11px;color:#aaa;text-align:center;margin-bottom:14px;line-height:1.6">
         역사서를 순서대로 읽어야 다음 책이 활성화돼요<br>시가서 = 해당 책 직후 해금 · 예언서 = 역사서 전체 완독 후 해금
       </p>
-
       <div class="progress-wrap">
         <div class="progress-label"><span>역사서 읽기 진행</span><span id="progressText">0 / 13</span></div>
         <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
       </div>
-
-      <div class="prophecy-hint" id="prophecyHint">
-        📜 예언서는 역사서 13권 완독 후 열려요 (<span id="prophecyCount">0</span>/13)
-      </div>
-
+      <div class="prophecy-hint" id="prophecyHint">📜 예언서는 역사서 13권 완독 후 열려요 (<span id="prophecyCount">0</span>/13)</div>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:#e8f0e4;border:1.5px solid #7a8c6e"></div><span class="legend-label">역사서</span></div>
         <div class="legend-item"><div class="legend-dot" style="background:#ede8f5;border:1.5px solid #9a7ab8"></div><span class="legend-label">시가서</span></div>
@@ -332,266 +310,121 @@
         <div class="trunk"></div>
 
         <!-- ① 창조 · 족장 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left" id="side-poetry-욥기">
-              <div class="branch-line" style="background:#9a7ab8"></div>
-              <div class="pills">
-                <div><span class="pill pill-poetry">욥기</span><div class="conn-tag">← 창세기 완독 후</div></div>
-              </div>
-            </div>
-            <div class="node-wrap" onclick="toggleEra('creation')">
-              <div class="node-circle" style="background:#c4922a;border-color:#c4922a88"><div class="inner"></div></div>
-              <div class="node-label">창조 · 족장 시대</div>
-              <div class="node-period">BC 2000+</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-창세기" onclick="openBookModal(event,'창세기')"><span class="num-badge">1</span>창세기</span>
-              </div>
-              <div class="node-toggle" id="toggle-creation">▼</div>
-            </div>
-            <div class="side right"></div>
-          </div>
-          <div class="desc-box" id="desc-creation" style="border-left:3px solid #c4922a">
-            <span class="desc-era-name" style="color:#c4922a">창조 · 족장 시대</span><br>
-            아담부터 요셉까지. 인류의 시작과 이스라엘 민족의 뿌리.<br><br>
-            <b style="color:#9a7ab8">📖 욥기</b> — 창세기 완독 시 해금. 족장 시대 인물 욥의 고통과 믿음의 기록.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left" id="side-poetry-욥기"><div class="branch-line" style="background:#9a7ab8"></div><div class="pills"><div><span class="pill pill-poetry" data-book="욥기" onclick="openBook(event,'욥기')">욥기</span><div class="conn-tag">← 창세기 완독 후</div></div></div></div>
+          <div class="node-wrap" onclick="toggleEra('creation')"><div class="node-circle" style="background:#c4922a;border-color:#c4922a88"><div class="inner"></div></div><div class="node-label">창조 · 족장 시대</div><div class="node-period">BC 2000+</div><div class="node-history"><span class="pill pill-history" id="h-창세기" data-book="창세기" onclick="openBook(event,'창세기')"><span class="num-badge">1</span>창세기</span></div><div class="node-toggle" id="toggle-creation">▼</div></div>
+          <div class="side right"></div>
+        </div><div class="desc-box" id="desc-creation" style="border-left:3px solid #c4922a"><span class="desc-era-name" style="color:#c4922a">창조 · 족장 시대</span><br>아담부터 요셉까지. 인류의 시작과 이스라엘 민족의 뿌리.<br><br><b style="color:#9a7ab8">📖 욥기</b> — 창세기 완독 시 해금.</div></div>
 
         <!-- ② 출애굽 · 광야 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('exodus')">
-              <div class="node-circle" style="background:#b87333;border-color:#b8733388"><div class="inner"></div></div>
-              <div class="node-label">출애굽 · 광야</div>
-              <div class="node-period">BC 1446–1406</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-출애굽기" onclick="toggleRead(event,'출애굽기')"><span class="num-badge">2</span>출애굽기</span>
-                <span class="pill pill-history" id="h-레위기"   onclick="toggleRead(event,'레위기')"  ><span class="num-badge sub">2a</span>레위기</span>
-                <span class="pill pill-history" id="h-민수기"   onclick="toggleRead(event,'민수기')"  ><span class="num-badge sub">2b</span>민수기</span>
-                <span class="pill pill-history" id="h-신명기"   onclick="toggleRead(event,'신명기')"  ><span class="num-badge sub">2c</span>신명기</span>
-              </div>
-              <div class="node-toggle" id="toggle-exodus">▼</div>
-            </div>
-            <div class="side right"></div>
-          </div>
-          <div class="desc-box" id="desc-exodus" style="border-left:3px solid #b87333">
-            <span class="desc-era-name" style="color:#b87333">출애굽 · 광야</span><br>
-            모세의 인도로 이집트 탈출, 40년 광야, 율법 수여.<br><br>
-            출애굽기가 뼈대. 레위기·민수기·신명기는 보조 — 율법 상세 내용으로 나중에 돌아와도 됨.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('exodus')"><div class="node-circle" style="background:#b87333;border-color:#b8733388"><div class="inner"></div></div><div class="node-label">출애굽 · 광야</div><div class="node-period">BC 1446–1406</div><div class="node-history">
+            <span class="pill pill-history" id="h-출애굽기" data-book="출애굽기" onclick="openBook(event,'출애굽기')"><span class="num-badge">2</span>출애굽기</span>
+            <span class="pill pill-history" id="h-레위기" data-book="레위기" onclick="openBook(event,'레위기')"><span class="num-badge sub">2a</span>레위기</span>
+            <span class="pill pill-history" id="h-민수기" data-book="민수기" onclick="openBook(event,'민수기')"><span class="num-badge sub">2b</span>민수기</span>
+            <span class="pill pill-history" id="h-신명기" data-book="신명기" onclick="openBook(event,'신명기')"><span class="num-badge sub">2c</span>신명기</span>
+          </div><div class="node-toggle" id="toggle-exodus">▼</div></div>
+          <div class="side right"></div>
+        </div><div class="desc-box" id="desc-exodus" style="border-left:3px solid #b87333"><span class="desc-era-name" style="color:#b87333">출애굽 · 광야</span><br>모세의 인도로 이집트 탈출, 40년 광야, 율법 수여.<br><br>출애굽기가 뼈대. 레위기·민수기·신명기는 보조.</div></div>
 
         <!-- ③ 정복 · 사사 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('conquest')">
-              <div class="node-circle" style="background:#8a7050;border-color:#8a705088"><div class="inner"></div></div>
-              <div class="node-label">정복 · 사사 시대</div>
-              <div class="node-period">BC 1406–1050</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-여호수아" onclick="toggleRead(event,'여호수아')"><span class="num-badge">3</span>여호수아</span>
-                <span class="pill pill-history" id="h-사사기"   onclick="toggleRead(event,'사사기')"  ><span class="num-badge">4</span>사사기</span>
-                <span class="pill pill-history" id="h-룻기"     onclick="toggleRead(event,'룻기')"    ><span class="num-badge">5</span>룻기</span>
-              </div>
-              <div class="node-toggle" id="toggle-conquest">▼</div>
-            </div>
-            <div class="side right"></div>
-          </div>
-          <div class="desc-box" id="desc-conquest" style="border-left:3px solid #8a7050">
-            <span class="desc-era-name" style="color:#8a7050">정복 · 사사 시대</span><br>
-            가나안 정복 후 사사들이 다스리는 혼란기.<br><br>
-            룻기는 사사기 시대 배경의 짧은 이야기. 다윗의 증조할머니 룻 등장.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('conquest')"><div class="node-circle" style="background:#8a7050;border-color:#8a705088"><div class="inner"></div></div><div class="node-label">정복 · 사사 시대</div><div class="node-period">BC 1406–1050</div><div class="node-history">
+            <span class="pill pill-history" id="h-여호수아" data-book="여호수아" onclick="openBook(event,'여호수아')"><span class="num-badge">3</span>여호수아</span>
+            <span class="pill pill-history" id="h-사사기" data-book="사사기" onclick="openBook(event,'사사기')"><span class="num-badge">4</span>사사기</span>
+            <span class="pill pill-history" id="h-룻기" data-book="룻기" onclick="openBook(event,'룻기')"><span class="num-badge">5</span>룻기</span>
+          </div><div class="node-toggle" id="toggle-conquest">▼</div></div>
+          <div class="side right"></div>
+        </div><div class="desc-box" id="desc-conquest" style="border-left:3px solid #8a7050"><span class="desc-era-name" style="color:#8a7050">정복 · 사사 시대</span><br>가나안 정복 후 사사들이 다스리는 혼란기. 룻기는 사사기 시대 배경.</div></div>
 
         <!-- ④ 통일 왕국 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('kingdom')">
-              <div class="node-circle" style="background:#5e7a4e;border-color:#5e7a4e88"><div class="inner"></div></div>
-              <div class="node-label">통일 왕국</div>
-              <div class="node-period">BC 1050–930</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-사무엘상" onclick="toggleRead(event,'사무엘상')"><span class="num-badge">6</span>사무엘상</span>
-                <span class="pill pill-history" id="h-사무엘하" onclick="toggleRead(event,'사무엘하')"><span class="num-badge">7</span>사무엘하</span>
-              </div>
-              <div class="node-toggle" id="toggle-kingdom">▼</div>
-            </div>
-            <div class="side right"></div>
-          </div>
-          <div class="desc-box" id="desc-kingdom" style="border-left:3px solid #5e7a4e">
-            <span class="desc-era-name" style="color:#5e7a4e">통일 왕국</span><br>
-            사울→다윗→솔로몬. 이스라엘의 황금기.<br><br>
-            사무엘상/하 완독 시 <b style="color:#9a7ab8">시편</b> 해금.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('kingdom')"><div class="node-circle" style="background:#5e7a4e;border-color:#5e7a4e88"><div class="inner"></div></div><div class="node-label">통일 왕국</div><div class="node-period">BC 1050–930</div><div class="node-history">
+            <span class="pill pill-history" id="h-사무엘상" data-book="사무엘상" onclick="openBook(event,'사무엘상')"><span class="num-badge">6</span>사무엘상</span>
+            <span class="pill pill-history" id="h-사무엘하" data-book="사무엘하" onclick="openBook(event,'사무엘하')"><span class="num-badge">7</span>사무엘하</span>
+          </div><div class="node-toggle" id="toggle-kingdom">▼</div></div>
+          <div class="side right"></div>
+        </div><div class="desc-box" id="desc-kingdom" style="border-left:3px solid #5e7a4e"><span class="desc-era-name" style="color:#5e7a4e">통일 왕국</span><br>사울→다윗→솔로몬. 이스라엘의 황금기.<br><br>사무엘상/하 완독 시 <b style="color:#9a7ab8">시편</b> 해금.</div></div>
 
-        <!-- 시편 행 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left" id="side-poetry-시편">
-              <div class="branch-line" style="background:#9a7ab8"></div>
-              <div class="pills">
-                <div><span class="pill pill-poetry">시편</span><div class="conn-tag">← 사무엘상/하 완독 후</div></div>
-              </div>
-            </div>
-            <div class="side" style="width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding-top:12px;">
-              <div style="width:3px;height:100%;background:transparent;"></div>
-            </div>
-            <div class="side right"></div>
-          </div>
-        </div>
+        <!-- 시편 -->
+        <div class="era"><div class="era-row">
+          <div class="side left" id="side-poetry-시편"><div class="branch-line" style="background:#9a7ab8"></div><div class="pills"><div><span class="pill pill-poetry" data-book="시편" onclick="openBook(event,'시편')">시편</span><div class="conn-tag">← 사무엘상/하 완독 후</div></div></div></div>
+          <div class="side" style="width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding-top:12px;"><div style="width:3px;height:100%;background:transparent;"></div></div>
+          <div class="side right"></div>
+        </div></div>
 
         <!-- ⑤ 분열 왕국 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left" id="side-poetry-솔로몬">
-              <div class="branch-line" style="background:#9a7ab8"></div>
-              <div class="pills">
-                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-                  <div><span class="pill pill-poetry">잠언</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
-                  <div><span class="pill pill-poetry">전도서</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
-                  <div><span class="pill pill-poetry">아가</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
-                </div>
-              </div>
-            </div>
-            <div class="node-wrap" onclick="toggleEra('divided')">
-              <div class="node-circle" style="background:#4a6e7a;border-color:#4a6e7a88"><div class="inner"></div></div>
-              <div class="node-label">분열 왕국</div>
-              <div class="node-period">BC 930–586</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-열왕기상" onclick="toggleRead(event,'열왕기상')"><span class="num-badge">8</span>열왕기상</span>
-                <span class="pill pill-history" id="h-열왕기하" onclick="toggleRead(event,'열왕기하')"><span class="num-badge">9</span>열왕기하</span>
-                <span class="pill pill-history" id="h-역대상"   onclick="toggleRead(event,'역대상')"  ><span class="num-badge sub">9a</span>역대상</span>
-                <span class="pill pill-history" id="h-역대하"   onclick="toggleRead(event,'역대하')"  ><span class="num-badge sub">9b</span>역대하</span>
-              </div>
-              <div class="node-toggle" id="toggle-divided">▼</div>
-            </div>
-            <div class="side right" id="side-prophecy-divided">
-              <div class="branch-line" style="background:#5a8a9e"></div>
-              <div class="pills">
-                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
-                  <div><span class="pill pill-prophecy">이사야</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">예레미야</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">호세아</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">아모스</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">미가</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">나훔</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">하박국</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">스바냐</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="desc-box" id="desc-divided" style="border-left:3px solid #4a6e7a">
-            <span class="desc-era-name" style="color:#4a6e7a">분열 왕국</span><br>
-            북이스라엘(BC 722 멸망)과 남유다 분열.<br><br>
-            열왕기상 완독 시 <b style="color:#9a7ab8">잠언·전도서·아가</b> 해금. 예언서 8권은 역사서 전체 완독 후 해금.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left" id="side-poetry-솔로몬"><div class="branch-line" style="background:#9a7ab8"></div><div class="pills"><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div><span class="pill pill-poetry" data-book="잠언" onclick="openBook(event,'잠언')">잠언</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+            <div><span class="pill pill-poetry" data-book="전도서" onclick="openBook(event,'전도서')">전도서</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+            <div><span class="pill pill-poetry" data-book="아가" onclick="openBook(event,'아가')">아가</span><div class="conn-tag">← 열왕기상 완독 후</div></div>
+          </div></div></div>
+          <div class="node-wrap" onclick="toggleEra('divided')"><div class="node-circle" style="background:#4a6e7a;border-color:#4a6e7a88"><div class="inner"></div></div><div class="node-label">분열 왕국</div><div class="node-period">BC 930–586</div><div class="node-history">
+            <span class="pill pill-history" id="h-열왕기상" data-book="열왕기상" onclick="openBook(event,'열왕기상')"><span class="num-badge">8</span>열왕기상</span>
+            <span class="pill pill-history" id="h-열왕기하" data-book="열왕기하" onclick="openBook(event,'열왕기하')"><span class="num-badge">9</span>열왕기하</span>
+            <span class="pill pill-history" id="h-역대상" data-book="역대상" onclick="openBook(event,'역대상')"><span class="num-badge sub">9a</span>역대상</span>
+            <span class="pill pill-history" id="h-역대하" data-book="역대하" onclick="openBook(event,'역대하')"><span class="num-badge sub">9b</span>역대하</span>
+          </div><div class="node-toggle" id="toggle-divided">▼</div></div>
+          <div class="side right" id="side-prophecy-divided"><div class="branch-line" style="background:#5a8a9e"></div><div class="pills"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+            <div><span class="pill pill-prophecy" data-book="이사야" onclick="openBook(event,'이사야')">이사야</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="예레미야" onclick="openBook(event,'예레미야')">예레미야</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="호세아" onclick="openBook(event,'호세아')">호세아</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="아모스" onclick="openBook(event,'아모스')">아모스</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="미가" onclick="openBook(event,'미가')">미가</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="나훔" onclick="openBook(event,'나훔')">나훔</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="하박국" onclick="openBook(event,'하박국')">하박국</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="스바냐" onclick="openBook(event,'스바냐')">스바냐</span><div class="conn-tag">← 역사서 완독 후</div></div>
+          </div></div></div>
+        </div><div class="desc-box" id="desc-divided" style="border-left:3px solid #4a6e7a"><span class="desc-era-name" style="color:#4a6e7a">분열 왕국</span><br>북이스라엘(BC 722 멸망)과 남유다 분열.<br><br>열왕기상 완독 시 <b style="color:#9a7ab8">잠언·전도서·아가</b> 해금. 예언서 8권은 역사서 전체 완독 후.</div></div>
 
         <!-- ⑥ 바벨론 포로기 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('exile')">
-              <div class="node-circle" style="background:#6a5a7a;border-color:#6a5a7a88"><div class="inner"></div></div>
-              <div class="node-label">바벨론 포로기</div>
-              <div class="node-period">BC 586–538</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-예레미야애가" onclick="toggleRead(event,'예레미야애가')"><span class="num-badge">10</span>예레미야애가</span>
-              </div>
-              <div class="node-toggle" id="toggle-exile">▼</div>
-            </div>
-            <div class="side right" id="side-prophecy-exile">
-              <div class="branch-line" style="background:#5a8a9e"></div>
-              <div class="pills">
-                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
-                  <div><span class="pill pill-prophecy">에스겔</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">다니엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">오바댜</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="desc-box" id="desc-exile" style="border-left:3px solid #6a5a7a">
-            <span class="desc-era-name" style="color:#6a5a7a">바벨론 포로기</span><br>
-            예루살렘 함락 후 바벨론 포로 생활.<br><br>
-            예레미야애가를 먼저 읽으면 함락의 충격을 느끼고 에스겔·다니엘로 진입.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('exile')"><div class="node-circle" style="background:#6a5a7a;border-color:#6a5a7a88"><div class="inner"></div></div><div class="node-label">바벨론 포로기</div><div class="node-period">BC 586–538</div><div class="node-history">
+            <span class="pill pill-history" id="h-예레미야애가" data-book="예레미야애가" onclick="openBook(event,'예레미야애가')"><span class="num-badge">10</span>예레미야애가</span>
+          </div><div class="node-toggle" id="toggle-exile">▼</div></div>
+          <div class="side right" id="side-prophecy-exile"><div class="branch-line" style="background:#5a8a9e"></div><div class="pills"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+            <div><span class="pill pill-prophecy" data-book="에스겔" onclick="openBook(event,'에스겔')">에스겔</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="다니엘" onclick="openBook(event,'다니엘')">다니엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="오바댜" onclick="openBook(event,'오바댜')">오바댜</span><div class="conn-tag">← 역사서 완독 후</div></div>
+          </div></div></div>
+        </div><div class="desc-box" id="desc-exile" style="border-left:3px solid #6a5a7a"><span class="desc-era-name" style="color:#6a5a7a">바벨론 포로기</span><br>예루살렘 함락 후 바벨론 포로 생활.</div></div>
 
         <!-- ⑦ 포로 귀환기 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('return')">
-              <div class="node-circle" style="background:#5e7a6e;border-color:#5e7a6e88"><div class="inner"></div></div>
-              <div class="node-label">포로 귀환기</div>
-              <div class="node-period">BC 538–400</div>
-              <div class="node-history">
-                <span class="pill pill-history" id="h-에스라"   onclick="toggleRead(event,'에스라')"  ><span class="num-badge">11</span>에스라</span>
-                <span class="pill pill-history" id="h-느헤미야" onclick="toggleRead(event,'느헤미야')"><span class="num-badge">12</span>느헤미야</span>
-                <span class="pill pill-history" id="h-에스더"   onclick="toggleRead(event,'에스더')"  ><span class="num-badge">13</span>에스더</span>
-              </div>
-              <div class="node-toggle" id="toggle-return">▼</div>
-            </div>
-            <div class="side right" id="side-prophecy-return">
-              <div class="branch-line" style="background:#5a8a9e"></div>
-              <div class="pills">
-                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
-                  <div><span class="pill pill-prophecy">학개</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">스가랴</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">말라기</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">요엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                  <div><span class="pill pill-prophecy">요나</span><div class="conn-tag">← 역사서 완독 후</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="desc-box" id="desc-return" style="border-left:3px solid #5e7a6e">
-            <span class="desc-era-name" style="color:#5e7a6e">포로 귀환기</span><br>
-            페르시아 고레스 칙령으로 귀환. 성전 재건.<br><br>
-            말라기는 구약의 마지막 목소리. 이후 400년 침묵.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('return')"><div class="node-circle" style="background:#5e7a6e;border-color:#5e7a6e88"><div class="inner"></div></div><div class="node-label">포로 귀환기</div><div class="node-period">BC 538–400</div><div class="node-history">
+            <span class="pill pill-history" id="h-에스라" data-book="에스라" onclick="openBook(event,'에스라')"><span class="num-badge">11</span>에스라</span>
+            <span class="pill pill-history" id="h-느헤미야" data-book="느헤미야" onclick="openBook(event,'느헤미야')"><span class="num-badge">12</span>느헤미야</span>
+            <span class="pill pill-history" id="h-에스더" data-book="에스더" onclick="openBook(event,'에스더')"><span class="num-badge">13</span>에스더</span>
+          </div><div class="node-toggle" id="toggle-return">▼</div></div>
+          <div class="side right" id="side-prophecy-return"><div class="branch-line" style="background:#5a8a9e"></div><div class="pills"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
+            <div><span class="pill pill-prophecy" data-book="학개" onclick="openBook(event,'학개')">학개</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="스가랴" onclick="openBook(event,'스가랴')">스가랴</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="말라기" onclick="openBook(event,'말라기')">말라기</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="요엘" onclick="openBook(event,'요엘')">요엘</span><div class="conn-tag">← 역사서 완독 후</div></div>
+            <div><span class="pill pill-prophecy" data-book="요나" onclick="openBook(event,'요나')">요나</span><div class="conn-tag">← 역사서 완독 후</div></div>
+          </div></div></div>
+        </div><div class="desc-box" id="desc-return" style="border-left:3px solid #5e7a6e"><span class="desc-era-name" style="color:#5e7a6e">포로 귀환기</span><br>페르시아 고레스 칙령으로 귀환. 말라기는 구약의 마지막 목소리.</div></div>
 
         <!-- 침묵기 -->
-        <div class="era">
-          <div class="era-row">
-            <div class="side left"></div>
-            <div class="node-wrap" onclick="toggleEra('silence')">
-              <div class="node-circle silence" style="background:#ddd;border-color:#ccc"><div class="inner"></div></div>
-              <div class="node-label silence">침묵기 (400년)</div>
-              <div class="node-period">BC 400–BC 4</div>
-              <div class="node-toggle" id="toggle-silence">▼</div>
-            </div>
-            <div class="side right"></div>
-          </div>
-          <div class="desc-box" id="desc-silence" style="border-left:3px solid #aaa">
-            <span class="desc-era-name" style="color:#aaa">침묵기 (400년)</span><br>
-            성경에 기록 없음. 헬라·로마 제국 지배.<br><br>
-            이 침묵이 깨지는 순간이 세례 요한의 등장.
-          </div>
-        </div>
+        <div class="era"><div class="era-row">
+          <div class="side left"></div>
+          <div class="node-wrap" onclick="toggleEra('silence')"><div class="node-circle silence" style="background:#ddd;border-color:#ccc"><div class="inner"></div></div><div class="node-label silence">침묵기 (400년)</div><div class="node-period">BC 400–BC 4</div><div class="node-toggle" id="toggle-silence">▼</div></div>
+          <div class="side right"></div>
+        </div><div class="desc-box" id="desc-silence" style="border-left:3px solid #aaa"><span class="desc-era-name" style="color:#aaa">침묵기 (400년)</span><br>성경에 기록 없음. 이 침묵이 깨지는 순간이 세례 요한의 등장.</div></div>
 
-        <div class="nt-cap">
-          <div class="nt-badge">✦ 신약 — 예수 그리스도</div>
-          <div class="nt-period">BC 4 / AD 1~100</div>
-        </div>
-      </div><!-- /tree -->
+        <div class="nt-cap"><div class="nt-badge">✦ 신약 — 예수 그리스도</div><div class="nt-period">BC 4 / AD 1~100</div></div>
+      </div>
 
       <button class="reset-btn" onclick="resetProgress()">처음부터 다시</button>
-      <div class="tree-footer">
-        * 2a·2b·2c·9a·9b는 보조 역사서 (핵심 읽은 후 읽어도 됨)<br>
-        * 욥기 연대 불명 (족장 시대 추정) · 요엘·요나 연대는 학자마다 의견 다름
-      </div>
-    </div><!-- /tree-wrap -->
-  </div><!-- /treeMode -->
+      <div class="tree-footer">* 2a·2b·2c·9a·9b는 보조 역사서 (핵심 읽은 후 읽어도 됨)<br>* 욥기 연대 불명 (족장 시대 추정) · 요엘·요나 연대는 학자마다 의견 다름</div>
+    </div>
+  </div>
 
   <!-- ═══════ 말씀묵상 모드 ═══════ -->
   <div class="mode-section" id="meditationMode">
@@ -615,25 +448,10 @@
       <button class="submit-btn" id="meditationBtn">묵상 시작하기</button>
       <div class="status-bar" id="statusBarMeditation"></div>
     </div>
-    <div class="loading-animation" id="loadingMeditation">
-      <div class="loading-icon">📖</div>
-      <div class="loading-text">말씀을 묵상하고 있어요...</div>
-    </div>
+    <div class="loading-animation" id="loadingMeditation"><div class="loading-icon">📖</div><div class="loading-text">말씀을 묵상하고 있어요...</div></div>
     <button class="back-btn" id="backBtnMeditation">← 돌아가기</button>
-    <div class="result-box" id="resultMeditation">
-      <div class="result-card">
-        <div class="result-title" id="resultTitleMeditation"></div>
-        <div class="result-content" id="resultContentMeditation"></div>
-        <div class="result-actions">
-          <button class="action-btn" id="copyBtnMeditation">📋 복사하기</button>
-          <button class="action-btn" id="shareBtnMeditation">💌 공유하기</button>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-section" id="timelineMeditation">
-      <div class="timeline-title">📝 묵상 기록</div>
-      <ul class="timeline-list" id="timelineListMeditation"></ul>
-    </div>
+    <div class="result-box" id="resultMeditation"><div class="result-card"><div class="result-title" id="resultTitleMeditation"></div><div class="result-content" id="resultContentMeditation"></div><div class="result-actions"><button class="action-btn" id="copyBtnMeditation">📋 복사하기</button><button class="action-btn" id="shareBtnMeditation">💌 공유하기</button></div></div></div>
+    <div class="timeline-section" id="timelineMeditation"><div class="timeline-title">📝 묵상 기록</div><ul class="timeline-list" id="timelineListMeditation"></ul></div>
   </div>
 
   <!-- ═══════ 기도근거 모드 ═══════ -->
@@ -646,25 +464,10 @@
       <button class="submit-btn" id="prayerBtn">기도 근거 찾기</button>
       <div class="status-bar" id="statusBarPrayer"></div>
     </div>
-    <div class="loading-animation" id="loadingPrayer">
-      <div class="loading-icon">🙏</div>
-      <div class="loading-text">성경에서 기도 근거를 찾고 있어요...</div>
-    </div>
+    <div class="loading-animation" id="loadingPrayer"><div class="loading-icon">🙏</div><div class="loading-text">성경에서 기도 근거를 찾고 있어요...</div></div>
     <button class="back-btn" id="backBtnPrayer">← 돌아가기</button>
-    <div class="result-box" id="resultPrayer">
-      <div class="result-card">
-        <div class="result-title" id="resultTitlePrayer"></div>
-        <div class="result-content" id="resultContentPrayer"></div>
-        <div class="result-actions">
-          <button class="action-btn" id="copyBtnPrayer">📋 복사하기</button>
-          <button class="action-btn" id="shareBtnPrayer">💌 공유하기</button>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-section" id="timelinePrayer">
-      <div class="timeline-title">📝 기도 기록</div>
-      <ul class="timeline-list" id="timelineListPrayer"></ul>
-    </div>
+    <div class="result-box" id="resultPrayer"><div class="result-card"><div class="result-title" id="resultTitlePrayer"></div><div class="result-content" id="resultContentPrayer"></div><div class="result-actions"><button class="action-btn" id="copyBtnPrayer">📋 복사하기</button><button class="action-btn" id="shareBtnPrayer">💌 공유하기</button></div></div></div>
+    <div class="timeline-section" id="timelinePrayer"><div class="timeline-title">📝 기도 기록</div><ul class="timeline-list" id="timelineListPrayer"></ul></div>
   </div>
 
   <!-- ═══════ 믿음질문 모드 ═══════ -->
@@ -672,57 +475,33 @@
     <div id="inputArea-question">
       <div class="card">
         <div class="card-label">❓ 믿음에 대한 솔직한 질문, 성경에서 답을 찾아봐요</div>
-        <div style="font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;">
-          아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.
-        </div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;">아래는 많은 분들이 한 번쯤 품어본 질문들이에요.<br>눌러서 바로 질문하거나, 직접 자유롭게 적어도 돼요.</div>
         <select class="book-select" id="presetSelect"><option value="">자주 묻는 질문을 선택하세요</option></select>
         <textarea class="input-textarea" id="questionTopic" placeholder="궁금한 점이나 납득이 안 되는 부분을 자유롭게 적어주세요&#10;&#10;예) 착하게 살면 되지 왜 꼭 예수를 믿어야 해?&#10;예) 기도해도 응답이 없는 것 같아요"></textarea>
       </div>
       <button class="submit-btn" id="questionBtn">답변 찾기</button>
       <div class="status-bar" id="statusBarQuestion"></div>
     </div>
-    <div class="loading-animation" id="loadingQuestion">
-      <div class="loading-icon">❓</div>
-      <div class="loading-text">성경에서 답을 찾고 있어요...</div>
-    </div>
+    <div class="loading-animation" id="loadingQuestion"><div class="loading-icon">❓</div><div class="loading-text">성경에서 답을 찾고 있어요...</div></div>
     <button class="back-btn" id="backBtnQuestion">← 돌아가기</button>
-    <div class="result-box" id="resultQuestion">
-      <div class="result-card">
-        <div class="result-title" id="resultTitleQuestion"></div>
-        <div class="result-content" id="resultContentQuestion"></div>
-        <div class="result-actions">
-          <button class="action-btn" id="copyBtnQuestion">📋 복사하기</button>
-          <button class="action-btn" id="shareBtnQuestion">💌 공유하기</button>
-        </div>
-      </div>
-    </div>
-    <div class="timeline-section" id="timelineQuestion">
-      <div class="timeline-title">📝 질문 기록</div>
-      <ul class="timeline-list" id="timelineListQuestion"></ul>
-    </div>
+    <div class="result-box" id="resultQuestion"><div class="result-card"><div class="result-title" id="resultTitleQuestion"></div><div class="result-content" id="resultContentQuestion"></div><div class="result-actions"><button class="action-btn" id="copyBtnQuestion">📋 복사하기</button><button class="action-btn" id="shareBtnQuestion">💌 공유하기</button></div></div></div>
+    <div class="timeline-section" id="timelineQuestion"><div class="timeline-title">📝 질문 기록</div><ul class="timeline-list" id="timelineListQuestion"></ul></div>
   </div>
 
 </div><!-- /container -->
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- Book Content Modal -->
-<div class="modal-overlay" id="bookModal" onclick="handleModalBackdrop(event)">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <span class="modal-book-title" id="modalTitle"></span>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody">
-      <div class="modal-loading">📖 불러오는 중...</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-modal-close-alt" onclick="closeModal()">닫기</button>
-      <button class="btn-read-done" id="modalReadBtn" onclick="modalToggleRead()"></button>
-    </div>
-  </div>
+<!-- 막 선택 모달 -->
+<div class="act-overlay" id="actOverlay" onclick="if(event.target===this)closeActModal()">
+  <div class="act-modal"><div class="act-modal-header"><div class="act-modal-title" id="actModalTitle"></div><button class="act-modal-close" onclick="closeActModal()">✕</button></div><div class="act-list" id="actList"></div></div>
+</div>
+
+<!-- 콘텐츠 모달 -->
+<div class="content-modal" id="contentModal">
+  <div class="content-header"><button class="content-back" onclick="closeContentModal()">← 돌아가기</button><div class="content-title-area"><div class="content-book-name" id="contentBookName"></div><div class="content-act-info" id="contentActInfo"></div></div></div>
+  <div class="content-body" id="contentBody"></div>
+  <div class="content-footer" id="contentFooter" style="display:none"><button class="complete-btn" id="completeBtn" onclick="completeAct()">✓ 읽음 완료</button></div>
 </div>
 
 <script>
@@ -730,438 +509,209 @@
 var MEDITATION_WEBHOOK = 'https://kimbombo.app.n8n.cloud/webhook/bible-guide';
 var PRAYER_WEBHOOK     = 'https://kimbombo.app.n8n.cloud/webhook/bible-prayer';
 var QUESTION_WEBHOOK   = 'https://kimbombo.app.n8n.cloud/webhook/bible-question';
-
-var CONTENT_BASE_URL = 'https://raw.githubusercontent.com/qhooaa/3ai-pipeline-/main/bible-content';
-var BOOK_CONTENT_FILES = {
-  '창세기':       'genesis.md',
-  '출애굽기':     'exodus.md',
-  '레위기':       'leviticus.md',
-  '민수기':       'numbers.md',
-  '신명기':       'deuteronomy.md',
-  '여호수아':     'joshua.md',
-  '사사기':       'judges.md',
-  '룻기':         'ruth.md',
-  '사무엘상':     'samuel1.md',
-  '사무엘하':     'samuel2.md',
-  '열왕기상':     'kings1.md',
-  '열왕기하':     'kings2.md',
-  '역대상':       'chronicles1.md',
-  '역대하':       'chronicles2.md',
-  '에스라':       'ezra.md',
-  '느헤미야':     'nehemiah.md',
-  '에스더':       'esther.md',
-  '욥기':         'job.md',
-  '시편':         'psalms.md',
-  '잠언':         'proverbs.md',
-  '전도서':       'ecclesiastes.md',
-  '아가':         'songofsolomon.md',
-  '이사야':       'isaiah.md',
-  '예레미야':     'jeremiah.md',
-  '예레미야애가': 'lamentations.md',
-  '에스겔':       'ezekiel.md',
-  '다니엘':       'daniel.md',
-  '호세아':       'hosea.md',
-  '요엘':         'joel.md',
-  '아모스':       'amos.md',
-  '오바댜':       'obadiah.md',
-  '요나':         'jonah.md',
-  '미가':         'micah.md',
-  '나훔':         'nahum.md',
-  '하박국':       'habakkuk.md',
-  '스바냐':       'zephaniah.md',
-  '학개':         'haggai.md',
-  '스가랴':       'zechariah.md',
-  '말라기':       'malachi.md',
-};
+var CONTENT_BASE = 'https://raw.githubusercontent.com/qhooaa/3ai-pipeline-/main/bible-content/';
 
 var currentMode = 'tree';
 var currentPage = { meditation:1, prayer:1, question:1 };
 var PAGE_SIZE = 10;
 
-// ═══════ Preset Questions ═══════
-var presetQuestions = [
-  '믿기만 하면 천국? 살인해도 회개하면 끝?','선한 하나님이 왜 고통을 허락해?',
-  '기도해도 응답 없던데?','착하게 살면 되지 왜 꼭 예수를 믿어야 해?',
-  '하나님이 있으면 왜 나쁜 사람이 잘 살아?','성경은 사람이 쓴 거 아냐?',
-  '과학이랑 성경이 충돌하잖아','다른 종교도 다 같은 신 아냐?',
-  '교회 다니는 사람들이 더 나쁘던데?','구약의 하나님은 왜 그렇게 잔인해?',
-  '눈에 안 보이는 걸 왜 믿어?','천국 지옥이 진짜 있어?',
-  '전지전능한 하나님이 왜 사탄을 안 없애?','성경 번역마다 다른데 뭘 믿어?',
-  '왜 꼭 교회를 다녀야 해?','예수 믿는다는 게 결국 심리 의존 아냐?'
-];
+// ═══════ BOOK_ACTS ═══════
+var BOOK_ACTS = {
+  '창세기':{acts:[{id:'act1',title:'시작과 균열',chapters:'1~11장',file:'genesis-act1.md'},{id:'act2',title:'부르심과 믿음',chapters:'12~24장',file:'genesis-act2.md'},{id:'act3',title:'야곱, 속이는 자',chapters:'25~36장',file:'genesis-act3.md'},{id:'act4',title:'구덩이에서 왕좌까지',chapters:'37~50장',file:'genesis-act4.md'}]},
+  '출애굽기':{acts:[{id:'act1',title:'이집트에서 나오다',chapters:'1~18장',file:'exodus-act1.md'},{id:'act2',title:'시내산에서 만나다',chapters:'19~40장',file:'exodus-act2.md'}]},
+  '레위기':{acts:[{id:'act1',title:'제사의 규정',chapters:'1~16장',file:'leviticus-act1.md'},{id:'act2',title:'거룩한 삶',chapters:'17~27장',file:'leviticus-act2.md'}]},
+  '민수기':{acts:[{id:'act1',title:'출발 준비',chapters:'1~10장',file:'numbers-act1.md'},{id:'act2',title:'광야의 불순종',chapters:'11~25장',file:'numbers-act2.md'},{id:'act3',title:'새 세대, 가나안 앞에서',chapters:'26~36장',file:'numbers-act3.md'}]},
+  '신명기':{acts:[{id:'act1',title:'모세의 회상',chapters:'1~11장',file:'deuteronomy-act1.md'},{id:'act2',title:'율법 다시 한번',chapters:'12~26장',file:'deuteronomy-act2.md'},{id:'act3',title:'축복과 저주, 그리고 떠남',chapters:'27~34장',file:'deuteronomy-act3.md'}]},
+  '여호수아':{acts:[{id:'act1',title:'가나안 정복',chapters:'1~12장',file:'joshua-act1.md'},{id:'act2',title:'땅 분배와 고별',chapters:'13~24장',file:'joshua-act2.md'}]},
+  '사사기':{acts:[{id:'act1',title:'사사들의 시대',chapters:'1~12장',file:'judges-act1.md'},{id:'act2',title:'혼란의 끝',chapters:'13~21장',file:'judges-act2.md'}]},
+  '룻기':{acts:[{id:'act1',title:'룻기',chapters:'1~4장',file:'ruth.md'}]},
+  '사무엘상':{acts:[{id:'act1',title:'사무엘과 사울',chapters:'1~15장',file:'1samuel-act1.md'},{id:'act2',title:'다윗의 등장',chapters:'16~31장',file:'1samuel-act2.md'}]},
+  '사무엘하':{acts:[{id:'act1',title:'다윗의 왕국',chapters:'1~12장',file:'2samuel-act1.md'},{id:'act2',title:'압살롬의 반란',chapters:'13~24장',file:'2samuel-act2.md'}]},
+  '열왕기상':{acts:[{id:'act1',title:'솔로몬의 영화',chapters:'1~11장',file:'1kings-act1.md'},{id:'act2',title:'왕국이 갈라지다',chapters:'12~22장',file:'1kings-act2.md'}]},
+  '열왕기하':{acts:[{id:'act1',title:'엘리사와 두 왕국',chapters:'1~17장',file:'2kings-act1.md'},{id:'act2',title:'남유다의 마지막',chapters:'18~25장',file:'2kings-act2.md'}]},
+  '역대상':{acts:[{id:'act1',title:'계보와 배경',chapters:'1~9장',file:'1chronicles-act1.md'},{id:'act2',title:'다윗의 통치',chapters:'10~29장',file:'1chronicles-act2.md'}]},
+  '역대하':{acts:[{id:'act1',title:'솔로몬과 성전',chapters:'1~9장',file:'2chronicles-act1.md'},{id:'act2',title:'유다의 왕들',chapters:'10~36장',file:'2chronicles-act2.md'}]},
+  '에스라':{acts:[{id:'act1',title:'귀환과 성전 재건',chapters:'1~6장',file:'ezra-act1.md'},{id:'act2',title:'에스라의 개혁',chapters:'7~10장',file:'ezra-act2.md'}]},
+  '느헤미야':{acts:[{id:'act1',title:'성벽을 다시 쌓다',chapters:'1~7장',file:'nehemiah-act1.md'},{id:'act2',title:'언약을 새로 하다',chapters:'8~13장',file:'nehemiah-act2.md'}]},
+  '에스더':{acts:[{id:'act1',title:'위기',chapters:'1~5장',file:'esther-act1.md'},{id:'act2',title:'역전',chapters:'6~10장',file:'esther-act2.md'}]},
+  '예레미야애가':{acts:[{id:'act1',title:'예레미야애가',chapters:'1~5장',file:'lamentations.md'}]},
+  '욥기':{acts:[{id:'act1',title:'고통의 시작',chapters:'1~14장',file:'job-act1.md'},{id:'act2',title:'친구들과의 논쟁',chapters:'15~31장',file:'job-act2.md'},{id:'act3',title:'하나님이 말씀하시다',chapters:'32~42장',file:'job-act3.md'}]},
+  '시편':{acts:[{id:'act1',title:'제1권',chapters:'1~41편',file:'psalms-act1.md'},{id:'act2',title:'제2권',chapters:'42~72편',file:'psalms-act2.md'},{id:'act3',title:'제3권',chapters:'73~89편',file:'psalms-act3.md'},{id:'act4',title:'제4권',chapters:'90~106편',file:'psalms-act4.md'},{id:'act5',title:'제5권',chapters:'107~150편',file:'psalms-act5.md'}]},
+  '잠언':{acts:[{id:'act1',title:'솔로몬의 지혜',chapters:'1~9장',file:'proverbs-act1.md'},{id:'act2',title:'잠언 모음',chapters:'10~31장',file:'proverbs-act2.md'}]},
+  '전도서':{acts:[{id:'act1',title:'전도서',chapters:'1~12장',file:'ecclesiastes.md'}]},
+  '아가':{acts:[{id:'act1',title:'아가',chapters:'1~8장',file:'song-of-solomon.md'}]},
+  '이사야':{acts:[{id:'act1',title:'심판의 경고',chapters:'1~12장',file:'isaiah-act1.md'},{id:'act2',title:'열국과 히스기야',chapters:'13~39장',file:'isaiah-act2.md'},{id:'act3',title:'위로하라 내 백성을',chapters:'40~66장',file:'isaiah-act3.md'}]},
+  '예레미야':{acts:[{id:'act1',title:'부르심과 경고',chapters:'1~20장',file:'jeremiah-act1.md'},{id:'act2',title:'멸망을 향해',chapters:'21~39장',file:'jeremiah-act2.md'},{id:'act3',title:'함락 이후',chapters:'40~52장',file:'jeremiah-act3.md'}]},
+  '에스겔':{acts:[{id:'act1',title:'심판 예언',chapters:'1~24장',file:'ezekiel-act1.md'},{id:'act2',title:'열국의 심판',chapters:'25~32장',file:'ezekiel-act2.md'},{id:'act3',title:'회복의 환상',chapters:'33~48장',file:'ezekiel-act3.md'}]},
+  '다니엘':{acts:[{id:'act1',title:'바벨론 궁정의 이야기',chapters:'1~6장',file:'daniel-act1.md'},{id:'act2',title:'환상과 예언',chapters:'7~12장',file:'daniel-act2.md'}]},
+  '호세아':{acts:[{id:'act1',title:'호세아의 결혼',chapters:'1~3장',file:'hosea-act1.md'},{id:'act2',title:'이스라엘의 심판과 회복',chapters:'4~14장',file:'hosea-act2.md'}]},
+  '요엘':{acts:[{id:'act1',title:'요엘',chapters:'1~3장',file:'joel.md'}]},
+  '아모스':{acts:[{id:'act1',title:'아모스',chapters:'1~9장',file:'amos.md'}]},
+  '오바댜':{acts:[{id:'act1',title:'오바댜',chapters:'1장',file:'obadiah.md'}]},
+  '요나':{acts:[{id:'act1',title:'요나',chapters:'1~4장',file:'jonah.md'}]},
+  '미가':{acts:[{id:'act1',title:'미가',chapters:'1~7장',file:'micah.md'}]},
+  '나훔':{acts:[{id:'act1',title:'나훔',chapters:'1~3장',file:'nahum.md'}]},
+  '하박국':{acts:[{id:'act1',title:'하박국',chapters:'1~3장',file:'habakkuk.md'}]},
+  '스바냐':{acts:[{id:'act1',title:'스바냐',chapters:'1~3장',file:'zephaniah.md'}]},
+  '학개':{acts:[{id:'act1',title:'학개',chapters:'1~2장',file:'haggai.md'}]},
+  '스가랴':{acts:[{id:'act1',title:'여덟 환상',chapters:'1~8장',file:'zechariah-act1.md'},{id:'act2',title:'메시아 예언',chapters:'9~14장',file:'zechariah-act2.md'}]},
+  '말라기':{acts:[{id:'act1',title:'말라기',chapters:'1~4장',file:'malachi.md'}]},
+};
 
-// ═══════ Bible Data ═══════
-var otBooks = ['창세기','출애굽기','레위기','민수기','신명기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','역대상','역대하','에스라','느헤미야','에스더','욥기','시편','잠언','전도서','아가','이사야','예레미야','예레미야애가','에스겔','다니엘','호세아','요엘','아모스','오바댜','요나','미가','나훔','하박국','스바냐','학개','스가랴','말라기'];
-var ntBooks  = ['마태복음','마가복음','누가복음','요한복음','사도행전','로마서','고린도전서','고린도후서','갈라디아서','에베소서','빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서','디모데후서','디도서','빌레몬서','히브리서','야고보서','베드로전서','베드로후서','요한일서','요한이서','요한삼서','유다서','요한계시록'];
-
-// ═══════ Date ═══════
-function showDate() {
-  var d = new Date();
-  var days = ['일','월','화','수','목','금','토'];
-  document.getElementById('dateLine').textContent =
-    d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 '+days[d.getDay()]+'요일';
-}
-
-// ═══════ Mode Switch ═══════
-function switchMode(mode) {
-  currentMode = mode;
-  ['tree','meditation','prayer','question'].forEach(function(m) {
-    document.getElementById('tab'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active', m===mode);
-    document.getElementById(m+'Mode').classList.toggle('active', m===mode);
-  });
-  if (mode !== 'tree') renderTimeline(mode);
-}
-
-// ═══════ Testament / Book ═══════
-function populateBooks(testament) {
-  var sel = document.getElementById('bookSelect');
-  sel.innerHTML = '<option value="">성경을 선택하세요</option>';
-  var list = testament === 'nt' ? ntBooks : otBooks;
-  list.forEach(function(b) { var o=document.createElement('option'); o.value=b; o.textContent=b; sel.appendChild(o); });
-}
-function switchTestament(t) {
-  document.getElementById('tabOT').classList.toggle('active', t==='ot');
-  document.getElementById('tabNT').classList.toggle('active', t==='nt');
-  populateBooks(t);
-}
-
-// ═══════ Preset Questions ═══════
-function renderPresets() {
-  var sel = document.getElementById('presetSelect');
-  presetQuestions.forEach(function(q) { var o=document.createElement('option'); o.value=q; o.textContent=q; sel.appendChild(o); });
-  sel.addEventListener('change', function() { if(this.value){ document.getElementById('questionTopic').value=this.value; document.getElementById('questionTopic').focus(); } });
-}
-
-// ═══════ Status ═══════
-function setStatus(modeKey, type, msg) {
-  var bar = document.getElementById('statusBar'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
-  if (!bar) return;
-  bar.textContent = msg; bar.className = 'status-bar '+(type||'');
-}
-
-// ═══════ Format Result ═══════
-function formatResult(text) {
-  if (!text) return '';
-  text = text.replace(/\*\*/g,'');
-  text = text.replace(/^(\d+)\.\s*(.+)$/gm, function(m,num,title){ return '<span class="section-head">'+num+'. '+title+'</span>'; });
-  text = text.replace(/[【\[]([\uAC00-\uD7A3a-zA-Z0-9\s]+\d+:\d+(?:-\d+)?)[】\]]/g, function(m,ref){ return '<span class="verse-ref">📖 '+ref+'</span>'; });
-  text = text.replace(/→\s*(.+)/g, '→ <strong>$1</strong>');
-  text = text.replace(/\n/g,'<br>');
-  return text;
-}
-
-// ═══════ Generic Submit ═══════
-async function submitRequest(modeKey, webhookUrl, payload, label) {
-  var loadingEl  = document.getElementById('loading'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
-  var resultBox  = document.getElementById('result'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
-  var resultTitle= document.getElementById('resultTitle'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
-  var resultContent= document.getElementById('resultContent'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1));
-  var inputArea  = document.getElementById('inputArea-'+modeKey);
-
-  setStatus(modeKey,'','');
-  resultBox.classList.remove('visible');
-  loadingEl.classList.add('visible');
-  inputArea.style.display = 'none';
-
-  try {
-    var resp = await fetch(webhookUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-    if (!resp.ok) throw new Error('HTTP '+resp.status);
-    var data = await resp.json();
-    var resultText = extractResultText(data);
-    resultTitle.textContent = label;
-    resultContent.innerHTML = formatResult(resultText);
-    resultBox.classList.add('visible');
-    document.getElementById('backBtn'+modeKey.charAt(0).toUpperCase()+modeKey.slice(1)).classList.add('visible');
-    saveToHistory(modeKey, label.replace(/^[📖🙏❓]\s*/,''), resultText);
-  } catch(err) {
-    setStatus(modeKey,'error','전송 실패: '+err.message);
-    inputArea.style.display = 'block';
-  } finally {
-    loadingEl.classList.remove('visible');
-  }
-}
-
-// ═══════ Submit handlers ═══════
-async function submitMeditation() {
-  var book=document.getElementById('bookSelect').value, ch=document.getElementById('chapter').value;
-  var vS=document.getElementById('verseStart').value, vE=document.getElementById('verseEnd').value;
-  if (!book){ setStatus('meditation','error','성경을 선택해주세요'); return; }
-  if (!ch){ setStatus('meditation','error','장을 입력해주세요'); return; }
-  if (!vS){ setStatus('meditation','error','시작절을 입력해주세요'); return; }
-  var label = '📖 '+book+' '+ch+':'+vS+(vE&&parseInt(vE)>parseInt(vS)?'-'+vE:'');
-  var btn = document.getElementById('meditationBtn'); btn.disabled=true; btn.textContent='묵상 준비 중...';
-  await submitRequest('meditation', MEDITATION_WEBHOOK,
-    { mode:'meditation', input_text:'오늘의 말씀: '+label.replace('📖 ',''), book, chapter:parseInt(ch), verse_start:parseInt(vS), verse_end:vE?parseInt(vE):parseInt(vS) },
-    label);
-  btn.disabled=false; btn.textContent='묵상 시작하기';
-}
-
-async function submitPrayer() {
-  var topic=document.getElementById('prayerTopic').value.trim();
-  if (!topic){ setStatus('prayer','error','기도 주제를 입력해주세요'); return; }
-  var btn=document.getElementById('prayerBtn'); btn.disabled=true; btn.textContent='말씀을 찾고 있어요...';
-  await submitRequest('prayer', PRAYER_WEBHOOK, { mode:'prayer', input_text:topic }, '🙏 '+topic);
-  btn.disabled=false; btn.textContent='기도 근거 찾기';
-}
-
-async function submitQuestion() {
-  var topic=document.getElementById('questionTopic').value.trim();
-  if (!topic){ setStatus('question','error','질문을 입력해주세요'); return; }
-  var btn=document.getElementById('questionBtn'); btn.disabled=true; btn.textContent='성경에서 답을 찾고 있어요...';
-  await submitRequest('question', QUESTION_WEBHOOK, { mode:'question', input_text:topic }, '❓ '+topic);
-  btn.disabled=false; btn.textContent='답변 찾기';
-}
-
-// ═══════ Extract Result ═══════
-function extractResultText(data) {
-  if (Array.isArray(data)) { var i=data[0]; if(i.choices) return i.choices[0].message.content; if(i.content&&Array.isArray(i.content)) return i.content.map(function(c){return c.text||''}).join('\n'); return JSON.stringify(i,null,2); }
-  if (data.choices) return data.choices[0].message.content;
-  if (data.content) { if(typeof data.content==='string') return data.content; return data.content.map(function(c){return c.text||''}).join('\n'); }
-  return JSON.stringify(data,null,2);
-}
-
-// ═══════ Back ═══════
-function goBack(modeKey) {
-  var cap = modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
-  document.getElementById('result'+cap).classList.remove('visible');
-  document.getElementById('backBtn'+cap).classList.remove('visible');
-  document.getElementById('inputArea-'+modeKey).style.display='block';
-}
-
-// ═══════ History ═══════
-function saveToHistory(type, label, text) {
-  var history = JSON.parse(localStorage.getItem('bible_history')||'[]');
-  history.unshift({ type, label, summary:text.replace(/\*\*/g,'').substring(0,80), fullText:text, date:new Date().toISOString() });
-  if (history.length>100) history=history.slice(0,100);
-  localStorage.setItem('bible_history', JSON.stringify(history));
-  renderTimeline(type);
-}
-
-function renderTimeline(modeKey) {
-  var cap = modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
-  var listEl = document.getElementById('timelineList'+cap);
-  if (!listEl) return;
-  listEl.innerHTML='';
-  var history = JSON.parse(localStorage.getItem('bible_history')||'[]');
-  var filtered = history.map(function(item,idx){return{item,globalIdx:idx}}).filter(function(e){return e.item.type===modeKey});
-  if (!filtered.length){ listEl.innerHTML='<div class="timeline-empty">아직 기록이 없어요</div>'; return; }
-
-  var page = currentPage[modeKey]||1;
-  var total = Math.ceil(filtered.length/PAGE_SIZE);
-  if(page>total) page=total; if(page<1) page=1; currentPage[modeKey]=page;
-
-  filtered.slice((page-1)*PAGE_SIZE, page*PAGE_SIZE).forEach(function(entry){
-    var item=entry.item, gi=entry.globalIdx;
-    var d=new Date(item.date), dateStr=(d.getMonth()+1)+'/'+d.getDate();
-    var li=document.createElement('li'); li.className='timeline-item';
-    var dot=document.createElement('div'); dot.className='timeline-dot';
-    var body=document.createElement('div'); body.className='timeline-body';
-    body.innerHTML='<div class="timeline-verse">'+item.label+'</div><div class="timeline-summary">'+item.summary+'</div>';
-    body.addEventListener('click', function(){ showHistoryItem(gi, modeKey); });
-    var right=document.createElement('div'); right.style.cssText='display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;';
-    var ds=document.createElement('div'); ds.className='timeline-date'; ds.textContent=dateStr;
-    var del=document.createElement('button'); del.className='timeline-del-btn'; del.textContent='삭제';
-    del.addEventListener('click',function(e){ e.stopPropagation(); deleteHistoryItem(gi, modeKey); });
-    right.appendChild(ds); right.appendChild(del);
-    li.appendChild(dot); li.appendChild(body); li.appendChild(right); listEl.appendChild(li);
-  });
-
-  if (total>1) {
-    var pag=document.createElement('div'); pag.className='pagination';
-    if(page>1){ var p=document.createElement('button'); p.className='page-btn nav'; p.textContent='‹'; p.onclick=function(e){e.stopPropagation();currentPage[modeKey]--;renderTimeline(modeKey);}; pag.appendChild(p); }
-    for(var i=1;i<=total;i++){ var pb=document.createElement('button'); pb.className='page-btn'+(i===page?' active':''); pb.textContent=i; pb.onclick=(function(pg){return function(e){e.stopPropagation();currentPage[modeKey]=pg;renderTimeline(modeKey);};})(i); pag.appendChild(pb); }
-    if(page<total){ var n=document.createElement('button'); n.className='page-btn nav'; n.textContent='›'; n.onclick=function(e){e.stopPropagation();currentPage[modeKey]++;renderTimeline(modeKey);}; pag.appendChild(n); }
-    listEl.appendChild(pag);
-  }
-
-  var clr=document.createElement('div'); clr.className='timeline-clear';
-  var clrBtn=document.createElement('button'); clrBtn.className='timeline-clear-btn'; clrBtn.textContent='기록 전체 삭제';
-  clrBtn.addEventListener('click', function(){ if(confirm('기록을 전부 삭제할까요?')){ localStorage.removeItem('bible_history'); renderTimeline(modeKey); } });
-  clr.appendChild(clrBtn); listEl.appendChild(clr);
-}
-
-function deleteHistoryItem(idx, modeKey) {
-  var h=JSON.parse(localStorage.getItem('bible_history')||'[]');
-  h.splice(idx,1); localStorage.setItem('bible_history',JSON.stringify(h)); renderTimeline(modeKey);
-}
-
-function showHistoryItem(idx, modeKey) {
-  var h=JSON.parse(localStorage.getItem('bible_history')||'[]'); var item=h[idx]; if(!item) return;
-  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
-  var iconMap={meditation:'📖',prayer:'🙏',question:'❓'};
-  document.getElementById('resultTitle'+cap).textContent=(iconMap[item.type]||'📖')+' '+item.label;
-  document.getElementById('resultContent'+cap).innerHTML=formatResult(item.fullText);
-  document.getElementById('result'+cap).classList.add('visible');
-  document.getElementById('backBtn'+cap).classList.add('visible');
-  document.getElementById('inputArea-'+modeKey).style.display='none';
-  document.getElementById('timeline'+cap).style.display='none';
-}
-
-// ═══════ Copy / Share ═══════
-function copyResult(modeKey) {
-  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
-  var text=document.getElementById('resultContent'+cap).innerText;
-  var btn=document.getElementById('copyBtn'+cap);
-  navigator.clipboard.writeText(text).then(function(){ btn.textContent='✅ 복사됨!'; setTimeout(function(){btn.textContent='📋 복사하기';},1500); });
-}
-function shareResult(modeKey) {
-  var cap=modeKey.charAt(0).toUpperCase()+modeKey.slice(1);
-  var text=document.getElementById('resultContent'+cap).innerText;
-  var title=document.getElementById('resultTitle'+cap).textContent;
-  if(navigator.share){ navigator.share({title,text}); } else { copyResult(modeKey); }
-}
-
-// ═══════════════════════════════════════════
-// 역사 흐름도 로직
-// ═══════════════════════════════════════════
+// ═══════ 해금 조건 ═══════
 var CORE_ORDER = ['창세기','출애굽기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','예레미야애가','에스라','느헤미야','에스더'];
-var SUB_BOOKS  = { '레위기':'출애굽기','민수기':'출애굽기','신명기':'출애굽기','역대상':'열왕기하','역대하':'열왕기하' };
-var POETRY_UNLOCK  = { 'side-poetry-욥기':['창세기'],'side-poetry-시편':['사무엘상','사무엘하'],'side-poetry-솔로몬':['열왕기상'] };
+var SUB_BOOKS = {'레위기':'출애굽기','민수기':'출애굽기','신명기':'출애굽기','역대상':'열왕기하','역대하':'열왕기하'};
+var POETRY_UNLOCK = {'side-poetry-욥기':['창세기'],'side-poetry-시편':['사무엘상','사무엘하'],'side-poetry-솔로몬':['열왕기상']};
 var PROPHECY_SIDES = ['side-prophecy-divided','side-prophecy-exile','side-prophecy-return'];
-var ALL_HISTORY    = Object.keys(SUB_BOOKS).concat(CORE_ORDER);
-var readBooks      = JSON.parse(localStorage.getItem('bible_read_v4')||'[]');
-var openEraId      = null;
+var ALL_HISTORY = Object.keys(SUB_BOOKS).concat(CORE_ORDER);
 
-function canRead(book) {
-  if (SUB_BOOKS[book]) return readBooks.indexOf(SUB_BOOKS[book]) !== -1;
-  var idx = CORE_ORDER.indexOf(book);
-  if (idx <= 0) return true;
-  return readBooks.indexOf(CORE_ORDER[idx-1]) !== -1;
-}
-function isAllCoreRead() { return CORE_ORDER.every(function(b){ return readBooks.indexOf(b)!==-1; }); }
-function coreCount()     { return CORE_ORDER.filter(function(b){ return readBooks.indexOf(b)!==-1; }).length; }
+var readBooks = JSON.parse(localStorage.getItem('bible_read_v4')||'[]');
+var actData   = JSON.parse(localStorage.getItem('bible_acts_v1')||'{}');
+var openEraId = null;
+var currentBook = null, currentActId = null;
 
-function renderAll() {
-  ALL_HISTORY.forEach(function(book) {
-    var el=document.getElementById('h-'+book); if(!el) return;
-    var isRead=readBooks.indexOf(book)!==-1, canCheck=canRead(book);
-    el.classList.toggle('read',isRead); el.classList.toggle('blocked',!isRead&&!canCheck);
-  });
-  Object.keys(POETRY_UNLOCK).forEach(function(sid) {
-    var el=document.getElementById(sid); if(!el) return;
-    el.classList.toggle('side-locked', !POETRY_UNLOCK[sid].every(function(b){return readBooks.indexOf(b)!==-1;}));
-  });
-  var allDone=isAllCoreRead();
-  PROPHECY_SIDES.forEach(function(sid){ var el=document.getElementById(sid); if(el) el.classList.toggle('side-locked',!allDone); });
-  var cnt=coreCount();
-  document.getElementById('progressText').textContent=cnt+' / 13';
-  document.getElementById('progressFill').style.width=Math.round(cnt/13*100)+'%';
-  document.getElementById('prophecyCount').textContent=cnt;
-  document.getElementById('prophecyHint').style.display=allDone?'none':'block';
+// Migration
+(function(){readBooks.forEach(function(b){if(!BOOK_ACTS[b])return;BOOK_ACTS[b].acts.forEach(function(a){var k=b+'-'+a.id;if(!actData[k])actData[k]=true;});});localStorage.setItem('bible_acts_v1',JSON.stringify(actData));})();
+
+function isActDone(b,id){return actData[b+'-'+id]===true;}
+function setActDone(b,id){actData[b+'-'+id]=true;localStorage.setItem('bible_acts_v1',JSON.stringify(actData));}
+function isBookComplete(b){if(!BOOK_ACTS[b])return false;return BOOK_ACTS[b].acts.every(function(a){return isActDone(b,a.id);});}
+function getBookProgress(b){if(!BOOK_ACTS[b])return{done:0,total:0};var acts=BOOK_ACTS[b].acts;return{done:acts.filter(function(a){return isActDone(b,a.id);}).length,total:acts.length};}
+function syncBookToReadList(b){if(isBookComplete(b)&&readBooks.indexOf(b)===-1){readBooks.push(b);localStorage.setItem('bible_read_v4',JSON.stringify(readBooks));return true;}return false;}
+function canRead(b){if(SUB_BOOKS[b])return readBooks.indexOf(SUB_BOOKS[b])!==-1;var i=CORE_ORDER.indexOf(b);if(i<=0)return true;return readBooks.indexOf(CORE_ORDER[i-1])!==-1;}
+function isAllCoreRead(){return CORE_ORDER.every(function(b){return readBooks.indexOf(b)!==-1;});}
+function coreCount(){return CORE_ORDER.filter(function(b){return readBooks.indexOf(b)!==-1;}).length;}
+function canActUnlock(b,idx){if(idx===0)return true;return isActDone(b,BOOK_ACTS[b].acts[idx-1].id);}
+
+function renderAll(){
+  ALL_HISTORY.forEach(function(b){var el=document.getElementById('h-'+b);if(!el)return;var r=readBooks.indexOf(b)!==-1,c=canRead(b),p=getBookProgress(b),partial=!r&&p.done>0;el.classList.toggle('read',r);el.classList.toggle('partial',partial);el.classList.toggle('blocked',!r&&!partial&&!c);});
+  document.querySelectorAll('.pill-poetry,.pill-prophecy').forEach(function(el){var b=el.getAttribute('data-book');if(!b||!BOOK_ACTS[b])return;el.classList.toggle('read',isBookComplete(b));});
+  Object.keys(POETRY_UNLOCK).forEach(function(sid){var el=document.getElementById(sid);if(el)el.classList.toggle('side-locked',!POETRY_UNLOCK[sid].every(function(b){return readBooks.indexOf(b)!==-1;}));});
+  var ad=isAllCoreRead();PROPHECY_SIDES.forEach(function(sid){var el=document.getElementById(sid);if(el)el.classList.toggle('side-locked',!ad);});
+  var cnt=coreCount();document.getElementById('progressText').textContent=cnt+' / 13';document.getElementById('progressFill').style.width=Math.round(cnt/13*100)+'%';document.getElementById('prophecyCount').textContent=cnt;document.getElementById('prophecyHint').style.display=ad?'none':'block';
 }
 
-function toggleRead(e, book) {
+// ═══════ PILL → OPEN BOOK ═══════
+function openBook(e,book){
   e.stopPropagation();
-  if (readBooks.indexOf(book)!==-1) {
-    var ci=CORE_ORDER.indexOf(book);
-    if (ci!==-1&&CORE_ORDER.slice(ci+1).some(function(b){return readBooks.indexOf(b)!==-1;})) { showToast('⚠️ 이후 읽은 책을 먼저 해제해주세요'); return; }
-    readBooks.splice(readBooks.indexOf(book),1);
-    showToast('📖 '+book+' 읽음 해제');
-    localStorage.setItem('bible_read_v4',JSON.stringify(readBooks)); renderAll(); return;
-  }
-  if (!canRead(book)) {
-    var ci2=CORE_ORDER.indexOf(book);
-    var req=SUB_BOOKS[book]||(ci2>0?CORE_ORDER[ci2-1]:'');
-    showToast('⛔ 먼저 '+req+'을(를) 읽어주세요'); return;
-  }
-  var wasAllDone=isAllCoreRead();
-  readBooks.push(book); showToast('✅ '+book+' 완료!');
-  localStorage.setItem('bible_read_v4',JSON.stringify(readBooks)); renderAll();
-  Object.keys(POETRY_UNLOCK).forEach(function(sid) {
-    var req=POETRY_UNLOCK[sid];
-    if(req[req.length-1]===book&&req.every(function(b){return readBooks.indexOf(b)!==-1;})) {
-      var lbl={'side-poetry-욥기':'욥기','side-poetry-시편':'시편','side-poetry-솔로몬':'잠언·전도서·아가'};
-      setTimeout(function(){showToast('🔓 '+lbl[sid]+' 해금!');},500);
-    }
+  if(!BOOK_ACTS[book]){showToast('📚 콘텐츠 준비 중');return;}
+  var el=document.getElementById('h-'+book);
+  if(el&&el.classList.contains('blocked')){var ci=CORE_ORDER.indexOf(book),req=SUB_BOOKS[book]||(ci>0?CORE_ORDER[ci-1]:'');showToast('⛔ 먼저 '+req+'을(를) 읽어주세요');return;}
+  currentBook=book;
+  var acts=BOOK_ACTS[book].acts;
+  if(acts.length===1){openContent(book,acts[0],0);return;}
+  showActModal(book);
+}
+
+function showActModal(book){
+  document.getElementById('actModalTitle').textContent='📖 '+book;
+  var list=document.getElementById('actList');list.innerHTML='';
+  BOOK_ACTS[book].acts.forEach(function(act,idx){
+    var done=isActDone(book,act.id),unlocked=canActUnlock(book,idx);
+    var item=document.createElement('div');item.className='act-item'+(done?' act-completed':'')+(!done&&!unlocked?' act-locked':'');
+    var icon=document.createElement('div');icon.className='act-icon '+(done?'act-icon-done':(unlocked?'act-icon-next':'act-icon-lock'));icon.textContent=done?'✓':(unlocked?'▶':'🔒');
+    var info=document.createElement('div');info.className='act-info';info.innerHTML='<div class="act-info-title">'+(idx+1)+'막  '+act.title+'</div><div class="act-info-chapters">'+act.chapters+'</div>';
+    var arrow=document.createElement('div');arrow.className='act-arrow';arrow.textContent=(done||unlocked)?'›':'';
+    item.appendChild(icon);item.appendChild(info);item.appendChild(arrow);
+    if(done||unlocked){item.addEventListener('click',(function(a,i){return function(){closeActModal();setTimeout(function(){openContent(book,a,i);},200);};})(act,idx));}
+    list.appendChild(item);
   });
-  if (!wasAllDone&&isAllCoreRead()) setTimeout(function(){showToast('🎉 역사서 완독! 예언서가 모두 열렸어요');},700);
+  document.getElementById('actOverlay').classList.add('open');
+}
+function closeActModal(){document.getElementById('actOverlay').classList.remove('open');}
+
+function openContent(book,act,actIndex){
+  currentBook=book;currentActId=act.id;
+  document.getElementById('contentBookName').textContent=book;
+  var acts=BOOK_ACTS[book].acts;
+  document.getElementById('contentActInfo').textContent=acts.length>1?((actIndex+1)+'막 · '+act.title+' ('+act.chapters+')'):act.chapters;
+  var done=isActDone(book,act.id),footer=document.getElementById('contentFooter'),btn=document.getElementById('completeBtn');
+  footer.style.display='block';
+  if(done){btn.textContent='✓ 읽음 완료';btn.className='complete-btn done';btn.disabled=true;}
+  else{btn.textContent='✓ 읽음 완료';btn.className='complete-btn';btn.disabled=false;}
+  document.getElementById('contentBody').innerHTML='<div style="text-align:center;padding:60px 20px;color:#8a847a"><div style="font-size:32px;animation:floatBook 2s ease-in-out infinite;margin-bottom:12px">📖</div>말씀을 불러오고 있어요...</div>';
+  document.getElementById('contentModal').classList.add('open');document.body.style.overflow='hidden';
+  fetch(CONTENT_BASE+act.file).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();})
+    .then(function(md){document.getElementById('contentBody').innerHTML=marked.parse(md);document.getElementById('contentModal').scrollTop=0;})
+    .catch(function(){document.getElementById('contentBody').innerHTML='<div style="text-align:center;padding:60px 20px;color:#b0a898">📝 아직 콘텐츠가 준비되지 않았어요.<br><br><span style="font-size:11px;color:#ccc">('+act.file+')</span></div>';});
+}
+function closeContentModal(){document.getElementById('contentModal').classList.remove('open');document.body.style.overflow='';}
+
+function completeAct(){
+  if(!currentBook||!currentActId)return;
+  setActDone(currentBook,currentActId);
+  var btn=document.getElementById('completeBtn');btn.textContent='✓ 읽음 완료';btn.className='complete-btn done';btn.disabled=true;
+  var newlyComplete=syncBookToReadList(currentBook);
+  closeContentModal();
+  setTimeout(function(){
+    renderAll();
+    if(newlyComplete){
+      showToast('🎉 '+currentBook+' 완독!');
+      Object.keys(POETRY_UNLOCK).forEach(function(sid){var req=POETRY_UNLOCK[sid];if(req.indexOf(currentBook)!==-1&&req.every(function(b){return readBooks.indexOf(b)!==-1;})){var lbl={'side-poetry-욥기':'욥기','side-poetry-시편':'시편','side-poetry-솔로몬':'잠언·전도서·아가'};setTimeout(function(){showToast('🔓 '+lbl[sid]+' 해금!');},600);}});
+      if(isAllCoreRead())setTimeout(function(){showToast('🎉 역사서 완독! 예언서가 모두 열렸어요');},1200);
+    } else {var prog=getBookProgress(currentBook);if(prog.done<prog.total)showToast('✅ '+prog.done+'/'+prog.total+'막 완료');}
+  },250);
 }
 
-function toggleEra(id) {
-  var desc=document.getElementById('desc-'+id), tog=document.getElementById('toggle-'+id); if(!desc) return;
-  if(openEraId&&openEraId!==id){ var p=document.getElementById('desc-'+openEraId),pt=document.getElementById('toggle-'+openEraId); if(p)p.classList.remove('open'); if(pt)pt.textContent='▼'; }
-  if(openEraId===id){ desc.classList.remove('open'); tog.textContent='▼'; openEraId=null; }
-  else { desc.classList.add('open'); tog.textContent='▲'; openEraId=id; }
-}
+// ═══════ ERA TOGGLE ═══════
+function toggleEra(id){var d=document.getElementById('desc-'+id),t=document.getElementById('toggle-'+id);if(!d)return;if(openEraId&&openEraId!==id){var p=document.getElementById('desc-'+openEraId),pt=document.getElementById('toggle-'+openEraId);if(p)p.classList.remove('open');if(pt)pt.textContent='▼';}if(openEraId===id){d.classList.remove('open');t.textContent='▼';openEraId=null;}else{d.classList.add('open');t.textContent='▲';openEraId=id;}}
 
-function resetProgress() {
-  if(!confirm('읽기 진행을 초기화할까요?')) return;
-  readBooks=[]; localStorage.removeItem('bible_read_v4'); renderAll(); showToast('초기화 완료');
-}
+function resetProgress(){if(!confirm('읽기 진행을 초기화할까요?\n(모든 읽음 기록이 삭제됩니다)'))return;readBooks=[];actData={};localStorage.removeItem('bible_read_v4');localStorage.removeItem('bible_acts_v1');renderAll();showToast('초기화 완료');}
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(function(){t.classList.remove('show');},2200);}
 
 // ═══════════════════════════════════════════
-// 책 내용 모달
+// 묵상/기도/질문 (기존 로직 그대로)
 // ═══════════════════════════════════════════
-var currentModalBook = null;
+var presetQuestions=['믿기만 하면 천국? 살인해도 회개하면 끝?','선한 하나님이 왜 고통을 허락해?','기도해도 응답 없던데?','착하게 살면 되지 왜 꼭 예수를 믿어야 해?','하나님이 있으면 왜 나쁜 사람이 잘 살아?','성경은 사람이 쓴 거 아냐?','과학이랑 성경이 충돌하잖아','다른 종교도 다 같은 신 아냐?','교회 다니는 사람들이 더 나쁘던데?','구약의 하나님은 왜 그렇게 잔인해?','눈에 안 보이는 걸 왜 믿어?','천국 지옥이 진짜 있어?','전지전능한 하나님이 왜 사탄을 안 없애?','성경 번역마다 다른데 뭘 믿어?','왜 꼭 교회를 다녀야 해?','예수 믿는다는 게 결국 심리 의존 아냐?'];
+var otBooks=['창세기','출애굽기','레위기','민수기','신명기','여호수아','사사기','룻기','사무엘상','사무엘하','열왕기상','열왕기하','역대상','역대하','에스라','느헤미야','에스더','욥기','시편','잠언','전도서','아가','이사야','예레미야','예레미야애가','에스겔','다니엘','호세아','요엘','아모스','오바댜','요나','미가','나훔','하박국','스바냐','학개','스가랴','말라기'];
+var ntBooks=['마태복음','마가복음','누가복음','요한복음','사도행전','로마서','고린도전서','고린도후서','갈라디아서','에베소서','빌립보서','골로새서','데살로니가전서','데살로니가후서','디모데전서','디모데후서','디도서','빌레몬서','히브리서','야고보서','베드로전서','베드로후서','요한일서','요한이서','요한삼서','유다서','요한계시록'];
 
-function openBookModal(e, book) {
-  e.stopPropagation();
-  if (!canRead(book)) {
-    var ci=CORE_ORDER.indexOf(book), req=SUB_BOOKS[book]||(ci>0?CORE_ORDER[ci-1]:'');
-    showToast('⛔ 먼저 '+req+'을(를) 읽어주세요'); return;
-  }
-  if (!BOOK_CONTENT_FILES[book]) { toggleRead(e,book); return; }
-  currentModalBook=book;
-  document.getElementById('modalTitle').textContent=book;
-  document.getElementById('modalBody').innerHTML='<div class="modal-loading">📖 불러오는 중...</div>';
-  document.getElementById('bookModal').classList.add('open');
-  document.body.style.overflow='hidden';
-  updateModalBtn();
-  fetch(CONTENT_BASE_URL+'/'+BOOK_CONTENT_FILES[book])
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(function(md){ document.getElementById('modalBody').innerHTML=marked.parse(md); document.getElementById('modalBody').scrollTop=0; })
-    .catch(function(){ document.getElementById('modalBody').innerHTML='<div class="modal-loading" style="color:#c47a5a">⚠️ 내용을 불러올 수 없어요.<br><small style="color:#bbb">GitHub 파일 경로를 확인해주세요</small></div>'; });
+function showDate(){var d=new Date(),days=['일','월','화','수','목','금','토'];document.getElementById('dateLine').textContent=d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 '+days[d.getDay()]+'요일';}
+function switchMode(mode){currentMode=mode;['tree','meditation','prayer','question'].forEach(function(m){document.getElementById('tab'+m.charAt(0).toUpperCase()+m.slice(1)).classList.toggle('active',m===mode);document.getElementById(m+'Mode').classList.toggle('active',m===mode);});if(mode!=='tree')renderTimeline(mode);}
+function populateBooks(t){var sel=document.getElementById('bookSelect');sel.innerHTML='<option value="">성경을 선택하세요</option>';(t==='nt'?ntBooks:otBooks).forEach(function(b){var o=document.createElement('option');o.value=b;o.textContent=b;sel.appendChild(o);});}
+function switchTestament(t){document.getElementById('tabOT').classList.toggle('active',t==='ot');document.getElementById('tabNT').classList.toggle('active',t==='nt');populateBooks(t);}
+function renderPresets(){var sel=document.getElementById('presetSelect');presetQuestions.forEach(function(q){var o=document.createElement('option');o.value=q;o.textContent=q;sel.appendChild(o);});sel.addEventListener('change',function(){if(this.value){document.getElementById('questionTopic').value=this.value;document.getElementById('questionTopic').focus();}});}
+function setStatus(k,type,msg){var bar=document.getElementById('statusBar'+k.charAt(0).toUpperCase()+k.slice(1));if(bar){bar.textContent=msg;bar.className='status-bar '+(type||'');}}
+function formatResult(text){if(!text)return'';text=text.replace(/\*\*/g,'');text=text.replace(/^(\d+)\.\s*(.+)$/gm,function(m,n,t){return'<span class="section-head">'+n+'. '+t+'</span>';});text=text.replace(/[【\[]([\uAC00-\uD7A3a-zA-Z0-9\s]+\d+:\d+(?:-\d+)?)[】\]]/g,function(m,r){return'<span class="verse-ref">📖 '+r+'</span>';});text=text.replace(/→\s*(.+)/g,'→ <strong>$1</strong>');text=text.replace(/\n/g,'<br>');return text;}
+
+async function submitRequest(k,url,payload,label){
+  var cap=k.charAt(0).toUpperCase()+k.slice(1);var ld=document.getElementById('loading'+cap),rb=document.getElementById('result'+cap),rt=document.getElementById('resultTitle'+cap),rc=document.getElementById('resultContent'+cap),ia=document.getElementById('inputArea-'+k);
+  setStatus(k,'','');rb.classList.remove('visible');ld.classList.add('visible');ia.style.display='none';
+  try{var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)throw new Error('HTTP '+r.status);var d=await r.json();var t=extractResultText(d);rt.textContent=label;rc.innerHTML=formatResult(t);rb.classList.add('visible');document.getElementById('backBtn'+cap).classList.add('visible');saveToHistory(k,label.replace(/^[📖🙏❓]\s*/,''),t);}catch(e){setStatus(k,'error','전송 실패: '+e.message);ia.style.display='block';}finally{ld.classList.remove('visible');}
 }
-
-function updateModalBtn() {
-  var btn=document.getElementById('modalReadBtn'); if(!currentModalBook) return;
-  var isRead=readBooks.indexOf(currentModalBook)!==-1;
-  btn.textContent=isRead?'✓ 읽음 표시됨 (취소하기)':'✅ 완독 표시하기';
-  btn.className='btn-read-done '+(isRead?'already':'unread');
-}
-
-function modalToggleRead() {
-  if(!currentModalBook) return;
-  toggleRead({stopPropagation:function(){}}, currentModalBook);
-  updateModalBtn();
-}
-
-function closeModal() { document.getElementById('bookModal').classList.remove('open'); document.body.style.overflow=''; currentModalBook=null; }
-function handleModalBackdrop(e) { if(e.target===document.getElementById('bookModal')) closeModal(); }
-
-// ═══════ Toast ═══════
-function showToast(msg) {
-  var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(window._tt); window._tt=setTimeout(function(){t.classList.remove('show');},2200);
-}
+async function submitMeditation(){var b=document.getElementById('bookSelect').value,c=document.getElementById('chapter').value,vS=document.getElementById('verseStart').value,vE=document.getElementById('verseEnd').value;if(!b){setStatus('meditation','error','성경을 선택해주세요');return;}if(!c){setStatus('meditation','error','장을 입력해주세요');return;}if(!vS){setStatus('meditation','error','시작절을 입력해주세요');return;}var label='📖 '+b+' '+c+':'+vS+(vE&&parseInt(vE)>parseInt(vS)?'-'+vE:'');var btn=document.getElementById('meditationBtn');btn.disabled=true;btn.textContent='묵상 준비 중...';await submitRequest('meditation',MEDITATION_WEBHOOK,{mode:'meditation',input_text:'오늘의 말씀: '+label.replace('📖 ',''),book:b,chapter:parseInt(c),verse_start:parseInt(vS),verse_end:vE?parseInt(vE):parseInt(vS)},label);btn.disabled=false;btn.textContent='묵상 시작하기';}
+async function submitPrayer(){var topic=document.getElementById('prayerTopic').value.trim();if(!topic){setStatus('prayer','error','기도 주제를 입력해주세요');return;}var btn=document.getElementById('prayerBtn');btn.disabled=true;btn.textContent='말씀을 찾고 있어요...';await submitRequest('prayer',PRAYER_WEBHOOK,{mode:'prayer',input_text:topic},'🙏 '+topic);btn.disabled=false;btn.textContent='기도 근거 찾기';}
+async function submitQuestion(){var topic=document.getElementById('questionTopic').value.trim();if(!topic){setStatus('question','error','질문을 입력해주세요');return;}var btn=document.getElementById('questionBtn');btn.disabled=true;btn.textContent='성경에서 답을 찾고 있어요...';await submitRequest('question',QUESTION_WEBHOOK,{mode:'question',input_text:topic},'❓ '+topic);btn.disabled=false;btn.textContent='답변 찾기';}
+function extractResultText(d){if(Array.isArray(d)){var i=d[0];if(i.choices)return i.choices[0].message.content;if(i.content&&Array.isArray(i.content))return i.content.map(function(c){return c.text||''}).join('\n');return JSON.stringify(i,null,2);}if(d.choices)return d.choices[0].message.content;if(d.content){if(typeof d.content==='string')return d.content;return d.content.map(function(c){return c.text||''}).join('\n');}return JSON.stringify(d,null,2);}
+function goBack(k){var cap=k.charAt(0).toUpperCase()+k.slice(1);document.getElementById('result'+cap).classList.remove('visible');document.getElementById('backBtn'+cap).classList.remove('visible');document.getElementById('inputArea-'+k).style.display='block';var tl=document.getElementById('timeline'+cap);if(tl)tl.style.display='block';}
+function saveToHistory(type,label,text){var h=JSON.parse(localStorage.getItem('bible_history')||'[]');h.unshift({type:type,label:label,summary:text.replace(/\*\*/g,'').substring(0,80),fullText:text,date:new Date().toISOString()});if(h.length>100)h=h.slice(0,100);localStorage.setItem('bible_history',JSON.stringify(h));renderTimeline(type);}
+function renderTimeline(k){var cap=k.charAt(0).toUpperCase()+k.slice(1);var listEl=document.getElementById('timelineList'+cap);if(!listEl)return;listEl.innerHTML='';var h=JSON.parse(localStorage.getItem('bible_history')||'[]');var filtered=h.map(function(item,idx){return{item:item,globalIdx:idx}}).filter(function(e){return e.item.type===k});if(!filtered.length){listEl.innerHTML='<div class="timeline-empty">아직 기록이 없어요</div>';return;}var page=currentPage[k]||1;var total=Math.ceil(filtered.length/PAGE_SIZE);if(page>total)page=total;if(page<1)page=1;currentPage[k]=page;filtered.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE).forEach(function(entry){var item=entry.item,gi=entry.globalIdx;var d=new Date(item.date),dateStr=(d.getMonth()+1)+'/'+d.getDate();var li=document.createElement('li');li.className='timeline-item';var dot=document.createElement('div');dot.className='timeline-dot';var body=document.createElement('div');body.className='timeline-body';body.innerHTML='<div class="timeline-verse">'+item.label+'</div><div class="timeline-summary">'+item.summary+'</div>';body.addEventListener('click',function(){showHistoryItem(gi,k);});var right=document.createElement('div');right.style.cssText='display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;';var ds=document.createElement('div');ds.className='timeline-date';ds.textContent=dateStr;var del=document.createElement('button');del.className='timeline-del-btn';del.textContent='삭제';del.addEventListener('click',function(e){e.stopPropagation();deleteHistoryItem(gi,k);});right.appendChild(ds);right.appendChild(del);li.appendChild(dot);li.appendChild(body);li.appendChild(right);listEl.appendChild(li);});if(total>1){var pag=document.createElement('div');pag.className='pagination';if(page>1){var p=document.createElement('button');p.className='page-btn nav';p.textContent='‹';p.onclick=function(e){e.stopPropagation();currentPage[k]--;renderTimeline(k);};pag.appendChild(p);}for(var i=1;i<=total;i++){var pb=document.createElement('button');pb.className='page-btn'+(i===page?' active':'');pb.textContent=i;pb.onclick=(function(pg){return function(e){e.stopPropagation();currentPage[k]=pg;renderTimeline(k);};})(i);pag.appendChild(pb);}if(page<total){var n=document.createElement('button');n.className='page-btn nav';n.textContent='›';n.onclick=function(e){e.stopPropagation();currentPage[k]++;renderTimeline(k);};pag.appendChild(n);}listEl.appendChild(pag);}var clr=document.createElement('div');clr.className='timeline-clear';var clrBtn=document.createElement('button');clrBtn.className='timeline-clear-btn';clrBtn.textContent='기록 전체 삭제';clrBtn.addEventListener('click',function(){if(confirm('기록을 전부 삭제할까요?')){localStorage.removeItem('bible_history');renderTimeline(k);}});clr.appendChild(clrBtn);listEl.appendChild(clr);}
+function deleteHistoryItem(idx,k){var h=JSON.parse(localStorage.getItem('bible_history')||'[]');h.splice(idx,1);localStorage.setItem('bible_history',JSON.stringify(h));renderTimeline(k);}
+function showHistoryItem(idx,k){var h=JSON.parse(localStorage.getItem('bible_history')||'[]');var item=h[idx];if(!item)return;var cap=k.charAt(0).toUpperCase()+k.slice(1);var iconMap={meditation:'📖',prayer:'🙏',question:'❓'};document.getElementById('resultTitle'+cap).textContent=(iconMap[item.type]||'📖')+' '+item.label;document.getElementById('resultContent'+cap).innerHTML=formatResult(item.fullText);document.getElementById('result'+cap).classList.add('visible');document.getElementById('backBtn'+cap).classList.add('visible');document.getElementById('inputArea-'+k).style.display='none';var tl=document.getElementById('timeline'+cap);if(tl)tl.style.display='none';}
+function copyResult(k){var cap=k.charAt(0).toUpperCase()+k.slice(1);var text=document.getElementById('resultContent'+cap).innerText;var btn=document.getElementById('copyBtn'+cap);navigator.clipboard.writeText(text).then(function(){btn.textContent='✅ 복사됨!';setTimeout(function(){btn.textContent='📋 복사하기';},1500);});}
+function shareResult(k){var cap=k.charAt(0).toUpperCase()+k.slice(1);var text=document.getElementById('resultContent'+cap).innerText;var title=document.getElementById('resultTitle'+cap).textContent;if(navigator.share){navigator.share({title:title,text:text});}else{copyResult(k);}}
 
 // ═══════ Init ═══════
-showDate();
-populateBooks('ot');
-renderPresets();
-renderAll();
-renderTimeline('meditation');
-renderTimeline('prayer');
-renderTimeline('question');
-
-document.getElementById('tabTree').addEventListener('click', function(){ switchMode('tree'); });
-document.getElementById('tabMeditation').addEventListener('click', function(){ switchMode('meditation'); });
-document.getElementById('tabPrayer').addEventListener('click', function(){ switchMode('prayer'); });
-document.getElementById('tabQuestion').addEventListener('click', function(){ switchMode('question'); });
-document.getElementById('tabOT').addEventListener('click', function(){ switchTestament('ot'); });
-document.getElementById('tabNT').addEventListener('click', function(){ switchTestament('nt'); });
-document.getElementById('meditationBtn').addEventListener('click', function(){ submitMeditation(); });
-document.getElementById('prayerBtn').addEventListener('click', function(){ submitPrayer(); });
-document.getElementById('questionBtn').addEventListener('click', function(){ submitQuestion(); });
-document.getElementById('backBtnMeditation').addEventListener('click', function(){ goBack('meditation'); });
-document.getElementById('backBtnPrayer').addEventListener('click', function(){ goBack('prayer'); });
-document.getElementById('backBtnQuestion').addEventListener('click', function(){ goBack('question'); });
-document.getElementById('copyBtnMeditation').addEventListener('click', function(){ copyResult('meditation'); });
-document.getElementById('shareBtnMeditation').addEventListener('click', function(){ shareResult('meditation'); });
-document.getElementById('copyBtnPrayer').addEventListener('click', function(){ copyResult('prayer'); });
-document.getElementById('shareBtnPrayer').addEventListener('click', function(){ shareResult('prayer'); });
-document.getElementById('copyBtnQuestion').addEventListener('click', function(){ copyResult('question'); });
-document.getElementById('shareBtnQuestion').addEventListener('click', function(){ shareResult('question'); });
+showDate();populateBooks('ot');renderPresets();renderAll();renderTimeline('meditation');renderTimeline('prayer');renderTimeline('question');
+document.getElementById('tabTree').addEventListener('click',function(){switchMode('tree');});
+document.getElementById('tabMeditation').addEventListener('click',function(){switchMode('meditation');});
+document.getElementById('tabPrayer').addEventListener('click',function(){switchMode('prayer');});
+document.getElementById('tabQuestion').addEventListener('click',function(){switchMode('question');});
+document.getElementById('tabOT').addEventListener('click',function(){switchTestament('ot');});
+document.getElementById('tabNT').addEventListener('click',function(){switchTestament('nt');});
+document.getElementById('meditationBtn').addEventListener('click',function(){submitMeditation();});
+document.getElementById('prayerBtn').addEventListener('click',function(){submitPrayer();});
+document.getElementById('questionBtn').addEventListener('click',function(){submitQuestion();});
+document.getElementById('backBtnMeditation').addEventListener('click',function(){goBack('meditation');});
+document.getElementById('backBtnPrayer').addEventListener('click',function(){goBack('prayer');});
+document.getElementById('backBtnQuestion').addEventListener('click',function(){goBack('question');});
+document.getElementById('copyBtnMeditation').addEventListener('click',function(){copyResult('meditation');});
+document.getElementById('shareBtnMeditation').addEventListener('click',function(){shareResult('meditation');});
+document.getElementById('copyBtnPrayer').addEventListener('click',function(){copyResult('prayer');});
+document.getElementById('shareBtnPrayer').addEventListener('click',function(){shareResult('prayer');});
+document.getElementById('copyBtnQuestion').addEventListener('click',function(){copyResult('question');});
+document.getElementById('shareBtnQuestion').addEventListener('click',function(){shareResult('question');});
 </script>
 </body>
 </html>

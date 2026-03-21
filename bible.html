@@ -33,7 +33,7 @@
   .header .date-line{font-size:11px;color:var(--text-light);margin-top:8px;}
 
   /* Font Toggle — 3 steps */
-  .font-toggle{position:absolute;top:0;right:0;display:flex;gap:3px;}
+  .font-toggle{display:flex;justify-content:flex-end;gap:3px;margin-bottom:10px;}
   .font-btn{padding:4px 8px;font-size:11px;font-family:inherit;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--text-dim);cursor:pointer;transition:all .2s;}
   .font-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
@@ -179,11 +179,6 @@
 <body>
 <div class="container">
   <div class="header">
-    <div class="font-toggle">
-      <button class="font-btn active" data-scale="1" onclick="setFontScale(1)">가</button>
-      <button class="font-btn" data-scale="1.2" onclick="setFontScale(1.2)">가+</button>
-      <button class="font-btn" data-scale="1.5" onclick="setFontScale(1.5)">가++</button>
-    </div>
     <div class="header-leaf">🌿</div>
     <div class="app-label">daily devotion</div>
     <h1><span class="name">수빈</span>의 말씀노트</h1>
@@ -200,6 +195,11 @@
 
   <!-- TREE -->
   <div class="mode-section active" id="treeMode">
+    <div class="font-toggle">
+      <button class="font-btn active" data-scale="1" id="fs1">가</button>
+      <button class="font-btn" data-scale="1.2" id="fs2">가+</button>
+      <button class="font-btn" data-scale="1.5" id="fs3">가++</button>
+    </div>
     <p class="tree-intro">시대를 탭하면 관련 책들이 열려요<br>역사서를 순서대로 읽으면 다음 시대가 활성화돼요</p>
     <div class="progress-wrap"><div class="progress-label"><span>역사서 읽기 진행</span><span id="progressText">0 / 13</span></div><div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
     <div class="prophecy-hint" id="prophecyHint">📜 예언서는 역사서 13권 완독 후 열려요 (<span id="prophecyCount">0</span>/13)</div>
@@ -249,11 +249,11 @@ var currentMode='tree',currentBook=null,currentActId=null,currentPage={meditatio
 
 // ═══ FONT SCALE — 3 steps + padding ═══
 function setFontScale(s){
-  document.documentElement.style.setProperty('--fs',s);
+  document.documentElement.style.setProperty('--fs',String(s));
   var ps=s===1?1:s===1.2?1.1:1.25;
-  document.documentElement.style.setProperty('--pad-scale',ps);
+  document.documentElement.style.setProperty('--pad-scale',String(ps));
   document.querySelectorAll('.font-btn').forEach(function(b){b.classList.toggle('active',parseFloat(b.dataset.scale)===s);});
-  localStorage.setItem('bible_font_scale',s);
+  localStorage.setItem('bible_font_scale',String(s));
 }
 (function(){var s=parseFloat(localStorage.getItem('bible_font_scale'))||1;setFontScale(s);})();
 
@@ -533,6 +533,9 @@ function shareResult(k){var cap=k.charAt(0).toUpperCase()+k.slice(1);var text=do
 
 // ═══ INIT ═══
 showDate();populateBooks('ot');renderPresets();renderAll();renderTimeline2('meditation');renderTimeline2('prayer');renderTimeline2('question');
+document.getElementById('fs1').addEventListener('click',function(){setFontScale(1);});
+document.getElementById('fs2').addEventListener('click',function(){setFontScale(1.2);});
+document.getElementById('fs3').addEventListener('click',function(){setFontScale(1.5);});
 document.getElementById('tabTree').addEventListener('click',function(){switchMode('tree');});
 document.getElementById('tabMeditation').addEventListener('click',function(){switchMode('meditation');});
 document.getElementById('tabPrayer').addEventListener('click',function(){switchMode('prayer');});
